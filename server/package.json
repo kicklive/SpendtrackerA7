@@ -1,15 +1,21 @@
 {
-    "name": "node-mongo-registration-login-api",
+    "name": "server",
     "version": "1.0.0",
-    "description": "NodeJS + MongoDB API for User Management, Authentication and Registration",
-    "license": "MIT",
+    "description": "Spend Tracker",
     "repository": {
         "type": "git",
-        "url": "https://github.com/cornflourblue/node-mongo-registration-login-api.git"
+        "url": "git+https://github.com/kicklive/spendtrackerA7.git"
+    },
+    "author": "Darryl Payton",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kicklive/spendtrackerA7/issues"
     },
     "scripts": {
         "start": "node ./server.js",
-        "start-dev": "nodemon ./server.js"
+        "start-dev": "nodemon ./server.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "babel-watch server.js"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
@@ -20,9 +26,18 @@
         "jsonwebtoken": "^8.2.2",
         "mongodb": "^3.0.10",
         "mongoose": "^5.1.4",
-        "rootpath": "^0.1.2"
+        "rootpath": "^0.1.2",
+        "babel-cli": "^6.26.0",
+        "babel-preset-env": "^1.7.0",
+        "babel-watch": "^2.0.7",
+        "express-session": "^1.15.6",
+        "morgan": "^1.9.1"
     },
     "devDependencies": {
-        "nodemon": "^1.17.5"
+        "nodemon": "^1.17.5",
+        "cors": "^2.8.5",
+        "express": "^4.16.4",
+        "mongoose": "^5.3.15"
+
     }
 }
