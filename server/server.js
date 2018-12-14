@@ -16,7 +16,7 @@ import errorHandler from '_helpers/error-handler';
 require('./api/models/db');
 require('./api/config/passport');
 
-let app=express();
+let app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -36,4 +36,3 @@ app.use('/api', routesApi);
 // const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 // const server = app.listen(port, function () {
 //     console.log('Server listening on port ' + port);
-});
