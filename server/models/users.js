@@ -31,3 +31,4 @@ userSchema.methods.generateJWT = () => {
     }, 'MY_SECRET');
 
 }
+export default mongoose.model('User', userSchema);
