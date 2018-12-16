@@ -36,3 +36,12 @@ app.use('/api', routesApi);
 // const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 // const server = app.listen(port, function () {
 //     console.log('Server listening on port ' + port);
+
+// error handlers
+// Catch unauthorised errors
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401);
+    res.json({"message" : err.name + ": " + err.message});
+  }
+});
