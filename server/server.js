@@ -1,17 +1,9 @@
 ﻿import express from 'express';
-import logger from 'morgan';
-import bodyParser from 'bodyParser';
-import session from 'express-session';
 
-import path from 'path';
-import favicon from 'eserve-favicon';
-import logger from 'morgan';
-import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
 import bodyParser from 'body-parser';
 import passport from 'passport';
-import errorHandler from '_helpers/error-handler';
 
 require('./api/models/db');
 require('./api/config/passport');
@@ -39,7 +31,7 @@ app.use('/api', routesApi);
 
 // error handlers
 // Catch unauthorised errors
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
   if (err.name === 'UnauthorizedError') {
     res.status(401);
     res.json({"message" : err.name + ": " + err.message});

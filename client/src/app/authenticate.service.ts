@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import { map} from "rxjs/operators/map";
+import { Observable } from "rxjs";
+import { map} from "rxjs/operators";
 import { Router } from "@angular/router";
 import { UserDetails, TokenPayload, TokenReponse } from './authentication.model';
 import { parse } from 'url';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
-import { Observable, Observable, Observable, Observable } from 'rxjs';
 
 
 @Injectable({
