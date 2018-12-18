@@ -1,55 +1,68 @@
-import passport from 'passport'
-import mongoose from 'mongoose'
-import { isBuffer } from 'util';
-let User = mongoose.model('User')
+var passport = require('passport');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
 
-module.exports.register = (req, res) => {
-    let name = req.body.name;
-    let email = req.body.email;
-    let password = req.body.password;
-    if (email != '' && named != '') {
-        let user = new User();
-        user.name = name
-        user.email = email;
+var sendJSONresponse = function(res, status, content) {
+    res.status(status);
+    res.json(content);
+};
 
-        user.setPassword(password);
+module.exports.register = function(req, res) {
 
-        user.save((err) => {
-            if (err) {
-                res.status(404).json(err);
-            } else {
-                var token;
-                token = user.generateJWT();
-                res.status(200);
-                res.json({
-                    "token": token
-                });
-            }
+    // if(!req.body.name || !req.body.email || !req.body.password) {
+    //   sendJSONresponse(res, 400, {
+    //     "message": "All fields required"
+    //   });
+    //   return;
+    // }
+
+    var user = new User();
+
+    user.name = req.body.name;
+    user.email = req.body.email;
+
+    user.setPassword(req.body.password);
+
+    user.save(function(err) {
+        var token;
+        token = user.generateJwt();
+        res.status(200);
+        res.json({
+            "token": token
         });
-    } else {
-        res.status(404).json({ 'msg': 'Please complete all fields' });
-    }
-}
-module.exports.login = (req, res) => {
-    passport.authenticate('local', (err, user, info) => {
+    });
+
+};
+
+module.exports.login = function(req, res) {
+
+    // if(!req.body.email || !req.body.password) {
+    //   sendJSONresponse(res, 400, {
+    //     "message": "All fields required"
+    //   });
+    //   return;
+    // }
+
+    passport.authenticate('local', function(err, user, info) {
         var token;
 
-        //if passpor thows/catches an error
+        // If Passport throws/catches an error
         if (err) {
             res.status(404).json(err);
             return;
         }
 
-        //if user is found
+        // If a user is found
         if (user) {
-            token = user.generateJWT();
+            token = user.generateJwt();
             res.status(200);
             res.json({
                 "token": token
             });
         } else {
-            //If user is not found'
-            res.status(400).json(info);
+            // If user is not found
+            res.status(401).json(info);
         }
     })(req, res);
-}
+
+};

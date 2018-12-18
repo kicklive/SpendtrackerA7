@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticateService, } from "../authenticate.service";
+import { AuthenticationService, } from "../authenticate.service";
 import { TokenPayload } from "../authentication.model";
 import { Router } from "@angular/router";
 
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     };
   
 
-  constructor(private auth:AuthenticateService,private router:Router) { }
+  constructor(private auth:AuthenticationService,private router:Router) { }
 
   login(){
     this.auth.login(this.credentials).subscribe(()=>{
