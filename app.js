@@ -1,35 +1,15 @@
 var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var cors = require('cors');
-// [SH] Require Passport
 var passport = require('passport');
 
-// [SH] Bring in the data model
-require('./server/models/db');
-// [SH] Bring in the Passport config after model is defined
+
+var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+var app = express();
+var config = require('./server/config/config')[env];
+require('./server/config/express')(app, config);
+require('./server/config/mongoose')(config);
 require('./server/config/passport');
-
-
-// [SH] Bring in the routes for the API (delete the default routes)
 var routesApi = require('./server/routes/index');
 
-var app = express();
-
-// view engine setup
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'jade');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(cors());
 
 // [SH] Initialise Passport before using the route middleware
 app.use(passport.initialize());
@@ -76,5 +56,5 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
-module.exports = app;
+app.listen(config.port);
+console.log('Server started. Listning on port ' + config.port);

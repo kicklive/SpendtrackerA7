@@ -18,7 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(private auth:AuthenticationService,private router:Router) { }
 
   login(){
-    this.auth.login(this.credentials).subscribe(()=>{
+    debugger;
+    this.auth.login(this.credentials).subscribe((res)=>{
       this.router.navigateByUrl('/profile');
     },(err)=>{
       console.log(err);

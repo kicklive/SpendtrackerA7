@@ -33,9 +33,9 @@ module.exports.register = function(req, res) {
     });
 
 };
-
+module.exports.xxx = function() {};
 module.exports.login = function(req, res) {
-
+    console.log("in auth controller");
     // if(!req.body.email || !req.body.password) {
     //   sendJSONresponse(res, 400, {
     //     "message": "All fields required"
@@ -45,15 +45,17 @@ module.exports.login = function(req, res) {
 
     passport.authenticate('local', function(err, user, info) {
         var token;
-
+        console.log('jlkrjelj');
         // If Passport throws/catches an error
         if (err) {
+            console.log('error');
             res.status(404).json(err);
             return;
         }
 
         // If a user is found
         if (user) {
+            console.log('found');
             token = user.generateJwt();
             res.status(200);
             res.json({
@@ -61,7 +63,9 @@ module.exports.login = function(req, res) {
             });
         } else {
             // If user is not found
-            res.status(401).json(info);
+            console.log('not found');
+            res.status(401).json;
+            res.json({ 'xxx': 'aaa' });
         }
     })(req, res);
 
