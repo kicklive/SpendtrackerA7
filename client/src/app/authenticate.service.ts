@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable,throwError,of } from 'rxjs';
+import { map,catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 export interface UserDetails {
@@ -69,7 +69,7 @@ export class AuthenticationService {
     } else {
       base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
     }
-
+debugger;
     const request = base.pipe(
       map((data: TokenResponse) => {
         if (data.token) {
