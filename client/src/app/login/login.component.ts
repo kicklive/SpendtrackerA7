@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     //debugger;
     this.message='';
     this.auth.login(this.credentials).subscribe((res)=>{
-      this.router.navigateByUrl('/profile');
+      this.router.navigateByUrl('/ListBudges');
     },(err)=>{debugger;
       console.log('this is the error==>'+err);
       this.message="Username/password incorrect "+err;

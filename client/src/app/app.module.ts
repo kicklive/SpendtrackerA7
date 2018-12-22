@@ -12,8 +12,9 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtInterceptor,ErrorInterceptor } from "./_helpers";
+//import { FlexLayoutModule } from "@angular/flex-layout";
 
-
+ 
 @NgModule({
   declarations: [
     AppComponent,
