@@ -2,7 +2,7 @@
 		<mat-card class="example-card">
 				<mat-card-header>
 						<mat-card-title>
-								Login
+								Register
 							</mat-card-title>
 				</mat-card-header>
 				<mat-card-content>
@@ -22,13 +22,20 @@
 									<mat-form-field class="example-full-width">
 										<input type="password" matInput placeholder="Password" [(ngModel)]="credentials.password" name="password" required>
 									</mat-form-field>
+                </td></tr>
+                <tr><td>
+									<mat-form-field class="example-full-width">
+                    <mat-select placeholder="Roles" [(ngModel)]="credentials.role" name="role">
+                      <mat-option *ngFor="let role of roles" [value]="role.value">{{role.viewValue}}</mat-option>
+                    </mat-select>
+									</mat-form-field>
 								</td></tr>
 						</table>
 		
 					</form>
 				</mat-card-content>
 				<mat-card-actions>
-					<button mat-raised-button (click)="Register()" color="primary">Register</button>
+					<button mat-raised-button (click)="register()" color="primary">Register</button>
 				</mat-card-actions>
 			</mat-card>
 			{{message}}

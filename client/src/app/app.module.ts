@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MatToolbarModule,MatMenuModule,MatFormFieldModule,MatInputModule,MatOptionModule,MatSelectModule,MatIconModule,MatButtonModule,MatCardModule,MatTableModule,MatDividerModule,MatSnackBarModule } from "@angular/material";
+import { MatToolbarModule,MatMenuModule,MatFormFieldModule,MatInputModule,MatOptionModule,MatSelectModule,MatIconModule,MatButtonModule,MatCardModule,MatTableModule,MatDividerModule,MatSnackBarModule,MatGridListModule, MatDatepickerModule,MatNativeDateModule } from "@angular/material";
 import { HttpClientModule ,HTTP_INTERCEPTORS} from '@angular/common/http'; 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +12,15 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtInterceptor,ErrorInterceptor } from "./_helpers";
+import { ListbudgetsComponent } from './listbudgets/listbudgets.component';
+import { ErrorComponent } from './error/error.component';
+import { LogoutComponent } from './logout/logout.component';
+import { TrendsComponent } from './trends/trends.component';
+import { STComponent } from './ST/ST.component';
+import { AboutComponent } from './about/about.component';
+import { SearchComponent } from './search/search.component';
+import { HistoryComponent } from './history/history.component';
+import { NewbudgetComponent } from './newbudget/newbudget.component';
 //import { FlexLayoutModule } from "@angular/flex-layout";
 
  
@@ -21,7 +30,16 @@ import { JwtInterceptor,ErrorInterceptor } from "./_helpers";
     RegisterComponent,
     LoginComponent,
     ProfileComponent,
-    HomeComponent
+    HomeComponent,
+    ListbudgetsComponent,
+    ErrorComponent,
+    LogoutComponent,
+    TrendsComponent,
+    STComponent,
+    AboutComponent,
+    SearchComponent,
+    HistoryComponent,
+    NewbudgetComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +48,7 @@ import { JwtInterceptor,ErrorInterceptor } from "./_helpers";
     HttpClientModule,
     BrowserAnimationsModule,
     MatToolbarModule,MatMenuModule,MatFormFieldModule,MatInputModule,MatOptionModule,MatSelectModule,MatIconModule,MatButtonModule,MatCardModule,
-    MatTableModule,MatDividerModule,MatSnackBarModule
+    MatTableModule,MatDividerModule,MatSnackBarModule,MatGridListModule,MatDatepickerModule,MatNativeDateModule
   
   ],
   providers: [AuthenticationService,
@@ -38,4 +56,6 @@ import { JwtInterceptor,ErrorInterceptor } from "./_helpers";
   {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptor,multi:true}],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  
+}

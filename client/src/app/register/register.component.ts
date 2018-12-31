@@ -2,7 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, } from "../authenticate.service";
 import { TokenPayload } from "../authentication.model";
 import { Router } from "@angular/router";
+import { NavstateService } from "../navstate.service";
 
+
+export interface Roles{
+  value:string,
+  viewValue:string
+  };
+  
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -13,14 +20,26 @@ export class RegisterComponent implements OnInit {
 credentials:TokenPayload={
 email:'',
 name:'',
-password:''
+password:'',
+role:''
 };
-  constructor(private auth:AuthenticationService,private router:Router) {
+UserRoles;
+roles:Roles[]=[
+  {value:'1',viewValue:'Admin'},
+  {value:'2',viewValue:'User'}
+  ]; 
+
+  constructor(private auth:AuthenticationService,private router:Router,private n:NavstateService) {
 
    }
 
    register(){
+     debugger;
+      this.credentials.role=this.credentials.role;
      this.auth.register(this.credentials).subscribe(()=>{
+      this.n.setUserName('Hello, '+this.auth.getUsername());
+      this.n.setNavBarState(false);
+      this.n.setNavLinks(false);
        this.router.navigateByUrl('/profile');
      },(err)=>{
 console.log(err);

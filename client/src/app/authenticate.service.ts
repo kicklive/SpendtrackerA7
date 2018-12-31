@@ -3,28 +3,32 @@ import { HttpClient } from '@angular/common/http';
 import { Observable,throwError,of } from 'rxjs';
 import { map,catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { UserDetails,TokenPayload,TokenResponse } from "./authentication.model";
 
-export interface UserDetails {
-  _id: string;
-  email: string;
-  name: string;
-  exp: number;
-  iat: number;
-}
+// export interface UserDetails {
+//   _id: string;
+//   email: string;
+//   name: string;
+//   role:string;
+//   exp: number;
+//   iat: number;
+// }
 
-interface TokenResponse {
-  token: string;
-}
+// interface TokenResponse {
+//   token: string;
+// }
 
-export interface TokenPayload {
-  email: string;
-  password: string;
-  name?: string;
-}
+// export interface TokenPayload {
+//   email: string;
+//   password: string;
+//   name?: string;
+//   role?:string;
+// }
 
 @Injectable()
 export class AuthenticationService {
   private token: string;
+  
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -41,6 +45,7 @@ export class AuthenticationService {
   }
 
   public getUserDetails(): UserDetails {
+    //debugger;
     const token = this.getToken();
     let payload;
     if (token) {
@@ -52,7 +57,13 @@ export class AuthenticationService {
     }
   }
 
+  public getUsername():string{
+    const user=this.getUserDetails();
+    return user.name;
+  }
+
   public isLoggedIn(): boolean {
+    debugger;
     const user = this.getUserDetails();
     if (user) {
       return user.exp > Date.now() / 1000;
@@ -63,7 +74,8 @@ export class AuthenticationService {
 
   private request(method: 'post'|'get', type: 'login'|'register'|'profile', user?: TokenPayload): Observable<any> {
     let base;
-
+    ///window.localStorage.removeItem('mean-token');
+    //window.localStorage.removeItem('MY_SECRET');
     if (method === 'post') {
       base = this.http.post(`/api/${type}`, user);
     } else {
@@ -72,6 +84,7 @@ export class AuthenticationService {
 debugger;
     const request = base.pipe(
       map((data: TokenResponse) => {
+        debugger;
         if (data.token) {
           this.saveToken(data.token);
         }

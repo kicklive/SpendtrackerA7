@@ -1,0 +1,43 @@
+<div class="container">
+    <mat-card class="example-card">
+<mat-card-content>
+    <table class="example-full-width">
+      <tr>
+        <td>
+          <!-- <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="BudgetStartDate" placeholder="Budget Start Date" [(ngModel)]="nb.BudgetStartDate"
+              name="BudgetStartDate">
+          </mat-form-field> -->
+          <mat-form-field class="example-full-width">
+							<input type="text" matInput placeholder="BudgetStartDate" [(ngModel)]="nb.BudgetStartDate" name="BudgetStartDate" required>
+						</mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="BudgetEndDate" placeholder="Budget End Date" [(ngModel)]="nb.BudgetEndDate"
+              name="BudgetEndDate">
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <input matInput type="text" placeholder="Budget Amount" [(ngModel)]="nb.BudgetAmount" name="BudgetAmount">
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Select Type" [(ngModel)]="nb.BudgetType" name="BudgetType">
+              <mat-option *ngFor="let b of nb.budgetTypes" [value]="b.value">{{nb.text}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+    </mat-card>
+</div>

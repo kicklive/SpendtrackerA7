@@ -1,0 +1,13 @@
+<div class="listbudget-container" *ngIf="showGrid">
+  <mat-grid-list cols="6">
+    <mat-grid-tile [colspan]="1">No budgets found</mat-grid-tile>
+    <mat-grid-tile [colspan]="1">
+        <button mat-raised-button (click)="newBudget()" color="primary">Create New Budget</button>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="4"></mat-grid-tile>
+ 
+  </mat-grid-list>
+  
+
+
+</div>

@@ -6,15 +6,19 @@ var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var app = express();
 var config = require('./server/config/config')[env];
 require('./server/config/express')(app, config);
+require('./server/config/dbroutes')(app, config);
 require('./server/config/mongoose')(config);
 require('./server/config/passport');
 var routesApi = require('./server/routes/index');
+var urlApi = require('./server/routes/urlroutes');
 
 
 // [SH] Initialise Passport before using the route middleware
 app.use(passport.initialize());
 
 // [SH] Use the API routes when path starts with /api
+console.log('in app.js');
+app.use('/',urlApi);
 app.use('/api', routesApi);
 
 // catch 404 and forward to error handler

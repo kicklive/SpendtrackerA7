@@ -1,9 +1,16 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
-		<span>Spendtracker 2019</span>
-		<span class="fill-space"></span>
-        <button mat-button routerLink="/login">Login</button>
-        <button mat-button routerLink="/register">Register</button>
+        <span>Spendtracker 2019</span>
+        <span class="fill-space"></span>
+        <button *ngIf="!linkshow" mat-button routerLink="/listbudgets">Budget List</button>
+        <button *ngIf="!linkshow" mat-button routerLink="/searchitems">Search Items</button>
+        <button *ngIf="!linkshow" mat-button routerLink="/history">History</button>
+        <button *ngIf="!linkshow" mat-button routerLink="/trends">Trends</button>
+        <span class="fill-space"></span>
+        <span class="greeting">{{greeting}}</span>
+        <button *ngIf="show" mat-button [routerLink]="['login']" skipLocationChange>Login</button>
+        <button *ngIf="show" mat-button routerLink="/register">Register</button>
+        <button *ngIf="!show" mat-button routerLink="/logout">Logout</button>
     </mat-toolbar-row>
 </mat-toolbar>
 

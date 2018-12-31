@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, } from "../authenticate.service";
-import { TokenPayload } from "../authentication.model";
+import { TokenPayload, UserDetails } from "../authentication.model";
 import { Router } from "@angular/router";
+import { NavstateService } from "../navstate.service";
+
+
 
 @Component({
   selector: 'app-login',
@@ -14,14 +17,19 @@ export class LoginComponent implements OnInit {
     password:''
     };
   public message='';
+  userDetails:UserDetails;
 
-  constructor(private auth:AuthenticationService,private router:Router) { }
-
+  constructor(private auth:AuthenticationService,private router:Router,private n:NavstateService) { 
+    
+  }
+  
   login(){
-    //debugger;
+debugger;
     this.message='';
     this.auth.login(this.credentials).subscribe((res)=>{
-      this.router.navigateByUrl('/ListBudges');
+      this.n.setNavBarState(false);
+      this.n.setUserName('Hello, '+this.auth.getUsername());
+      this.router.navigateByUrl('/ST',{skipLocationChange:true});
     },(err)=>{debugger;
       console.log('this is the error==>'+err);
       this.message="Username/password incorrect "+err;
@@ -29,6 +37,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    debugger;
   }
 
 }

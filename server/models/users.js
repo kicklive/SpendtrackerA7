@@ -12,6 +12,10 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        required: false
+    },
     hash: String,
     salt: String
 });
@@ -29,11 +33,13 @@ userSchema.methods.validPassword = function(password) {
 userSchema.methods.generateJwt = function() {
     var expiry = new Date();
     expiry.setDate(expiry.getDate() + 7);
+    console.log('hreeererer');
 
     return jwt.sign({
         _id: this._id,
         email: this.email,
         name: this.name,
+        role:this.role,
         exp: parseInt(expiry.getTime() / 1000),
     }, "MY_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };
