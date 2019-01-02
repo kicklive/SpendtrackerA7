@@ -24,7 +24,11 @@ interface pageRoute{
   userDetails:UserDetails;
   userName:string;
   showGrid?:boolean;
-  data:BudgetDataService;
+  data:BudgetDataService[]=[];
+
+  displayedColumns = ['BudgetStartDate', 'BudgetEndDate', 'NumOfDays', 'BudgetAmount','BudgetStatus','details'];
+  //dataSource = this.data;
+  
 
 
   routes:pageRoute[]=[];  
@@ -44,16 +48,27 @@ constructor(private auth:AuthenticationService,private n:NavstateService,private
       {name:'About',route:'/about'},
     ];
     this.ds.getBudgetList().subscribe((res)=>{
+      //debugger;
       this.data=res;
+      if(this.data==null)
+        this.showGrid=false;
+      else
+        this.showGrid=true;
     });
-    if(this.data!=null)
-      this.showGrid=false;
-    else
-      this.showGrid=true;
+   
   }
 
   newBudget(){
    this.route.navigateByUrl('/newbudget')
+  }
+
+  findDiff(budget){
+   return this.ds.getNumberOFDays(budget);
+  }
+
+  ShowDetails(url,budgetId){
+    this.route.navigate([url,budgetId]);
+
   }
 
 }

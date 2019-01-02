@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor{
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
-        debugger;
+        //debugger;
         //let currentUser=JSON.parse(localStorage.getItem('mean-token'));
         let currentUser=localStorage.getItem('mean-token');
         if(currentUser!=''){

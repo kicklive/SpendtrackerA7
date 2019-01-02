@@ -1,13 +1,43 @@
-<div class="listbudget-container" *ngIf="showGrid">
-  <mat-grid-list cols="6">
-    <mat-grid-tile [colspan]="1">No budgets found</mat-grid-tile>
-    <mat-grid-tile [colspan]="1">
-        <button mat-raised-button (click)="newBudget()" color="primary">Create New Budget</button>
-    </mat-grid-tile>
-    <mat-grid-tile [colspan]="4"></mat-grid-tile>
- 
-  </mat-grid-list>
-  
+<div class="listbudget-container" *ngIf="!showGrid">
+    <mat-grid-list cols="6">
+        <mat-grid-tile [colspan]="1">No budgets found</mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+            <button mat-raised-button (click)="newBudget()" color="primary">Create New Budget</button>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="4"></mat-grid-tile>
 
+    </mat-grid-list>
+</div>
+<div class="listbudget-container-data" *ngIf="showGrid">
+    <table mat-table [dataSource]="data" class="example-container mat-elevation-z8">
+        <ng-container matColumnDef="BudgetStartDate">
+            <th mat-header-cell *matHeaderCellDef>Start Date</th>
+            <td mat-cell *matCellDef="let item">{{item.BudgetStartDate|date:shortDate}}</td>
+        </ng-container>
+        <ng-container matColumnDef="BudgetEndDate">
+            <th mat-header-cell *matHeaderCellDef>End Date</th>
+            <td mat-cell *matCellDef="let item">{{item.BudgetEndDate|date:shortDate}}</td>
+        </ng-container>
+        <ng-container matColumnDef="NumOfDays">
+            <th mat-header-cell *matHeaderCellDef>Days Left In Budget</th>
+            <td mat-cell *matCellDef="let item">{{findDiff(item)}}</td>
+        </ng-container>
+        <ng-container matColumnDef="BudgetAmount">
+            <th mat-header-cell *matHeaderCellDef>Budget Amount</th>
+            <td mat-cell *matCellDef="let item">{{item.BudgetAmount|currency:'USD':true:'1.2-2'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="BudgetStatus">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let item">{{item.BudgetStatus}}</td>
+        </ng-container>
+        <ng-container matColumnDef="details">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let item"><span style="cursor: pointer" (click)="ShowDetails('/details',item._id)">
+                Details</span> </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true">
+        </tr>
+        <tr mat-row *matRowDef="let row;columns:displayedColumns" class="example-element-row"></tr>
+    </table>
 
 </div>

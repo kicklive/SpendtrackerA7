@@ -45,7 +45,7 @@ export class AuthenticationService {
   }
 
   public getUserDetails(): UserDetails {
-    //debugger;
+    ////debugger;
     const token = this.getToken();
     let payload;
     if (token) {
@@ -63,7 +63,7 @@ export class AuthenticationService {
   }
 
   public isLoggedIn(): boolean {
-    debugger;
+    //debugger;
     const user = this.getUserDetails();
     if (user) {
       return user.exp > Date.now() / 1000;
@@ -81,10 +81,10 @@ export class AuthenticationService {
     } else {
       base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
     }
-debugger;
+//debugger;
     const request = base.pipe(
       map((data: TokenResponse) => {
-        debugger;
+        //debugger;
         if (data.token) {
           this.saveToken(data.token);
         }

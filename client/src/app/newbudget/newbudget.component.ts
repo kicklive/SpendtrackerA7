@@ -16,6 +16,7 @@ export interface BudgetType{
 
 export class NewbudgetComponent implements OnInit {
   nb:Budgetdata={
+    _id:'',
     BudgetStartDate:'',
     BudgetEndDate:'',
     BudgetAmount:'',

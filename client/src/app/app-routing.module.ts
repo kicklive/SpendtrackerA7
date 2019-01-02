@@ -16,6 +16,7 @@ import { HistoryComponent } from './history/history.component';
 import { SearchComponent } from './search/search.component';
 import { AboutComponent } from './about/about.component';
 import { NewbudgetComponent } from './newbudget/newbudget.component';
+import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component';
 
 const routes: Routes = [
 {path:'',component:HomeComponent},
@@ -31,6 +32,7 @@ const routes: Routes = [
 {path:'about',component:AboutComponent,canActivate:[AuthGuardService]},
 {path:'ST',component:STComponent,canActivate:[AuthGuardService]},
 {path:'newbudget',component:NewbudgetComponent,canActivate:[AuthGuardService]},
+{path:'details/:id',component:BudgetdetailsComponent,canActivate:[AuthGuardService]},
 ];
 
 @NgModule({

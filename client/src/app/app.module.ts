@@ -21,6 +21,7 @@ import { AboutComponent } from './about/about.component';
 import { SearchComponent } from './search/search.component';
 import { HistoryComponent } from './history/history.component';
 import { NewbudgetComponent } from './newbudget/newbudget.component';
+import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component';
 //import { FlexLayoutModule } from "@angular/flex-layout";
 
  
@@ -40,6 +41,7 @@ import { NewbudgetComponent } from './newbudget/newbudget.component';
     SearchComponent,
     HistoryComponent,
     NewbudgetComponent,
+    BudgetdetailsComponent,
   ],
   imports: [
     BrowserModule,

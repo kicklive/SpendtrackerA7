@@ -34,13 +34,13 @@ roles:Roles[]=[
    }
 
    register(){
-     debugger;
+     //debugger;
       this.credentials.role=this.credentials.role;
      this.auth.register(this.credentials).subscribe(()=>{
       this.n.setUserName('Hello, '+this.auth.getUsername());
       this.n.setNavBarState(false);
       this.n.setNavLinks(false);
-       this.router.navigateByUrl('/profile');
+       this.router.navigateByUrl('/ST',{skipLocationChange:true});
      },(err)=>{
 console.log(err);
      })

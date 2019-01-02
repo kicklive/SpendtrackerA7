@@ -13,7 +13,7 @@ import { NavstateService } from "../navstate.service";
 export class HomeComponent implements OnInit {
 
   constructor(private auth:AuthenticationService,private route:Router,private n:NavstateService) { 
-    debugger;
+    //debugger;
     if(this.auth.isLoggedIn()){
       this.n.setNavBarState(false);
       this.n.setNavLinks(false);
@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
 }
 
   ngOnInit() {
-    debugger;
+    //debugger;
     if(this.auth.isLoggedIn()){
       this.route.navigateByUrl('/ST',{skipLocationChange:true});
     }
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
   
 
 //   constructor(private auth:AuthenticationService,private route:Router,private n:NavstateService) { 
-//     debugger;
+//     //debugger;
 //     if(this.auth.isLoggedIn()){
 //       this.n.setNavBarState(false);
 //       this.n.setUserName('Hello, '+this.auth.getUsername());
@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
 // }
 
 //   ngOnInit() {
-//     debugger;
+//     //debugger;
 //     if(this.auth.isLoggedIn()){
 //       this.route.navigate(['/listbudgets']);
 //     }
