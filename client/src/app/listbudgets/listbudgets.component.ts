@@ -5,6 +5,7 @@ import { NavstateService } from "../navstate.service";
 import { Budgetdata } from "../budgetdata";
 import { BudgetDataService } from '../budget-data.service';
 import { Router } from "@angular/router";
+import { SharedService } from "../shared.service";
 
 interface pageRoute{
   name:string,
@@ -32,7 +33,7 @@ interface pageRoute{
 
 
   routes:pageRoute[]=[];  
-constructor(private auth:AuthenticationService,private n:NavstateService,private ds:BudgetDataService,private route:Router){
+constructor(private auth:AuthenticationService,private n:NavstateService,private ds:BudgetDataService,private route:Router,private service:SharedService){
   this.n.setNavBarState(false);
   this.n.setUserName('Hello, '+this.auth.getUsername());
   this.n.setNavLinks(false);
@@ -67,7 +68,9 @@ constructor(private auth:AuthenticationService,private n:NavstateService,private
   }
 
   ShowDetails(url,budgetId){
-    this.route.navigate([url,budgetId]);
+    this.route.navigateByUrl(url).then(()=>{
+      this.service.emmiter.emit(budgetId);
+    });
 
   }
 

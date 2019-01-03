@@ -22,6 +22,9 @@ import { SearchComponent } from './search/search.component';
 import { HistoryComponent } from './history/history.component';
 import { NewbudgetComponent } from './newbudget/newbudget.component';
 import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component';
+import { ParenttestComponent } from './parenttest/parenttest.component';
+import { ChildetestComponent } from './childetest/childetest.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 //import { FlexLayoutModule } from "@angular/flex-layout";
 
  
@@ -42,6 +45,8 @@ import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component'
     HistoryComponent,
     NewbudgetComponent,
     BudgetdetailsComponent,
+    ParenttestComponent,
+    ChildetestComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +55,8 @@ import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component'
     HttpClientModule,
     BrowserAnimationsModule,
     MatToolbarModule,MatMenuModule,MatFormFieldModule,MatInputModule,MatOptionModule,MatSelectModule,MatIconModule,MatButtonModule,MatCardModule,
-    MatTableModule,MatDividerModule,MatSnackBarModule,MatGridListModule,MatDatepickerModule,MatNativeDateModule
+    MatTableModule,MatDividerModule,MatSnackBarModule,MatGridListModule,MatDatepickerModule,MatNativeDateModule,
+    FlexLayoutModule
   
   ],
   providers: [AuthenticationService,

@@ -17,10 +17,14 @@ import { SearchComponent } from './search/search.component';
 import { AboutComponent } from './about/about.component';
 import { NewbudgetComponent } from './newbudget/newbudget.component';
 import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component';
+import { ChildetestComponent } from './childetest/childetest.component';
+import { ParenttestComponent } from './parenttest/parenttest.component';
 
 const routes: Routes = [
 {path:'',component:HomeComponent},
 {path:'login',component:LoginComponent},
+{path:'child',component:ChildetestComponent},
+{path:'parent',component:ParenttestComponent},
 {path:'logout',component:LogoutComponent},
 {path:'register',component:RegisterComponent},
 {path:'error',component:ErrorComponent},
@@ -32,7 +36,7 @@ const routes: Routes = [
 {path:'about',component:AboutComponent,canActivate:[AuthGuardService]},
 {path:'ST',component:STComponent,canActivate:[AuthGuardService]},
 {path:'newbudget',component:NewbudgetComponent,canActivate:[AuthGuardService]},
-{path:'details/:id',component:BudgetdetailsComponent,canActivate:[AuthGuardService]},
+{path:'details',component:BudgetdetailsComponent,canActivate:[AuthGuardService]},
 ];
 
 @NgModule({

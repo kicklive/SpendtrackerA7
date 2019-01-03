@@ -12,12 +12,16 @@ export class BudgetDataService {
 
   constructor(private http:HttpClient) {}
 
- public getBudgetList():Observable<any> {
+  public getBudgetList():Observable<any> {
     return this.http.get('/data/budgetlist');
-    }
+  }
+
+  public GetBudgetDetails(budgetId):Observable<any> {
+    return this.http.get("/data/getdetails/", { params: { id: budgetId } });
+  }
 
   public getNumberOFDays(budget){
-    debugger
+   // debugger
     let todaysDate = new Date();
     let fromDate = new Date(todaysDate.setHours(0, 0, 0, 0));
 

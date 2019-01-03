@@ -13,8 +13,8 @@ export class ErrorInterceptor implements HttpInterceptor{
         return next.handle(request).pipe(catchError((err)=>{
             //debugger;
             if(err.status===401){
-                //this.auth.logout();
-                //location.reload(true);
+                this.auth.logout();
+                location.reload(true);
             }
             const error=err.error.message ||err.statusText;
             return throwError(error);
