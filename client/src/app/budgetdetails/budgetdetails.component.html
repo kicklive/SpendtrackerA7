@@ -1,13 +1,19 @@
 <!-- <mat-grid-list [cols]="2" rowHeight="100px">
     <mat-grid-tile name="BudgetStartDate">{{budgetDetails?.BudgetStartDate|date:shortDate}}
     </mat-grid-tile> -->
-<div fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-    <mat-grid-list cols="3" rowHeight="200px">
-        <mat-grid-tile fxFlex="25" fxFlex.xs="100"></mat-grid-tile>
-        <mat-grid-tile fxFlex="50" fxFlex.xs="100">
+
+
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+    <div fxFlex fxFlexAlign="center" flexOffset="150px"> Start Date: {{budgetDetails?.BudgetStartDate|date:shortDate}}</div>
+</div>
+
+<!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+    <mat-grid-list cols="1" fxLayout.gt-xs="column" fxLayout.xs="row">
+        <mat-grid-tile style="background-color: blue" fxShow></mat-grid-tile>
+        <mat-grid-tile style="background-color: white">
             Start Date: {{budgetDetails?.BudgetStartDate|date:shortDate}}
         </mat-grid-tile>
-        <mat-grid-tile fxFlex="25" fxFlex.xs="100"></mat-grid-tile>
+        <mat-grid-tile style="background-color: red"></mat-grid-tile>
 
     </mat-grid-list>
-</div>
+</div> -->
