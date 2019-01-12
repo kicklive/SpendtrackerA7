@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~7.1.0",
     "@angular/router": "~7.1.0",
     "@auth0/angular-jwt": "^1.2.0",
+    "@uirouter/angular": "^2.0.3",
     "angular-persistence": "^1.0.1",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",

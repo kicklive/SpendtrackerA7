@@ -60,17 +60,28 @@ constructor(private auth:AuthenticationService,private n:NavstateService,private
   }
 
   newBudget(){
+    debugger;
    this.route.navigateByUrl('/newbudget')
   }
 
   findDiff(budget){
    return this.ds.getNumberOFDays(budget);
   }
-
+ 
+  // ShowDetails(budgetId){
+  //   this.service.emmiter.emit(budgetId);
+  // }
   ShowDetails(url,budgetId){
+     debugger;
+    //  this.service.emmiter.emit(budgetId);
+    // this.route.navigateByUrl(url)
+    // this.route.navigate[url];
     this.route.navigateByUrl(url).then(()=>{
+      debugger;
       this.service.emmiter.emit(budgetId);
-    });
+    },err=>{
+      debugger;
+      console.log(err);});
 
   }
 

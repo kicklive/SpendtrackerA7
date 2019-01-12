@@ -1,19 +1,29 @@
-<!-- <mat-grid-list [cols]="2" rowHeight="100px">
-    <mat-grid-tile name="BudgetStartDate">{{budgetDetails?.BudgetStartDate|date:shortDate}}
-    </mat-grid-tile> -->
+<div style="height: 25px;">&nbsp;</div>
+<div>
+    <div fxLayout fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%">
+        <div fxFlex=50% fxFlexAlign="left" fxLayoutAlign="end stretch"><b>Budget Dates:</b>
+        </div>
+        <div fxFlex=50% fxFlexAlign="left" fxLayoutAlign="start stretch">{{budgetDetails?.BudgetStartDate|date:shortDate}} to {{budgetDetails?.BudgetEndDate|date:shortDate}}</div>
+    </div>
+    <div fxLayout fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="start stretch" fxLayoutGap="0.5%">
+        <div fxFlex=50% fxFlexAlign="left" fxLayoutAlign="end stretch"><b>Days Left in Budget:</b></div>
+        <div fxFlex=50% fxFlexAlign="left">{{findDiff(budgetDetails)}}</div>
+    </div>
+    <div fxLayout fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="start stretch" fxLayoutGap="0.5%">
+        <div fxFlex=50% fxFlexAlign="left" fxLayoutAlign="end stretch"><b>Budget Amount:</b></div>
+        <div fxFlex=50% fxFlexAlign="left">{{budgetDetails?.BudgetAmount|currency:'USD':'symbol':'1.2-2'}}
+        </div>
+    </div>
 
+    <div fxLayout fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="start stretch" fxLayoutGap="0.5%">
+        <div fxFlex=50% fxFlexAlign="left" fxLayoutAlign="end stretch"><b>Budget Status:</b></div>
+        <div fxFlex=50% fxFlexAlign="left">{{budgetDetails?.BudgetStatus}}</div>
+    </div>
 
-<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-    <div fxFlex fxFlexAlign="center" flexOffset="150px"> Start Date: {{budgetDetails?.BudgetStartDate|date:shortDate}}</div>
+    <div fxLayout fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="start stretch" fxLayoutGap="0.5%">
+        <div fxFlex=50% fxFlexAlign="left" fxLayoutAlign="end stretch"><b>Budget Type:</b></div>
+        <div fxFlex=50% fxFlexAlign="left">{{budgetDetails?.BudgetType}}</div>
+    </div>
+    <div style="height: 25px;">&nbsp;</div>
 </div>
-
-<!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-    <mat-grid-list cols="1" fxLayout.gt-xs="column" fxLayout.xs="row">
-        <mat-grid-tile style="background-color: blue" fxShow></mat-grid-tile>
-        <mat-grid-tile style="background-color: white">
-            Start Date: {{budgetDetails?.BudgetStartDate|date:shortDate}}
-        </mat-grid-tile>
-        <mat-grid-tile style="background-color: red"></mat-grid-tile>
-
-    </mat-grid-list>
-</div> -->
+<hr style="height:3px;border:none;color:#333;background-color:#333;">

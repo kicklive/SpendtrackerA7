@@ -26,6 +26,7 @@ import { ParenttestComponent } from './parenttest/parenttest.component';
 import { ChildetestComponent } from './childetest/childetest.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 //import { FlexLayoutModule } from "@angular/flex-layout";
+import { UIRouterModule } from "@uirouter/angular";
 
  
 @NgModule({

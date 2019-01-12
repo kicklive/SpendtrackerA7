@@ -1,3 +1,6 @@
+// import { NgModule } from '@angular/core';
+// import { Routes, RouterModule } from '@angular/router';
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthenticationService } from "./authenticate.service";
@@ -19,6 +22,31 @@ import { NewbudgetComponent } from './newbudget/newbudget.component';
 import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component';
 import { ChildetestComponent } from './childetest/childetest.component';
 import { ParenttestComponent } from './parenttest/parenttest.component';
+import { DataresolveService } from "./dataresolve.service";
+
+
+// const rootModule: RootModule = {
+//   states: [
+//     {name:'default',url:'/',component:HomeComponent},
+// {name:'login',url:'/login',component:LoginComponent},
+// {name:'child',url:'/child',component:ChildetestComponent},
+// {name:'parent',url:'/parent',component:ParenttestComponent},
+// {name:'logout',url:'/logout',component:LogoutComponent},
+// {name:'register',url:'/register',component:RegisterComponent},
+// {name:'error',url:'/error',component:ErrorComponent},
+// {name:'profile',url:'/profile',component:ProfileComponent},
+// {name:'listbudgets',url:'/listbudgets',component:ListbudgetsComponent},
+// {name:'trends',url:'/trends',component:TrendsComponent},
+// {name:'history',url:'/history',component:HistoryComponent},
+// {name:'search',url:'/search',component:SearchComponent},
+// {name:'about',url:'/about',component:AboutComponent},
+// {name:'ST',url:'/ST',component:STComponent},
+// {name:'newbudget',url:'/newbudget',component:NewbudgetComponent},
+// //{path:'details',component:BudgetdetailsComponent, resolve:{data:DataresolveService},canActivate:[AuthGuardService]},
+//   ],
+//   useHash: true
+// };
+
 
 const routes: Routes = [
 {path:'',component:HomeComponent},
@@ -36,14 +64,16 @@ const routes: Routes = [
 {path:'about',component:AboutComponent,canActivate:[AuthGuardService]},
 {path:'ST',component:STComponent,canActivate:[AuthGuardService]},
 {path:'newbudget',component:NewbudgetComponent,canActivate:[AuthGuardService]},
-{path:'details',component:BudgetdetailsComponent,canActivate:[AuthGuardService]},
+{path:'details',component:BudgetdetailsComponent, resolve:{data:DataresolveService},canActivate:[AuthGuardService]},
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  // imports: [UIRouterModule.forRoot(rootModule)],
+  // exports: [UIRouterModule],
   providers:[
-    AuthGuardService,AuthenticationService
+    AuthGuardService,AuthenticationService,DataresolveService
   ]
 })
 export class AppRoutingModule { }
