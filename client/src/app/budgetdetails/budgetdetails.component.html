@@ -26,4 +26,22 @@
     </div>
     <div style="height: 25px;">&nbsp;</div>
 </div>
-<hr style="height:3px;border:none;color:#333;background-color:#333;">
+<div class="transactioncontainter">
+    <hr style="height:3px;border:none;color:#333;background-color:#333;">
+    <h3>Transactions</h3>
+    <div style="height:20px"></div>
+</div>
+<div class="transactioncontainter">
+    <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutWrap fxLayoutAlign="start stretch">
+        <div fxFlex=20% fxFlexAlign="left" fxLayoutAlign="center stretch">Transaction Date</div>
+        <div fxFlex=20% fxFlexAlign="left" fxLayoutAlign="center stretch">Transaction Date</div>
+        <div fxFlex=20% fxFlexAlign="left" fxLayoutAlign="center stretch">Transaction Date</div>
+        <div fxFlex=20% fxFlexAlign="left" fxLayoutAlign="center stretch">Transaction Date</div>
+        <div fxFlex=20% fxFlexAlign="left" fxLayoutAlign="center stretch">Transaction Date</div>
+    </div>
+    <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutWrap fxLayoutAlign="start stretch" *ngFor="let trans of budgetDetails.Transactions">
+        <div>
+            {{trans.itemdescription}}
+        </div>
+    </div>
+</div>

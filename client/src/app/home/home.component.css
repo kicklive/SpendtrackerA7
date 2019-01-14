@@ -24,3 +24,9 @@
     margin-top: 5%;
     display: block;
 }
+
+.gridheader {
+    height: 20px;
+    background-color: azure;
+    color: black;
+}
