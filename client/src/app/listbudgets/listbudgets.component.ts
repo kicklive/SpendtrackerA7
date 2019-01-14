@@ -6,6 +6,7 @@ import { Budgetdata } from "../budgetdata";
 import { BudgetDataService } from '../budget-data.service';
 import { Router } from "@angular/router";
 import { SharedService } from "../shared.service";
+import { DataresolveService } from "../dataresolve.service";
 
 interface pageRoute{
   name:string,
@@ -33,7 +34,7 @@ interface pageRoute{
 
 
   routes:pageRoute[]=[];  
-constructor(private auth:AuthenticationService,private n:NavstateService,private ds:BudgetDataService,private route:Router,private service:SharedService){
+constructor(private auth:AuthenticationService,private n:NavstateService,private ds:BudgetDataService,private route:Router,private service:SharedService,private drs:DataresolveService){
   this.n.setNavBarState(false);
   this.n.setUserName('Hello, '+this.auth.getUsername());
   this.n.setNavLinks(false);
@@ -72,16 +73,17 @@ constructor(private auth:AuthenticationService,private n:NavstateService,private
   //   this.service.emmiter.emit(budgetId);
   // }
   ShowDetails(url,budgetId){
-     debugger;
-    //  this.service.emmiter.emit(budgetId);
-    // this.route.navigateByUrl(url)
-    // this.route.navigate[url];
-    this.route.navigateByUrl(url).then(()=>{
-      debugger;
-      this.service.emmiter.emit(budgetId);
-    },err=>{
-      debugger;
-      console.log(err);});
+	 this.drs.changeMsg(budgetId);
+     this.route.navigateByUrl(url)
+
+	 
+
+    // this.route.navigateByUrl(url).then(()=>{
+    //   debugger;
+    //   this.service.emmiter.emit(budgetId);
+    // },err=>{
+    //   debugger;
+    //   console.log(err);});
 
   }
 

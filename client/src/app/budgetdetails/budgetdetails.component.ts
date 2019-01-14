@@ -15,52 +15,36 @@ import { ActivatedRoute } from "@angular/router";
 export class BudgetdetailsComponent implements OnInit {
   private serviceSubscription;
   public budgetDetails:BudgetDetails;
-  public bId:string;
-  public d:any;
-  constructor(private service:SharedService,private bds:BudgetDataService,private route:ActivatedRoute) { 
-    debugger;
-    this.serviceSubscription=this.service.emmiter.subscribe({
-      next:(budget_id:string)=>{
-        //this.GetDetails(budget_id);
-        this.bId=budget_id;
-      }
-    });
+  constructor(private service:SharedService,private bds:BudgetDataService,private route:ActivatedRoute) { //don't need this private service:SharedService just leaving it in in case I may need it later.
+    // debugger;
+    // this.serviceSubscription=this.service.emmiter.subscribe({
+    //   next:(budget_id:string)=>{
+    //     //this.GetDetails(budget_id);
+    //     this.bId=budget_id;
+    //   }
+    // });
     //THIS WORKS ALSO...
   //   this.serviceSubscription=this.service.emmiter.subscribe((budget_id)=>{
   //     this.GetDetails(budget_id);
   // });
-
   }
 
   ngOnInit() {
-    debugger;
+//    debugger;
     this.GetDetails();
-    
   }
 
   GetDetails(){
-    debugger;
-  // this.d= this.route.snapshot.data;
-//    this.route.data.subscribe(val=>{
-//      debugger;
-// const x=val;
-//    });
-    // this.route.data
-    // .subscribe((data: { d: BudgetDetails }) => {
-    //   debugger;
-    //   this.budgetDetails = data.d;
-    // });
-
-    this.bds.GetBudgetDetails(this.bId).subscribe((d)=>{
-      debugger;
-      this.budgetDetails=d;
-    });
-   this.unSubscribe();
+	//debugger;
+	this.route.data.subscribe((ret)=>{
+		debugger;
+		this.budgetDetails=ret.data;
+	});
+  // this.unSubscribe();
   }
   
   findDiff(budget){
-    if(typeof(budget)!=undefined && budget!=null)
-    return this.bds.getNumberOFDays(budget);
+	return this.bds.getNumberOFDays(budget);
    }
 
   unSubscribe(){
