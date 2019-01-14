@@ -1,20 +1,19 @@
 <div class="listbudget-container">
-    <mat-card class="example-card cardlinks" *ngFor="let r of routes">
-        <mat-card-header>
-            <mat-card-title>
-                {{r.name}}
-
-            </mat-card-title>
-        </mat-card-header>
-        <img mat-card-image src={{r.imagepath}} alt="Photo of a Shiba Inu" />
-        <mat-card-content>
-            <p>{{r.description}}</p>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-raised-button routerLink={{r.route}}>
-           {{r.buttontext}}
-        </button>
-        </mat-card-actions>
-    </mat-card>
-    <button class='btn btn-primary' routerLink="/parent">Click me</button>
+  <mat-card class="example-card cardlinks" *ngFor="let r of routes">
+    <mat-card-header>
+      <mat-card-title>
+        {{r.name}}
+      </mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src={{r.imagepath}} alt="" />
+    <mat-card-content>
+      <p>{{r.description}}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)=GoToAction(r.route)>
+        {{r.buttontext}}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <button class='btn btn-primary' routerLink="/parent">Click me</button>
 </div>

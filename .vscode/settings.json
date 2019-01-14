@@ -1,2 +1,4 @@
 {
+    "editor.formatOnSave": true,
+    "editor.fontFamily": "  'arial bold',san-serif,Menlo,Monaco,'Courier New', monospace"
 }

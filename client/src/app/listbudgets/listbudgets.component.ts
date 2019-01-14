@@ -7,11 +7,12 @@ import { BudgetDataService } from '../budget-data.service';
 import { Router } from "@angular/router";
 import { SharedService } from "../shared.service";
 import { DataresolveService } from "../dataresolve.service";
+import { ActivatedRoute } from "@angular/router";
 
-interface pageRoute{
-  name:string,
-  route:string
-  };
+interface pageRoute {
+  name: string,
+  route: string
+};
 
 
 @Component({
@@ -19,64 +20,75 @@ interface pageRoute{
   templateUrl: './listbudgets.component.html',
   styleUrls: ['./listbudgets.component.css']
 })
-  export class ListbudgetsComponent implements OnInit {
+export class ListbudgetsComponent implements OnInit {
 
   title = 'client';
-  greeting='';
-  userDetails:UserDetails;
-  userName:string;
-  showGrid?:boolean;
-  data:BudgetDataService[]=[];
+  greeting = '';
+  userDetails: UserDetails;
+  userName: string;
+  showGrid?: boolean;
+  data: BudgetDataService[] = [];
 
-  displayedColumns = ['BudgetStartDate', 'BudgetEndDate', 'NumOfDays', 'BudgetAmount','BudgetStatus','details'];
+  displayedColumns = ['BudgetStartDate', 'BudgetEndDate', 'NumOfDays', 'BudgetAmount', 'BudgetStatus', 'details'];
   //dataSource = this.data;
-  
 
 
-  routes:pageRoute[]=[];  
-constructor(private auth:AuthenticationService,private n:NavstateService,private ds:BudgetDataService,private route:Router,private service:SharedService,private drs:DataresolveService){
-  this.n.setNavBarState(false);
-  this.n.setUserName('Hello, '+this.auth.getUsername());
-  this.n.setNavLinks(false);
-}
- 
+
+  routes: pageRoute[] = [];
+  constructor(private auth: AuthenticationService, private n: NavstateService, private ds: BudgetDataService, private route: Router, private service: SharedService, private drs: DataresolveService, private ac: ActivatedRoute) {
+    this.n.setNavBarState(false);
+    this.n.setUserName('Hello, ' + this.auth.getUsername());
+    this.n.setNavLinks(false);
+  }
+
 
   ngOnInit() {
-    this.routes=[
-      {name:'Budget List',route:'/budgetlist'},
-      {name:'Search Items',route:'/search'},
-      {name:'History',route:'/history'},
-      {name:'Trends',route:'/trends'},
-      {name:'About',route:'/about'},
+    this.routes = [
+      { name: 'Budget List', route: '/budgetlist' },
+      { name: 'Search Items', route: '/search' },
+      { name: 'History', route: '/history' },
+      { name: 'Trends', route: '/trends' },
+      { name: 'About', route: '/about' },
     ];
-    this.ds.getBudgetList().subscribe((res)=>{
-      //debugger;
-      this.data=res;
-      if(this.data==null)
-        this.showGrid=false;
+
+    this.ac.data.subscribe((ret) => {
+      debugger;
+      this.data = ret.data;
+      if (this.data == null)
+        this.showGrid = false;
       else
-        this.showGrid=true;
+        this.showGrid = true;
     });
-   
+
+
+    // this.ds.getBudgetList().subscribe((res)=>{
+    //   //debugger;
+    //   this.data=res;
+    //   if(this.data==null)
+    //     this.showGrid=false;
+    //   else
+    //     this.showGrid=true;
+    // });
+
   }
 
-  newBudget(){
+  newBudget() {
     debugger;
-   this.route.navigateByUrl('/newbudget')
+    this.route.navigateByUrl('/newbudget')
   }
 
-  findDiff(budget){
-   return this.ds.getNumberOFDays(budget);
+  findDiff(budget) {
+    return this.ds.getNumberOFDays(budget);
   }
- 
+
   // ShowDetails(budgetId){
   //   this.service.emmiter.emit(budgetId);
   // }
-  ShowDetails(url,budgetId){
-	 this.drs.changeMsg(budgetId);
-     this.route.navigateByUrl(url)
+  ShowDetails(url, budgetId) {
+    this.drs.changeMsg(budgetId);
+    this.route.navigateByUrl(url)
 
-	 
+
 
     // this.route.navigateByUrl(url).then(()=>{
     //   debugger;

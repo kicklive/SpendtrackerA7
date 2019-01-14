@@ -23,6 +23,7 @@ import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component'
 import { ChildetestComponent } from './childetest/childetest.component';
 import { ParenttestComponent } from './parenttest/parenttest.component';
 import { DataresolveService } from "./dataresolve.service";
+import { BudgetlistresolveService } from "./budgetlistresolve.service";
 
 
 // const rootModule: RootModule = {
@@ -49,22 +50,22 @@ import { DataresolveService } from "./dataresolve.service";
 
 
 const routes: Routes = [
-{path:'',component:HomeComponent},
-{path:'login',component:LoginComponent},
-{path:'child',component:ChildetestComponent},
-{path:'parent',component:ParenttestComponent},
-{path:'logout',component:LogoutComponent},
-{path:'register',component:RegisterComponent},
-{path:'error',component:ErrorComponent},
-{path:'profile',component:ProfileComponent,canActivate:[AuthGuardService]},
-{path:'listbudgets',component:ListbudgetsComponent,canActivate:[AuthGuardService]},
-{path:'trends',component:TrendsComponent,canActivate:[AuthGuardService]},
-{path:'history',component:HistoryComponent,canActivate:[AuthGuardService]},
-{path:'search',component:SearchComponent,canActivate:[AuthGuardService]},
-{path:'about',component:AboutComponent,canActivate:[AuthGuardService]},
-{path:'ST',component:STComponent,canActivate:[AuthGuardService]},
-{path:'newbudget',component:NewbudgetComponent,canActivate:[AuthGuardService]},
-{path:'details',component:BudgetdetailsComponent, resolve:{data:DataresolveService},canActivate:[AuthGuardService]},
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'child', component: ChildetestComponent },
+  { path: 'parent', component: ParenttestComponent },
+  { path: 'logout', component: LogoutComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'error', component: ErrorComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
+  { path: 'listbudgets', component: ListbudgetsComponent, resolve: { data: BudgetlistresolveService }, canActivate: [AuthGuardService] },
+  { path: 'trends', component: TrendsComponent, canActivate: [AuthGuardService] },
+  { path: 'history', component: HistoryComponent, canActivate: [AuthGuardService] },
+  { path: 'search', component: SearchComponent, canActivate: [AuthGuardService] },
+  { path: 'about', component: AboutComponent, canActivate: [AuthGuardService] },
+  { path: 'ST', component: STComponent, canActivate: [AuthGuardService] },
+  { path: 'newbudget', component: NewbudgetComponent, canActivate: [AuthGuardService] },
+  { path: 'details', component: BudgetdetailsComponent, resolve: { data: DataresolveService }, canActivate: [AuthGuardService] },
 ];
 
 @NgModule({
@@ -72,8 +73,8 @@ const routes: Routes = [
   exports: [RouterModule],
   // imports: [UIRouterModule.forRoot(rootModule)],
   // exports: [UIRouterModule],
-  providers:[
-    AuthGuardService,AuthenticationService,DataresolveService
+  providers: [
+    AuthGuardService, AuthenticationService, DataresolveService
   ]
 })
 export class AppRoutingModule { }
