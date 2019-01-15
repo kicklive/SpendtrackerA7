@@ -32,16 +32,28 @@
     <div style="height:20px"></div>
 </div>
 <div class="transactioncontainter">
-    <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutWrap fxLayoutAlign="start stretch">
-        <div fxFlex=20% fxFlexAlign="left" fxLayoutAlign="center stretch">Transaction Date</div>
-        <div fxFlex=20% fxFlexAlign="left" fxLayoutAlign="center stretch">Transaction Date</div>
-        <div fxFlex=20% fxFlexAlign="left" fxLayoutAlign="center stretch">Transaction Date</div>
-        <div fxFlex=20% fxFlexAlign="left" fxLayoutAlign="center stretch">Transaction Date</div>
-        <div fxFlex=20% fxFlexAlign="left" fxLayoutAlign="center stretch">Transaction Date</div>
+    <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutWrap fxLayoutAlign="start stretch" style="background-color:lightblue">
+        <div fxFlex=20% fxFlexAlign="left" fxLayoutAlign="left stretch" fxFlexOffset="50px">Transaction Date</div>
+        <div fxFlex=20% fxFlexAlign=" left " fxLayoutAlign="left stretch ">UPC</div>
+        <div fxFlex=20% fxFlexAlign="left " fxLayoutAlign="left stretch ">Amount</div>
+        <div fxFlex=20% fxFlexAlign="left " fxLayoutAlign="left stretch ">Item Description</div>
+        <div fxFlex=20% fxFlexAlign="left " fxLayoutAlign="left stretch ">Store</div>
     </div>
-    <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutWrap fxLayoutAlign="start stretch" *ngFor="let trans of budgetDetails.Transactions">
-        <div>
+    <div fxLayout=row fxLayout.xs="row " fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch " *ngFor="let trans of budgetDetails.Transactions ">
+        <div fxFlex=20% fxFlexAlign="left " fxLayoutAlign="left stretch " fxFlexOffset="50px ">
+            {{trans.transdate|date:shortDate}}
+        </div>
+        <div fxFlex=20% fxFlexAlign="left " fxLayoutAlign="left stretch ">
+            {{trans.upc}}
+        </div>
+        <div fxFlex=20% fxFlexAlign="left " fxLayoutAlign="left stretch ">
+            {{trans.itemprice}}
+        </div>
+        <div fxFlex=20% fxFlexAlign="left " fxLayoutAlign="left stretch ">
             {{trans.itemdescription}}
+        </div>
+        <div fxFlex=20% fxFlexAlign="left " fxLayoutAlign="left stretch ">
+            {{trans.store}}
         </div>
     </div>
 </div>
