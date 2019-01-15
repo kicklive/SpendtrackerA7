@@ -18,8 +18,9 @@ app.use(passport.initialize());
 
 // [SH] Use the API routes when path starts with /api
 console.log('in app.js');
-app.use('/',urlApi);
-app.use('/api', routesApi);
+app.use('/', urlApi);
+app.use('/details', urlApi);
+//app.use('/api', routesApi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -34,7 +35,9 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
         res.status(401);
-        res.json({ "message": err.name + ": " + err.message });
+        res.json({
+            "message": err.name + ": " + err.message
+        });
     }
 });
 
