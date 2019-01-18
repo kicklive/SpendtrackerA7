@@ -1,18 +1,17 @@
-import {Injectable }from '@angular/core'; 
-import {Observable, Subscription, of, BehaviorSubject }from 'rxjs'; 
+import { Injectable } from "@angular/core";
+import { Observable, Subscription, of, BehaviorSubject } from "rxjs";
 
-@Injectable( {
-providedIn:'root'
+@Injectable({
+  providedIn: "root"
 })
 export class PersistanceService {
-private bs = new BehaviorSubject < string > (""); 
-currentMsg = this.bs.asObservable(); 
+  private bs = new BehaviorSubject<string>("");
+  currentMsg = this.bs.asObservable();
 
+  constructor() {}
 
-constructor() {}
-
-changeMsg(m:string) {
-	 // debugger;
-	  this.bs.next(m); 
-}
+  changeMsg(m: string) {
+    // debugger;
+    this.bs.next(m);
+  }
 }

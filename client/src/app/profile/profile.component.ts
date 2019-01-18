@@ -8,13 +8,13 @@ import { AuthenticationService } from '../authenticate.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-details:UserDetails
-  constructor(private auth:AuthenticationService) { }
+  details: UserDetails;
+  constructor(private auth: AuthenticationService) { }
 
   ngOnInit() {
-    this.auth.profile().subscribe((user)=>{
-this.details=user;
-    })
+    this.auth.profile().subscribe((user) => {
+      this.details = user;
+    });
   }
 
 }

@@ -5,11 +5,11 @@ import { Router } from "@angular/router";
 import { NavstateService } from "../navstate.service";
 
 
-export interface Roles{
-  value:string,
-  viewValue:string
-  };
-  
+export interface Roles {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -17,35 +17,35 @@ export interface Roles{
 })
 export class RegisterComponent implements OnInit {
 
-credentials:TokenPayload={
-email:'',
-name:'',
-password:'',
-role:''
-};
-UserRoles;
-roles:Roles[]=[
-  {value:'1',viewValue:'Admin'},
-  {value:'2',viewValue:'User'}
-  ]; 
+  credentials: TokenPayload = {
+    email: '',
+    name: '',
+    password: '',
+    role: ''
+  };
+  UserRoles;
+  roles: Roles[] = [
+    { value: '1', viewValue: 'Admin' },
+    { value: '2', viewValue: 'User' }
+  ];
 
-  constructor(private auth:AuthenticationService,private router:Router,private n:NavstateService) {
+  constructor(private auth: AuthenticationService, private router: Router, private n: NavstateService) {
 
-   }
+  }
 
-   register(){
-     //debugger;
-      this.credentials.role=this.credentials.role;
-     this.auth.register(this.credentials).subscribe(()=>{
-      this.n.setUserName('Hello, '+this.auth.getUsername());
+  register() {
+    // debugger;
+    this.credentials.role = this.credentials.role;
+    this.auth.register(this.credentials).subscribe(() => {
+      this.n.setUserName('Hello, ' + this.auth.getUsername());
       this.n.setNavBarState(false);
       this.n.setNavLinks(false);
-       this.router.navigateByUrl('/ST',{skipLocationChange:true});
-     },(err)=>{
-console.log(err);
-     })
+      this.router.navigateByUrl('/ST', { skipLocationChange: true });
+    }, (err) => {
+      console.log(err);
+    });
 
-   }
+  }
   ngOnInit() {
   }
 

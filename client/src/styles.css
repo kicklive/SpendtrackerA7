@@ -18,3 +18,8 @@ body {
     margin: auto;
     width: 30%
 }
+
+.transactioncontainter {
+    width: 80%;
+    margin: 0 auto;
+}
