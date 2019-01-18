@@ -10,11 +10,9 @@ var auth = jwt({
 
 router.get('/*', function(req, res, next) {
     //res.send('Express RESTful APIxx');
-    console.log('req====>' + req);
+    console.log('req====>'+req);
     res.redirect('/');
 });
-
-
 
 
 

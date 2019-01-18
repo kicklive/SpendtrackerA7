@@ -3,31 +3,21 @@ import {SharedService }from "../shared.service";
 import {BudgetDataService }from "../budget-data.service"; 
 import {BudgetDetails }from "../budgetdata"; 
 import {bind }from '@angular/core/src/render3'; 
-import {ActivatedRoute }from "@angular/router"; 
+import {ActivatedRoute, Router }from "@angular/router"; 
+import {DataresolveService }from "../dataresolve.service"; 
 
 @Component( {
-  selector:'app-budgetdetails', 
-  templateUrl:'./budgetdetails.component.html', 
-  styleUrls:['./budgetdetails.component.css'], 
+selector:'app-budgetdetails', 
+templateUrl:'./budgetdetails.component.html', 
+styleUrls:['./budgetdetails.component.css'], 
 
 })
 
 export class BudgetdetailsComponent implements OnInit {
-  private serviceSubscription; 
-  public budgetDetails:BudgetDetails; 
-  public hasTransactions:boolean = false; 
-  constructor(private service:SharedService, private bds:BudgetDataService, private route:ActivatedRoute) {//don't need this private service:SharedService just leaving it in in case I may need it later.
-    // debugger;
-    // this.serviceSubscription=this.service.emmiter.subscribe({
-    //   next:(budget_id:string)=>{
-    //     //this.GetDetails(budget_id);
-    //     this.bId=budget_id;
-    //   }
-    // });
-    //THIS WORKS ALSO...
-  //   this.serviceSubscription=this.service.emmiter.subscribe((budget_id)=>{
-  //     this.GetDetails(budget_id);
-  // });
+private serviceSubscription; 
+public budgetDetails:BudgetDetails; 
+public hasTransactions:boolean = false; 
+constructor(private service:SharedService, private bds:BudgetDataService, private route:ActivatedRoute, private drs:DataresolveService, private router:Router) {//don't need this private service:SharedService just leaving it in in case I may need it later.
   }
 
   ngOnInit() {
@@ -54,4 +44,13 @@ export class BudgetdetailsComponent implements OnInit {
     this.serviceSubscription.unsubscribe()
   }
 
+  newTransaction(url,budgetId){
+    // this.drs.changeMsg(budgetId); 
+    // this.router.navigateByUrl(url)
+    
+  }
+  
+Newtransaction(url, budgetId) {
+
+}
 }
