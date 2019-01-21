@@ -80,23 +80,23 @@ module.exports = function(app, config) {
     app.post("/data/SaveTransaction", function(req, res, next) {
         console.log('dfsddas');
         Transactions.create({
-                itemdescription: req.body.itemDesc,
-                itemprice: req.body.transAmt,
-                transdate: req.body.transDate,
+                itemdescription: req.body.itemdescription,
+                itemprice: req.body.itemprice,
+                transdate: req.body.transdate,
                 store: req.body.store,
                 upc: req.body.upc
                     //BudgetId: req.body.budgetId
             },
             function(err, NewTrans) {
                 if (err) {
-                    res.send(err);
+                    res.send('ERROR 1===>'+ err);
                 }
-                console.log(Budget);
+               // console.log(Budget);
                 Budget.findOne({
-                        _id: req.body.budgetId
+                        _id: req.body.budget_id
                     },
                     function(err, ret) {
-                        console.log('HEEEERREE========>' + req.body.itemDesc);
+                        console.log('HEEEERREE========>' + req.body.itemdescription);
                         console.log('HEEEERREE========>' + NewTrans.upc);
                         ret.Transactions.push(NewTrans);
                         ret.save(function(err, ret) {
@@ -105,16 +105,17 @@ module.exports = function(app, config) {
                                 console.log('err here')
                             }
                             var prod = new Product({
-                                ItemDescription: req.body.itemDesc,
+                                ItemDescription: req.body.itemdescription,
                                 UPC: req.body.upc,
-                                Price: req.body.transAmt
+                                Price: req.body.itemprice
                             });
                             prod.save(function(prodSaveErr, ret) {
                                 if (prodSaveErr) {
                                     console.log("saved==>" + prodSaveErr)
                                     return next(prodSaveErr);
                                 }
-                                res.send('success');
+                                console.log('HEEEERREE SAVED========>success' );
+                                res.send("{'result':'success'}");
                             });
 
 

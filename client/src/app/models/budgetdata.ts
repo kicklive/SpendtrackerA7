@@ -1,3 +1,4 @@
+import { Transactions } from "./transactiondata";
 export interface Budgetdata {
     _id: string;
     BudgetStartDate: string;
@@ -14,13 +15,7 @@ export interface BudgetDetails {
     BudgetAmount: string;
     BudgetStatus: string;
     BudgetType: string;
-    Transactions: BudgetTransactions[];
+    Transactions: Transactions[];
 }
-export interface BudgetTransactions {
-    itemdescription: string;
-    itemprice: string;
-    store: string;
-    transdate: string;
-    upc: string;
-}
+
 

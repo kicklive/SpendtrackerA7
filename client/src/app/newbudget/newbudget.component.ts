@@ -1,39 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { Budgetdata } from "../budgetdata";
-import { BudgetDataService } from '../budget-data.service';
+import { Component, OnInit } from "@angular/core";
+import { Budgetdata } from "../models/budgetdata";
+import { BudgetDataService } from "../services/budget-data.service";
 import { Router } from "@angular/router";
-import { buildDriverProvider } from 'protractor/built/driverProviders';
+import { buildDriverProvider } from "protractor/built/driverProviders";
 
-export interface BudgetType{
-  text:string,
-  value:string
+export interface BudgetType {
+  text: string;
+  value: string;
 }
 @Component({
-  selector: 'app-newbudget',
-  templateUrl: './newbudget.component.html',
-  styleUrls: ['./newbudget.component.css']
+  selector: "app-newbudget",
+  templateUrl: "./newbudget.component.html",
+  styleUrls: ["./newbudget.component.css"]
 })
-
 export class NewbudgetComponent implements OnInit {
-  nb:Budgetdata={
-    _id:'',
-    BudgetStartDate:'',
-    BudgetEndDate:'',
-    BudgetAmount:'',
-    BudgetStatus:'',
-    BudgetType:''
+  nb: Budgetdata = {
+    _id: "",
+    BudgetStartDate: "",
+    BudgetEndDate: "",
+    BudgetAmount: "",
+    BudgetStatus: "",
+    BudgetType: ""
   };
-  budgetTypes:BudgetType[]=[
-    {text:'Amex',value:'1'},
-    {text:'Visa',value:'2'},
-    {text:'MC',value:'3'},
-    {text:'Cash',value:'4'},
-  ]
+  budgetTypes: BudgetType[] = [
+    { text: "Amex", value: "1" },
+    { text: "Visa", value: "2" },
+    { text: "MC", value: "3" },
+    { text: "Cash", value: "4" }
+  ];
 
-  constructor(private ds:BudgetDataService,private route:Router) { }
+  constructor(private ds: BudgetDataService, private route: Router) {}
 
-  ngOnInit() {
-    
-  }
-
+  ngOnInit() {}
 }

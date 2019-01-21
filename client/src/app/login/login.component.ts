@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService, } from "../authenticate.service";
-import { TokenPayload, UserDetails } from "../authentication.model";
+import { AuthenticationService, } from "../services/authenticate.service";
+import { TokenPayload, UserDetails } from "../services/authentication.model";
 import { Router } from "@angular/router";
-import { NavstateService } from "../navstate.service";
+import { NavstateService } from "../services/navstate.service";
 
 
 

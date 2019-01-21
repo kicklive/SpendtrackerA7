@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from "../authenticate.service";
-import { UserDetails } from "../authentication.model";
-import { NavstateService } from "../navstate.service";
-import { Budgetdata } from "../budgetdata";
-import { BudgetDataService } from '../budget-data.service';
+import { AuthenticationService } from "../services/authenticate.service";
+import { UserDetails } from "../services/authentication.model";
+import { NavstateService } from "../services/navstate.service";
+import { Budgetdata } from "../models/budgetdata";
+import { BudgetDataService } from '../services/budget-data.service';
 import { Router } from "@angular/router";
-import { SharedService } from "../shared.service";
-import { DataresolveService } from "../dataresolve.service";
+import { SharedService } from "../services/shared.service";
+import { DataresolveService } from "../services/dataresolve.service";
 import { ActivatedRoute } from "@angular/router";
 import { nextContext } from '@angular/core/src/render3';
-import { PersistanceService } from "../persistance.service";
+import { PersistanceService } from "../services/persistance.service";
 
 interface PageRoute {
         name: string;

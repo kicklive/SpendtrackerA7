@@ -1,6 +1,5 @@
 {
     "editor.formatOnSave": false,
-    "editor.fontFamily": "consolas",
-    "editor.fontSize": 14
+        "editor.fontSize": 13
 
 }

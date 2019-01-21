@@ -3,7 +3,7 @@
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthenticationService } from "./authenticate.service";
+import { AuthenticationService } from "./services/authenticate.service";
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from "./home/home.component";
@@ -22,8 +22,8 @@ import { NewbudgetComponent } from './newbudget/newbudget.component';
 import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component';
 import { ChildetestComponent } from './childetest/childetest.component';
 import { ParenttestComponent } from './parenttest/parenttest.component';
-import { DataresolveService } from "./dataresolve.service";
-import { BudgetlistresolveService } from "./budgetlistresolve.service";
+import { DataresolveService } from "./services/dataresolve.service";
+import { BudgetlistresolveService } from "./services/budgetlistresolve.service";
 import { NewtransactionComponent } from './newtransaction/newtransaction.component';
 
 

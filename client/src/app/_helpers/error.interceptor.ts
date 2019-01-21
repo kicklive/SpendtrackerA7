@@ -1,23 +1,32 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { AuthenticationService } from "../authenticate.service";
-
+import { Injectable } from "@angular/core";
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor
+} from "@angular/common/http";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
+import { AuthenticationService } from "../services/authenticate.service";
 
 @Injectable()
-export class ErrorInterceptor implements HttpInterceptor{
-    constructor(private auth:AuthenticationService){}
+export class ErrorInterceptor implements HttpInterceptor {
+  constructor(private auth: AuthenticationService) {}
 
-    intercept(request:HttpRequest<any>,next:HttpHandler):Observable<HttpEvent<any>>{
-        return next.handle(request).pipe(catchError((err)=>{
-            //debugger;
-            if(err.status===401){
-                this.auth.logout();
-                location.reload(true);
-            }
-            const error=err.error.message ||err.statusText;
-            return throwError(error);
-        }));
-    }
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    return next.handle(request).pipe(
+      catchError(err => {
+        // debugger;
+        if (err.status === 401) {
+          this.auth.logout();
+          location.reload(true);
+        }
+        const error = err.error.message || err.statusText;
+        return throwError(error);
+      })
+    );
+  }
 }

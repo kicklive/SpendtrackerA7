@@ -1,38 +1,44 @@
 <div style="height:30px">&nbsp;</div>
 <div class="transactionformscontainter">
-    <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
-        <h3>Create Transaction</h3>
+  <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
+    <h3>Create Transaction</h3>
+  </div>
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+    <div fxlayout="row" fxlayout.sm="column" fxlayout.xs="column" fxLayoutGap="0.5%"
+      fxLayoutAlign="start-stretch" fxLayoutWrap style="flex-flow: row wrap">
+      <mat-form-field appearance="outline" fxflex="30%" fxflex.sm="100%" fxflex.xs="100%">
+        <input matInput [matDatepicker]="picker" placeholder="Transaction Date" formControlName="transdate" formGroupName="transdate">
+        <mat-datepicker-toggle matSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline" fxflex="0 1 45%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
+        <mat-label>Transaction Amount</mat-label>
+        <input matInput formControlName="itemprice" required formGroupName="itemprice">
+      </mat-form-field>
+      <mat-form-field appearance="outline" fxflex="0 1 19%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
+        <mat-label>UPC</mat-label>
+        <input matInput formControlName="upc" (keyup)="upcSearch$.next($event.target.value)" required formGroupName="upc">
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width:50%" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
+        <mat-label>Store</mat-label>
+        <input matInput formControlName="store" required formGroupName="store">
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width:89%" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
+        <mat-label>Item Description</mat-label>
+        <textarea matInput formControlName="itemdescription" cdkTextareaAutosize #autosize="cdkTextareaAutosize" formGroupName="itemdescription"
+          cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" cols="10"></textarea>
+      </mat-form-field>
     </div>
-    <div fxlayout="row" fxlayout.sm="column" fxlayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="start-stretch" fxLayoutWrap style="flex-flow: row wrap">
-        <mat-form-field appearance="outline" fxflex="30%" fxflex.sm="100%" fxflex.xs="100%">
-            <input matInput [matDatepicker]="picker" placeholder="Transaction Date" [(ngModel)]="trans.transdate" name="transdate">
-            <mat-datepicker-toggle matSuffix [for]="picker">
-                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field appearance="outline" fxflex="0 1 45%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
-            <mat-label>Transaction Amount</mat-label>
-            <input matInput [(ngModel)]="trans.itemprice" name="itemprice" required>
-        </mat-form-field>
-        <mat-form-field appearance="outline" fxflex="0 1 19%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
-            <mat-label>UPC</mat-label>
-            <input matInput [(ngModel)]="trans.upc" name="upc" required>
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width:50%" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
-            <mat-label>Store</mat-label>
-            <input matInput [(ngModel)]="trans.store" name="store" required>
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width:89%" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
-            <mat-label>Item Description</mat-label>
-            <textarea matInput [(ngModel)]="trans.itemdescription" name="itemdescription" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" cols="10"></textarea>
-        </mat-form-field>
-    </div>
+
     <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch ">
-        <div fxFlex=90% fxLayoutAlign="end stretch">
-            <button mat-raised-button (submit)="newTransaction('/newtransaction','budgetDetails?._id')" color="primary" [disabled]="isValid">Submit</button>&nbsp;
-            <button mat-raised-button (click)="GoBack()">Cancel</button>&nbsp;
-            <button mat-raised-button (click)="GoBack()">Back</button>
-        </div>
+      <div fxFlex=90% fxLayoutAlign="end stretch">
+        <button mat-raised-button (submit)="newTransaction('/newtransaction','budgetDetails?._id')" color="primary"
+          [disabled]="transactionForm.pristine">Submit</button>&nbsp;
+        <button mat-raised-button (click)="ClearForm()" [disabled]="transactionForm.pristine">Cancel</button>&nbsp;
+        <button mat-raised-button (click)="GoBack()">Back</button>
+      </div>
     </div>
+  </form>
 </div>

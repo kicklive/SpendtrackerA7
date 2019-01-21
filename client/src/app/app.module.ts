@@ -6,7 +6,7 @@ import {MatToolbarModule, MatMenuModule, MatFormFieldModule, MatInputModule, Mat
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AppRoutingModule } from './app-routing.module';
 import {AppComponent } from './app.component';
-import {AuthenticationService} from "./authenticate.service";
+import {AuthenticationService} from "./services/authenticate.service";
 import {RegisterComponent} from './register/register.component';
 import {LoginComponent} from './login/login.component';
 import {ProfileComponent } from './profile/profile.component';
@@ -62,7 +62,7 @@ BrowserAnimationsModule,
 MatToolbarModule, MatMenuModule, MatFormFieldModule, MatInputModule, MatOptionModule,
 MatSelectModule, MatIconModule, MatButtonModule, MatCardModule,
 MatTableModule, MatDividerModule, MatSnackBarModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule,
-FlexLayoutModule
+FlexLayoutModule, ReactiveFormsModule
 
 ],
 providers: [AuthenticationService,  {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

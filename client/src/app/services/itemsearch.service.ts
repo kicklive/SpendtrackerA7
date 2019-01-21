@@ -10,7 +10,7 @@ export class ItemsearchService {
   constructor(private http: HttpClient) { }
 
   public SearchForItem(upc): Observable<any> {
-    return this.http.get("/data/budgetlist", { params: { id: upc } });
+    return this.http.get("/data/itemsearch", { params: { id: upc } });
   }
 }
 
