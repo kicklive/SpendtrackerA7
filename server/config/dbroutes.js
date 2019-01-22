@@ -111,11 +111,11 @@ module.exports = function(app, config) {
                             });
                             prod.save(function(prodSaveErr, ret) {
                                 if (prodSaveErr) {
-                                    console.log("saved==>" + prodSaveErr)
+                                    console.log("prod error==>" + prodSaveErr)
                                     return next(prodSaveErr);
                                 }
                                 console.log('HEEEERREE SAVED========>success' );
-                                res.send("{'result':'success'}");
+                                res.json({ 'ret': 'success' });
                             });
 
 
