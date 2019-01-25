@@ -1,37 +1,52 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { SharedService } from "../services/shared.service";
 import { BudgetDataService } from "../services/budget-data.service";
 import { BudgetDetails } from "../models/budgetdata";
-import { bind } from '@angular/core/src/render3';
+import { bind } from "@angular/core/src/render3";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DataresolveService } from "../services/dataresolve.service";
 import { PersistanceService } from "../services/persistance.service";
-
+import { PersistantValues } from "../models/helper";
+import { MatSnackBar } from "@angular/material";
 
 @Component({
-  selector: 'app-budgetdetails',
-  templateUrl: './budgetdetails.component.html',
-  styleUrls: ['./budgetdetails.component.css'],
-
+  selector: "app-budgetdetails",
+  templateUrl: "./budgetdetails.component.html",
+  styleUrls: ["./budgetdetails.component.css"]
 })
-
 export class BudgetdetailsComponent implements OnInit {
   private serviceSubscription;
   public budgetDetails: BudgetDetails;
   public hasTransactions = false;
-  constructor(private service: SharedService, private bds: BudgetDataService,
-    private route: ActivatedRoute, private drs: DataresolveService, private router: Router, private ps: PersistanceService) {
+  public pv: PersistantValues;
+  // public messages<string>: any;
+  constructor(
+    private service: SharedService,
+    private bds: BudgetDataService,
+    private route: ActivatedRoute,
+    private drs: DataresolveService,
+    private router: Router,
+    private ps: PersistanceService,
+    private snackBar: MatSnackBar
+  ) {
     // don't need this private service:SharedService just leaving it in in case I may need it later.
   }
 
   ngOnInit() {
     //    debugger;
+    this.ps.currentMsg.subscribe(ret => {
+      if (ret.message !== "") {
+        this.snackBar.open(ret.message, "New Transaction", {
+          duration: 2000
+        });
+      }
+    });
     this.GetDetails();
   }
 
   GetDetails() {
     // debugger;
-    this.route.data.subscribe((ret) => {
+    this.route.data.subscribe(ret => {
       debugger;
       this.budgetDetails = ret.data;
       if (ret.data.Transactions.length > 0) {
@@ -51,8 +66,8 @@ export class BudgetdetailsComponent implements OnInit {
 
   newTransaction(url, budgetId) {
     debugger;
-     this.ps.changeMsg(budgetId);
-     this.router.navigateByUrl(url);
-
+    this.pv.BudgetId = budgetId;
+    this.ps.changeMsg(this.pv);
+    this.router.navigateByUrl(url);
   }
 }

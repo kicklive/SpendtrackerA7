@@ -18,7 +18,7 @@ export class DataresolveService implements Resolve<BudgetDetails>  {
     resolve(): Observable<any> {
         debugger;
         this.ps.currentMsg.subscribe((x) => {
-            this.val = x;
+            this.val = x.BudgetId;
         });
         return this.bds.GetBudgetDetails(this.val).pipe(map((ret) => {
             debugger;

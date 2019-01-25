@@ -7,6 +7,7 @@ import { ItemsearchService } from "../services/itemsearch.service";
 import { FormControl, FormGroup, FormBuilder } from "@angular/forms";
 import { TransactionService } from "../services/transaction.service";
 import { PersistanceService } from "../services/persistance.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-newtransaction",
@@ -30,7 +31,8 @@ export class NewtransactionComponent implements OnInit {
     private srch: ItemsearchService,
     private formBuilder: FormBuilder,
     private trans: TransactionService,
-    private ps: PersistanceService
+    private ps: PersistanceService,
+    private route: Router
   ) {
     debugger;
     this.transactionForm = this.createForm(formBuilder);
@@ -76,9 +78,11 @@ export class NewtransactionComponent implements OnInit {
     const ret: Transactions = Object.assign({}, this.transactionForm.value);
     debugger;
     this.trans.AddTransaction(ret).subscribe(
-      (res) => {
+      res => {
         debugger;
-        const x = res;
+        if (res.ret === "success") {
+          this.route.navigateByUrl("/details");
+        }
       },
       err => {
         debugger;
@@ -90,7 +94,7 @@ export class NewtransactionComponent implements OnInit {
     this.ps.currentMsg.subscribe(
       ret => {
         debugger;
-        this.budgetId = ret;
+        this.budgetId = ret.BudgetId;
       },
       err => {
         debugger;
