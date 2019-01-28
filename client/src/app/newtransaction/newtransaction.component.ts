@@ -8,6 +8,7 @@ import { FormControl, FormGroup, FormBuilder } from "@angular/forms";
 import { TransactionService } from "../services/transaction.service";
 import { PersistanceService } from "../services/persistance.service";
 import { Router } from "@angular/router";
+import { PersistantValues } from "../models/helper";
 
 @Component({
   selector: "app-newtransaction",
@@ -26,6 +27,11 @@ export class NewtransactionComponent implements OnInit {
   upcSearch$ = new Subject<string>();
   isValid = false;
   budgetId = "";
+  public pv: PersistantValues = {
+    BudgetId: "",
+    message: ""
+  };
+
   constructor(
     private ngZone: NgZone,
     private srch: ItemsearchService,
@@ -81,6 +87,9 @@ export class NewtransactionComponent implements OnInit {
       res => {
         debugger;
         if (res.ret === "success") {
+          this.pv.message = res.ret;
+          this.pv.BudgetId = this.budgetId;
+          this.ps.changeMsg(this.pv);
           this.route.navigateByUrl("/details");
         }
       },
@@ -91,6 +100,7 @@ export class NewtransactionComponent implements OnInit {
     );
   }
   getBudgetId() {
+    debugger;
     this.ps.currentMsg.subscribe(
       ret => {
         debugger;
@@ -102,4 +112,7 @@ export class NewtransactionComponent implements OnInit {
       }
     );
   }
+}
+ngOnDestroy(): void {
+ this.ps.unsubscribe();
 }

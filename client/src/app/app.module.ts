@@ -15,8 +15,7 @@ import {
   MatSnackBarModule,
   MatGridListModule,
   MatDatepickerModule,
-  MatNativeDateModule,
-  MatSnackBar
+  MatNativeDateModule
 } from "@angular/material";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppRoutingModule } from "./app-routing.module";
@@ -92,7 +91,6 @@ import { NewtransactionComponent } from "./newtransaction/newtransaction.compone
     MatNativeDateModule,
     FlexLayoutModule,
     ReactiveFormsModule,
-    MatSnackBar
   ],
   providers: [
     AuthenticationService,

@@ -18,7 +18,10 @@ export class BudgetdetailsComponent implements OnInit {
   private serviceSubscription;
   public budgetDetails: BudgetDetails;
   public hasTransactions = false;
-  public pv: PersistantValues;
+  public pv: PersistantValues = {
+    BudgetId: "",
+    message: ""
+  };
   // public messages<string>: any;
   constructor(
     private service: SharedService,
@@ -34,13 +37,7 @@ export class BudgetdetailsComponent implements OnInit {
 
   ngOnInit() {
     //    debugger;
-    this.ps.currentMsg.subscribe(ret => {
-      if (ret.message !== "") {
-        this.snackBar.open(ret.message, "New Transaction", {
-          duration: 2000
-        });
-      }
-    });
+
     this.GetDetails();
   }
 
@@ -48,6 +45,16 @@ export class BudgetdetailsComponent implements OnInit {
     // debugger;
     this.route.data.subscribe(ret => {
       debugger;
+      this.ps.currentMsg.subscribe(r => {
+        debugger;
+        if (r.message !== "") {
+          debugger;
+          this.snackBar.open(r.message, "New Transaction", {
+            duration: 5000
+          });
+        }
+      });
+
       this.budgetDetails = ret.data;
       if (ret.data.Transactions.length > 0) {
         this.hasTransactions = true;
