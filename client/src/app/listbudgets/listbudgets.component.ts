@@ -25,7 +25,8 @@ interface PageRoute {
 export class ListbudgetsComponent implements OnInit {
   pv: PersistantValues = {
     BudgetId: "",
-    message: ""
+    message: "",
+    transId : ""
   };
   title = "client";
   greeting = "";

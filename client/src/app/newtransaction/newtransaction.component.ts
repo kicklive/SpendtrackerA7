@@ -1,21 +1,21 @@
-import { Component, OnInit, NgZone, ViewChild } from "@angular/core";
+import { Component, OnInit, NgZone, ViewChild, OnDestroy } from "@angular/core";
 import { Transactions } from "../models/transactiondata";
 import { CdkTextareaAutosize } from "@angular/cdk/text-field";
 import { take } from "rxjs/operators";
-import { Subject } from "rxjs";
 import { ItemsearchService } from "../services/itemsearch.service";
 import { FormControl, FormGroup, FormBuilder } from "@angular/forms";
 import { TransactionService } from "../services/transaction.service";
 import { PersistanceService } from "../services/persistance.service";
 import { Router } from "@angular/router";
 import { PersistantValues } from "../models/helper";
+import { Observable, Subscription, of, BehaviorSubject, Subject } from "rxjs";
 
 @Component({
   selector: "app-newtransaction",
   templateUrl: "./newtransaction.component.html",
   styleUrls: ["./newtransaction.component.css"]
 })
-export class NewtransactionComponent implements OnInit {
+export class NewtransactionComponent implements OnInit, OnDestroy {
   // trans: BudgetTransactions = {
   //   itemdescription: "",
   //   itemprice: "",
@@ -29,8 +29,10 @@ export class NewtransactionComponent implements OnInit {
   budgetId = "";
   public pv: PersistantValues = {
     BudgetId: "",
-    message: ""
+    message: "",
+    transId: ""
   };
+  private serviceSubscription: Subscription;
 
   constructor(
     private ngZone: NgZone,
@@ -101,7 +103,7 @@ export class NewtransactionComponent implements OnInit {
   }
   getBudgetId() {
     debugger;
-    this.ps.currentMsg.subscribe(
+    this.serviceSubscription = this.ps.currentMsg.subscribe(
       ret => {
         debugger;
         this.budgetId = ret.BudgetId;
@@ -112,7 +114,7 @@ export class NewtransactionComponent implements OnInit {
       }
     );
   }
-}
-ngOnDestroy(): void {
- this.ps.unsubscribe();
+  ngOnDestroy(): void {
+    this.serviceSubscription.unsubscribe();
+  }
 }

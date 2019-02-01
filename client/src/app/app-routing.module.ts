@@ -66,6 +66,7 @@ const routes: Routes = [{ path: '', component: HomeComponent }, { path: 'login',
 { path: 'newbudget', component: NewbudgetComponent, canActivate: [AuthGuardService] },
 { path: 'newtransaction', component: NewtransactionComponent, canActivate: [AuthGuardService] },
 { path: 'details', component: BudgetdetailsComponent, resolve: { data: DataresolveService }, canActivate: [AuthGuardService] },
+{ path: 'transdetails', component: NewtransactionComponent, canActivate: [AuthGuardService] },
 ];
 
 @NgModule({

@@ -8,7 +8,7 @@ import { PersistantValues } from "../models/helper";
 export class PersistanceService {
   private bs = new BehaviorSubject<PersistantValues>(null);
   currentMsg = this.bs.asObservable();
-  private pv: PersistantValues;
+  // private pv: PersistantValues;
 
   constructor() {}
 

@@ -8,3 +8,10 @@
     width: 95%;
     margin: 0 auto;
 }
+
+.example-container {
+    height: 20px;
+    overflow: auto;
+    margin: auto;
+    width: 50%;
+}

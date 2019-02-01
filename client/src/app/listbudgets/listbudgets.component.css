@@ -1,4 +1,4 @@
-.listbudget-container {
+.grid-container {
     margin: auto 10%;
     margin-top: 2%;
     margin-bottom: auto;
@@ -6,7 +6,7 @@
     width: 65%;
 }
 
-.listbudget-container-data {
+.grid-container-data {
     margin-top: 2%;
     width: 100%;
     display: flex;
@@ -14,7 +14,7 @@
 }
 
 .example-container {
-    height: 400px;
+    height: 20px;
     overflow: auto;
     margin: auto;
     width: 50%;
@@ -26,6 +26,25 @@ table {
 
 tr.example-element-row:not(.example-expanded-row):hover {
     background: #c2185b;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+tr.example-detail-row {
+    height: 0;
+}
+
+
+table {
+    width: 100%;
+}
+
+
+
+tr.example-element-row:not(.example-expanded-row):hover {
+    background: gray;
 }
 
 tr.example-element-row:not(.example-expanded-row):active {

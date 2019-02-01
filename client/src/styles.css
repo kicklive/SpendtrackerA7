@@ -2,24 +2,50 @@
 
 html,
 body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    height: 100%;
-    color: black;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  height: 100%;
+  color: black;
 }
 
 .container {
-    margin-top: 5%;
-    display: flex;
-    width: 100%;
+  margin-top: 5%;
+  display: flex;
+  width: 100%;
 }
 
 .inputbox {
-    margin: auto;
-    width: 30%
+  margin: auto;
+  width: 30%
 }
 
 .transactioncontainter {
-    width: 80%;
-    margin: 0 auto;
+  width: 80%;
+  margin: 0 auto;
 }
+
+/* .grid-container {
+  margin: auto 10%;
+  margin-top: 2%;
+  margin-bottom: auto;
+  display: block;
+  width: 65%;
+}
+
+.grid-container-data {
+  margin-top: 2%;
+  width: 50%;
+  display: flex;
+  background-color: #efefef;
+}
+
+.example-container {
+  height: 30px;
+  overflow: auto;
+  margin: auto;
+  width: 50%;
+}
+
+table {
+  width: 50%
+} */
