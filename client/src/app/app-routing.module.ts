@@ -25,6 +25,7 @@ import { ParenttestComponent } from './parenttest/parenttest.component';
 import { DataresolveService } from "./services/dataresolve.service";
 import { BudgetlistresolveService } from "./services/budgetlistresolve.service";
 import { NewtransactionComponent } from './newtransaction/newtransaction.component';
+import { EdittransactionComponent } from './edittransaction/edittransaction.component';
 
 
 // const rootModule: RootModule = {
@@ -66,7 +67,7 @@ const routes: Routes = [{ path: '', component: HomeComponent }, { path: 'login',
 { path: 'newbudget', component: NewbudgetComponent, canActivate: [AuthGuardService] },
 { path: 'newtransaction', component: NewtransactionComponent, canActivate: [AuthGuardService] },
 { path: 'details', component: BudgetdetailsComponent, resolve: { data: DataresolveService }, canActivate: [AuthGuardService] },
-{ path: 'transdetails', component: NewtransactionComponent, canActivate: [AuthGuardService] },
+{ path: 'edittransaction', component: EdittransactionComponent, canActivate: [AuthGuardService] },
 ];
 
 @NgModule({

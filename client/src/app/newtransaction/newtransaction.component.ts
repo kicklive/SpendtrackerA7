@@ -33,6 +33,7 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
     transId: ""
   };
   private serviceSubscription: Subscription;
+  pageTitle = "New Transaction";
 
   constructor(
     private ngZone: NgZone,
@@ -117,4 +118,8 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.serviceSubscription.unsubscribe();
   }
+  goBack() {
+    this.route.navigateByUrl("/details");
+  }
+  clearForm() {}
 }

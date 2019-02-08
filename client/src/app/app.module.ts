@@ -45,6 +45,7 @@ import { ItemPriceSum } from "./pricesum.pipe";
 // import { FlexLayoutModule } from "@angular/flex-layout";
 import { UIRouterModule } from "@uirouter/angular";
 import { NewtransactionComponent } from "./newtransaction/newtransaction.component";
+import { EdittransactionComponent } from './edittransaction/edittransaction.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { NewtransactionComponent } from "./newtransaction/newtransaction.compone
     ParenttestComponent,
     ChildetestComponent,
     ItemPriceSum,
-    NewtransactionComponent
+    NewtransactionComponent,
+    EdittransactionComponent
   ],
   imports: [
     BrowserModule,
