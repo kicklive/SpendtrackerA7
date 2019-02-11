@@ -1,32 +1,32 @@
 // import { NgModule } from '@angular/core';
 // import { Routes, RouterModule } from '@angular/router';
 
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 import { AuthenticationService } from "./services/authenticate.service";
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from "./register/register.component";
+import { LoginComponent } from "./login/login.component";
 import { HomeComponent } from "./home/home.component";
 import { ProfileComponent } from "./profile/profile.component";
-import { AuthGuardService } from './_guards/auth-guard.service';
-import { ListbudgetsComponent } from './listbudgets/listbudgets.component';
-import { ErrorComponent } from './error/error.component';
+import { AuthGuardService } from "./_guards/auth-guard.service";
+import { ListbudgetsComponent } from "./listbudgets/listbudgets.component";
+import { ErrorComponent } from "./error/error.component";
 import { ModuleWithProviders } from "@angular/core";
-import { LogoutComponent } from './logout/logout.component';
-import { TrendsComponent } from './trends/trends.component';
-import { STComponent } from './ST/ST.component';
-import { HistoryComponent } from './history/history.component';
-import { SearchComponent } from './search/search.component';
-import { AboutComponent } from './about/about.component';
-import { NewbudgetComponent } from './newbudget/newbudget.component';
-import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component';
-import { ChildetestComponent } from './childetest/childetest.component';
-import { ParenttestComponent } from './parenttest/parenttest.component';
+import { LogoutComponent } from "./logout/logout.component";
+import { TrendsComponent } from "./trends/trends.component";
+import { STComponent } from "./ST/ST.component";
+import { HistoryComponent } from "./history/history.component";
+import { SearchComponent } from "./search/search.component";
+import { AboutComponent } from "./about/about.component";
+import { NewbudgetComponent } from "./newbudget/newbudget.component";
+import { BudgetdetailsComponent } from "./budgetdetails/budgetdetails.component";
+import { ChildetestComponent } from "./childetest/childetest.component";
+import { ParenttestComponent } from "./parenttest/parenttest.component";
 import { DataresolveService } from "./services/dataresolve.service";
 import { BudgetlistresolveService } from "./services/budgetlistresolve.service";
-import { NewtransactionComponent } from './newtransaction/newtransaction.component';
-import { EdittransactionComponent } from './edittransaction/edittransaction.component';
-
+import { TransactionresolveService } from "./services/transactionresolve.service";
+import { NewtransactionComponent } from "./newtransaction/newtransaction.component";
+import { EdittransactionComponent } from "./edittransaction/edittransaction.component";
 
 // const rootModule: RootModule = {
 //   states: [
@@ -50,24 +50,64 @@ import { EdittransactionComponent } from './edittransaction/edittransaction.comp
 //   useHash: true
 // };
 
-
-const routes: Routes = [{ path: '', component: HomeComponent }, { path: 'login', component: LoginComponent },
-{ path: 'child', component: ChildetestComponent },
-{ path: 'parent', component: ParenttestComponent },
-{ path: 'logout', component: LogoutComponent },
-{ path: 'register', component: RegisterComponent },
-{ path: 'error', component: ErrorComponent },
-{ path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
-{ path: 'listbudgets', component: ListbudgetsComponent, resolve: { data: BudgetlistresolveService }, canActivate: [AuthGuardService] },
-{ path: 'trends', component: TrendsComponent, canActivate: [AuthGuardService] },
-{ path: 'history', component: HistoryComponent, canActivate: [AuthGuardService] },
-{ path: 'search', component: SearchComponent, canActivate: [AuthGuardService] },
-{ path: 'about', component: AboutComponent, canActivate: [AuthGuardService] },
-{ path: 'ST', component: STComponent, canActivate: [AuthGuardService] },
-{ path: 'newbudget', component: NewbudgetComponent, canActivate: [AuthGuardService] },
-{ path: 'newtransaction', component: NewtransactionComponent, canActivate: [AuthGuardService] },
-{ path: 'details', component: BudgetdetailsComponent, resolve: { data: DataresolveService }, canActivate: [AuthGuardService] },
-{ path: 'edittransaction', component: EdittransactionComponent, canActivate: [AuthGuardService] },
+const routes: Routes = [
+  { path: "", component: HomeComponent },
+  { path: "login", component: LoginComponent },
+  { path: "child", component: ChildetestComponent },
+  { path: "parent", component: ParenttestComponent },
+  { path: "logout", component: LogoutComponent },
+  { path: "register", component: RegisterComponent },
+  { path: "error", component: ErrorComponent },
+  {
+    path: "profile",
+    component: ProfileComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "listbudgets",
+    component: ListbudgetsComponent,
+    resolve: { data: BudgetlistresolveService },
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "trends",
+    component: TrendsComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "history",
+    component: HistoryComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "search",
+    component: SearchComponent,
+    canActivate: [AuthGuardService]
+  },
+  { path: "about", component: AboutComponent, canActivate: [AuthGuardService] },
+  { path: "ST", component: STComponent, canActivate: [AuthGuardService] },
+  {
+    path: "newbudget",
+    component: NewbudgetComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "newtransaction",
+    component: NewtransactionComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "details",
+    component: BudgetdetailsComponent,
+    resolve: { data: DataresolveService },
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "edittransaction",
+    component: EdittransactionComponent,
+    resolve: { data: TransactionresolveService },
+    canActivate: [AuthGuardService]
+  }
 ];
 
 @NgModule({
@@ -75,11 +115,8 @@ const routes: Routes = [{ path: '', component: HomeComponent }, { path: 'login',
   exports: [RouterModule],
   // imports: [UIRouterModule.forRoot(rootModule)],
   // exports: [UIRouterModule],
-  providers: [
-    AuthGuardService, AuthenticationService, DataresolveService
-  ]
+  providers: [AuthGuardService, AuthenticationService, DataresolveService]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
 
 // export const routingModule: ModuleWithProviders = RouterModule.forRoot(routes);
-

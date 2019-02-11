@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-parenttest',
+  selector: "app-parenttest",
   //templateUrl: './parenttest.component.html',
-  template: `<app-childetest (valueChanged)='displayCounter($event)'></app-childetest>`,
-  styleUrls: ['./parenttest.component.css']
+  template: `
+    <app-childetest (valueChanged)="displayCounter($event)"></app-childetest>
+  `,
+  styleUrls: ["./parenttest.component.css"]
 })
 export class ParenttestComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-  displayCounter(num){
+  ngOnInit() {}
+  displayCounter(num) {
     console.log(num);
   }
 }

@@ -116,7 +116,9 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
     );
   }
   ngOnDestroy(): void {
-    this.serviceSubscription.unsubscribe();
+    if (this.serviceSubscription !== undefined) {
+      this.serviceSubscription.unsubscribe();
+    }
   }
   goBack() {
     this.route.navigateByUrl("/details");
