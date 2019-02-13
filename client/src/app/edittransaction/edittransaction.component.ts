@@ -24,6 +24,7 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
     transId: ""
   };
   public budgetId = "";
+  public transId = "";
   private persistedBudgetId: string;
   private message: string;
   private unsubscribe$ = new Subject();
@@ -33,6 +34,7 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
     store: "",
     upc: "",
     transdate: "",
+    transId: "",
     budget_id: ""
   };
 
@@ -70,6 +72,7 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
       transdate: "",
       store: "",
       upc: [{ value: "", disabled: true }],
+      transId: "",
       budget_id: ""
     });
   }
@@ -94,15 +97,19 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
   onSubmit() {
     debugger;
     this.getBudgetId();
-    this.transactionForm.patchValue({ budget_id: this.budgetId });
-    const ret: Transactions = Object.assign({}, this.transactionForm.getRawValue());
+    this.transactionForm.patchValue({ transId: this.transId });
+    const ret: Transactions = Object.assign(
+      {},
+      this.transactionForm.getRawValue()
+    );
     debugger;
-    this.trans.AddTransaction(ret).subscribe(
+    this.trans.SaveModifiedTrans(ret).subscribe(
       res => {
         debugger;
         if (res.ret === "success") {
           this.pv.message = res.ret;
           this.pv.BudgetId = this.budgetId;
+          this.pv.transId = this.transId;
           this.ps.changeMsg(this.pv);
           this.router.navigateByUrl("/details");
         }
@@ -119,6 +126,7 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
       ret => {
         debugger;
         this.budgetId = ret.BudgetId;
+        this.transId = ret.transId;
       },
       err => {
         debugger;

@@ -28,4 +28,11 @@ export class TransactionService {
         })
       );
   }
+  SaveModifiedTrans(formData): Observable<any> {
+    return this.http.put("/data/updatetransaction", formData).pipe(
+      map((data: any) => {
+        return data;
+      })
+    );
+  }
 }

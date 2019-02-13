@@ -39,6 +39,7 @@ export class BudgetdetailsComponent implements OnInit, OnDestroy {
   ];
   private persistedBudgetId: string;
   private message: string;
+  private tranId: string;
   private unsubscribe$ = new Subject();
   // public messages<string>: any;
   constructor(
@@ -83,7 +84,7 @@ export class BudgetdetailsComponent implements OnInit, OnDestroy {
           debugger;
           this.snackBar.open(
             this.message,
-            "New Transaction added successfully",
+            "Transaction saved successfully.",
             {
               duration: 2500
             }

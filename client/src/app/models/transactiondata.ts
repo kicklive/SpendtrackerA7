@@ -4,5 +4,6 @@ export interface Transactions {
     store: string;
     transdate: string;
     upc: string;
+    transId:string;
     budget_id: string;
 }

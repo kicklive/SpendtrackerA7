@@ -154,7 +154,7 @@ module.exports = function(app, config) {
                         console.log("saved==>" + err)
                         return next(err);
                     }
-                    res.send('ssuccess');
+                    res.json({ 'ret': 'success' });
                 });
             }
 
@@ -209,20 +209,19 @@ module.exports = function(app, config) {
         console.log("update field id=" + req.body.store)
         Transactions.findByIdAndUpdate(req.body.transId, {
             $set: {
-                itemdescription: req.body.itemDesc,
-                itemprice: req.body.transAmt,
-                transdate: req.body.transDate,
+                itemdescription: req.body.itemdescription,
+                itemprice: req.body.itemprice,
+                transdate: req.body.transdate,
                 store: req.body.store,
                 upc: req.body.upc
             }
         }, function(err, ret) {
             if (err) {
-                res.send(err);
                 console.log('err here')
+                return next(err);
             } else {
-                res.send("success");
+                res.json({ 'ret': 'success' });
             }
-            // console.log(ret);
         });
 
     });
@@ -241,7 +240,7 @@ module.exports = function(app, config) {
                     res.send(err);
                     console.log('err here')
                 }
-                res.send(ret);
+                res.json(ret);
             });
 
     });
