@@ -82,6 +82,7 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
       ret => {
         debugger;
         this.tran = ret.data;
+        this.transactionForm.get('itemdescription').setValue(ret.data.itemdescription);
       },
       transErr => {
         this.snackBar.open(
