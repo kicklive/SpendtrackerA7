@@ -3,12 +3,18 @@ import { Transactions } from "../models/transactiondata";
 import { CdkTextareaAutosize } from "@angular/cdk/text-field";
 import { take } from "rxjs/operators";
 import { ItemsearchService } from "../services/itemsearch.service";
-import { FormControl, FormGroup, FormBuilder } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  FormBuilder,
+  Validators
+} from "@angular/forms";
 import { TransactionService } from "../services/transaction.service";
 import { PersistanceService } from "../services/persistance.service";
 import { Router } from "@angular/router";
 import { PersistantValues } from "../models/helper";
 import { Observable, Subscription, of, BehaviorSubject, Subject } from "rxjs";
+import { MatSnackBar } from "@angular/material";
 
 @Component({
   selector: "app-newtransaction",
@@ -34,6 +40,7 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
   };
   private serviceSubscription: Subscription;
   pageTitle = "New Transaction";
+  buttonName = "Cancel";
 
   constructor(
     private ngZone: NgZone,
@@ -41,7 +48,8 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private trans: TransactionService,
     private ps: PersistanceService,
-    private route: Router
+    private route: Router,
+    private snackBar: MatSnackBar
   ) {
     debugger;
     this.transactionForm = this.createForm(formBuilder);
@@ -71,17 +79,31 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
 
   createForm(fb: FormBuilder) {
     return fb.group({
-      itemprice: "",
+      // itemprice: "",
+      // itemdescription: "",
+      // transdate: "",
+      // store: "",
+      // upc: "",
+      // budget_id: ""
+
+      itemprice: ["", Validators.required],
       itemdescription: "",
-      transdate: "",
-      store: "",
-      upc: "",
+      transdate: ["", Validators.required],
+      store: ["", Validators.required],
+      upc: ["", [Validators.required, Validators.minLength(12)]],
+      transId: "",
       budget_id: ""
     });
   }
 
   onSubmit() {
     debugger;
+    if (this.transactionForm.invalid) {
+      this.snackBar.open("Failure", "Please complete the reqiuired fields.", {
+        duration: 2500
+      });
+      return;
+    }
     this.getBudgetId();
     this.transactionForm.patchValue({ budget_id: this.budgetId });
     const ret: Transactions = Object.assign({}, this.transactionForm.value);
@@ -123,5 +145,7 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
   goBack() {
     this.route.navigateByUrl("/details");
   }
-  clearForm() {}
+  buttonAction() {
+    this.transactionForm.reset();
+  }
 }

@@ -1,5 +1,10 @@
 import { Component, OnInit, NgZone, ViewChild, OnDestroy } from "@angular/core";
-import { FormControl, FormGroup, FormBuilder } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  FormBuilder,
+  Validators
+} from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PersistanceService } from "../services/persistance.service";
 import { PersistantValues } from "../models/helper";
@@ -18,6 +23,7 @@ import { take } from "rxjs/operators";
 export class EdittransactionComponent implements OnInit, OnDestroy {
   transactionForm: FormGroup;
   pageTitle = "Edit Transaction";
+  buttonName = "Delete";
   public pv: PersistantValues = {
     BudgetId: "",
     message: "",
@@ -67,10 +73,10 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
   }
   createForm(fb: FormBuilder) {
     return fb.group({
-      itemprice: "",
+      itemprice: ["", Validators.required],
       itemdescription: "",
-      transdate: "",
-      store: "",
+      transdate: ["", Validators.required],
+      store: ["", Validators.required],
       upc: [{ value: "", disabled: true }],
       transId: "",
       budget_id: ""
@@ -82,7 +88,13 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
       ret => {
         debugger;
         this.tran = ret.data;
-        this.transactionForm.get('itemdescription').setValue(ret.data.itemdescription);
+        this.transactionForm
+          .get("itemdescription")
+          .setValue(ret.data.itemdescription);
+        this.transactionForm.get("itemprice").setValue(ret.data.itemprice);
+        this.transactionForm.get("upc").setValue(ret.data.upc);
+        this.transactionForm.get("store").setValue(ret.data.store);
+        this.transactionForm.get("transdate").setValue(ret.data.transdate);
       },
       transErr => {
         this.snackBar.open(
@@ -97,6 +109,12 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
   }
   onSubmit() {
     debugger;
+    if (this.transactionForm.invalid) {
+      this.snackBar.open("Failure", "Please complete the reqiuired fields.", {
+        duration: 2500
+      });
+      return;
+    }
     this.getBudgetId();
     this.transactionForm.patchValue({ transId: this.transId });
     const ret: Transactions = Object.assign(
@@ -143,7 +161,7 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
   goBack() {
     this.router.navigateByUrl("/details");
   }
-  clearForm() {}
+  buttonAction() {}
   isDisabled() {
     return true;
   }

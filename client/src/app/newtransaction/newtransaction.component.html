@@ -7,7 +7,7 @@
     <div fxlayout="row" fxlayout.sm="column" fxlayout.xs="column" fxLayoutGap="0.5%"
       fxLayoutAlign="start-stretch" fxLayoutWrap style="flex-flow: row wrap">
       <mat-form-field appearance="outline" fxflex="30%" fxflex.sm="100%" fxflex.xs="100%">
-        <input matInput [matDatepicker]="picker" placeholder="Transaction Date" formControlName="transdate" formGroupName="transdate" [(ngModel)]="tran.transdate"> 
+        <input matInput [matDatepicker]="picker" placeholder="Transaction Date" formControlName="transdate" formGroupName="transdate"> 
         <mat-datepicker-toggle matSuffix [for]="picker">
           <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
         </mat-datepicker-toggle>
@@ -15,15 +15,15 @@
       </mat-form-field>
       <mat-form-field appearance="outline" fxflex="0 1 45%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
         <mat-label>Transaction Amount</mat-label>
-        <input matInput formControlName="itemprice" required formGroupName="itemprice" [(ngModel)]="tran.itemprice">
+        <input matInput formControlName="itemprice" formGroupName="itemprice">
       </mat-form-field>
       <mat-form-field appearance="outline" fxflex="0 1 19%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
         <mat-label>UPC</mat-label>
-        <input matInput formControlName="upc" (keyup)="upcSearch$.next($event.target.value)" required formGroupName="upc" [(ngModel)]="tran.upc">
+        <input matInput formControlName="upc" (keyup)="upcSearch$.next($event.target.value)" formGroupName="upc">
       </mat-form-field>
       <mat-form-field appearance="outline" style="width:50%" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
         <mat-label>Store</mat-label>
-        <input matInput formControlName="store" required formGroupName="store" [(ngModel)]="tran.store">
+        <input matInput formControlName="store" formGroupName="store">
       </mat-form-field>
       <mat-form-field appearance="outline" style="width:89%" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
         <mat-label>Item Description</mat-label>
@@ -36,7 +36,7 @@
       <div fxFlex=90% fxLayoutAlign="end stretch">
         <button mat-raised-button (submit)="newTransaction('/newtransaction','budgetDetails?._id')" color="primary"
           [disabled]="transactionForm.pristine">Submit</button>&nbsp;
-        <button mat-raised-button (click)="clearForm()" [disabled]="transactionForm.pristine">Cancel</button>&nbsp;
+        <button mat-raised-button (click)="buttonAction()" [disabled]="transactionForm.pristine">{{buttonName}}</button>&nbsp;
         <button mat-raised-button (mousedown)="goBack()">Back</button>
       </div>
     </div>
