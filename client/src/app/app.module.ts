@@ -46,6 +46,7 @@ import { ItemPriceSum } from "./pricesum.pipe";
 import { UIRouterModule } from "@uirouter/angular";
 import { NewtransactionComponent } from "./newtransaction/newtransaction.component";
 import { EdittransactionComponent } from './edittransaction/edittransaction.component';
+import { ValidateNumberDirective } from "./directives/validatenumber";
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { EdittransactionComponent } from './edittransaction/edittransaction.comp
     ChildetestComponent,
     ItemPriceSum,
     NewtransactionComponent,
-    EdittransactionComponent
+    EdittransactionComponent,
+    ValidateNumberDirective
   ],
   imports: [
     BrowserModule,

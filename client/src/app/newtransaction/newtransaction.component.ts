@@ -15,6 +15,7 @@ import { Router } from "@angular/router";
 import { PersistantValues } from "../models/helper";
 import { Observable, Subscription, of, BehaviorSubject, Subject } from "rxjs";
 import { MatSnackBar } from "@angular/material";
+import { ValidateNumberDirective } from "../directives/validatenumber";
 
 @Component({
   selector: "app-newtransaction",
@@ -78,22 +79,32 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   createForm(fb: FormBuilder) {
-    return fb.group({
-      // itemprice: "",
-      // itemdescription: "",
-      // transdate: "",
-      // store: "",
-      // upc: "",
-      // budget_id: ""
+    return fb.group(
+      {
+        // itemprice: "",
+        // itemdescription: "",
+        // transdate: "",
+        // store: "",
+        // upc: "",
+        // budget_id: ""
 
-      itemprice: ["", Validators.required],
-      itemdescription: "",
-      transdate: ["", Validators.required],
-      store: ["", Validators.required],
-      upc: ["", [Validators.required, Validators.minLength(12)]],
-      transId: "",
-      budget_id: ""
-    });
+        itemprice: ["", Validators.required],
+        itemdescription: "",
+        transdate: ["", Validators.required],
+        store: ["", Validators.required],
+        upc: [
+          "",
+          [
+            Validators.required,
+            Validators.minLength(12),
+            ValidateNumberDirective.validateNum
+          ]
+        ],
+        transId: "",
+        budget_id: ""
+      },
+      { updateOn: "blur" }
+    );
   }
 
   onSubmit() {
@@ -147,5 +158,17 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
   }
   buttonAction() {
     this.transactionForm.reset();
+  }
+  get upc() {
+    return this.transactionForm.get("upc");
+  }
+  get itemprice() {
+    return this.transactionForm.get("itemprice");
+  }
+  get transdate() {
+    return this.transactionForm.get("transdate");
+  }
+  get store() {
+    return this.transactionForm.get("store");
   }
 }
