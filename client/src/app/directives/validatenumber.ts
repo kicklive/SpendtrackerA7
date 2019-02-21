@@ -25,7 +25,7 @@ export class ValidateNumberDirective implements Validator {
     debugger;
     const isANumber = isNaN(control.value);
     if (isANumber) {
-      return { upcnum: "Please enter a valid upc." };
+      return { upcnum: "-1" };
     } else {
       return null;
     }

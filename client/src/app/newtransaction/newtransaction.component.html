@@ -50,8 +50,10 @@
         <div class="errorMsg" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="upc.errors?.required && upc.touched">UPC is required.</div>
     </div>
     <div class="errorMsg" fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
-        <div fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="upc.errors?.upcnum && upc.dirty">{{upc.errors.upcnum}}</div>
-
+        <div fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="upc.errors?.upcnum && upc.dirty">Please enter a valid UPC</div>
+    </div>
+    <div class="errorMsg" fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
+        <div fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="itemprice.errors?.upcnum && itemprice.dirty">Please enter a item price</div>
     </div>
   </form>
 </div>

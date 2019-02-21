@@ -160,7 +160,9 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
     this.transactionForm.reset();
   }
   get upc() {
-    return this.transactionForm.get("upc");
+    debugger;
+    const xx = this.transactionForm.get("upc");
+    return xx;
   }
   get itemprice() {
     return this.transactionForm.get("itemprice");
