@@ -23,13 +23,13 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    // debugger;
+     debugger;
     this.message = '';
     this.auth.login(this.credentials).subscribe((res) => {
       this.n.setNavBarState(false);
       this.n.setUserName('Hello, ' + this.auth.getUsername());
-      this.router.navigateByUrl('/ST', { skipLocationChange: true });
-    }, (err) => {// debugger;
+      //this.router.navigateByUrl('/ST', { skipLocationChange: true });
+    }, (err) => { debugger;
       console.log('this is the error==>' + err);
       this.message = "There was a problem with the registration. Contact administrator. " + err;
     });
