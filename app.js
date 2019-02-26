@@ -18,7 +18,7 @@ app.use(passport.initialize());
 
 // [SH] Use the API routes when path starts with /api
 console.log('in app.js');
-app.use('/',urlApi);
+//app.use('/',urlApi);
 app.use('/api', routesApi);
 
 // catch 404 and forward to error handler

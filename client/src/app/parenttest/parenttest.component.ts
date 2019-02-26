@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 
 @Component({
   selector: "app-parenttest",
-  //templateUrl: './parenttest.component.html',
+  // templateUrl: './parenttest.component.html',
   template: `
     <app-childetest (valueChanged)="displayCounter($event)"></app-childetest>
   `,

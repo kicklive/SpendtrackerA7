@@ -54,3 +54,6 @@ table {
     width: 50%;
     margin: auto;
 }
+.errorMsg {
+  color: red;
+}

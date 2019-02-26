@@ -84,7 +84,7 @@ export class AuthenticationService {
     // debugger;
     const request = base.pipe(
       map((data: TokenResponse) => {
-        // debugger;
+         debugger;
         if (data.token) {
           this.saveToken(data.token);
         }

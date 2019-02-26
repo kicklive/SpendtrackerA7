@@ -22,5 +22,9 @@ module.exports = function(app, config) {
     //matches to a file in the public directory, go ahead and server up that file
     // console.log("ex==>" + config.rootPath + '/client/dist');
     app.use(express.static(config.rootPath + 'client/dist/client'));
+    app.use("/",express.static(config.rootPath + 'client/dist/client'));
+    app.use("/history",express.static(config.rootPath + 'client/dist/client'));
+   
+    
 
 };
