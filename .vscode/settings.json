@@ -1,5 +1,6 @@
 {
     "editor.formatOnSave": false,
-        "editor.fontSize": 13
+        "editor.fontSize": 13,
+        "editor.fontFamily": "Menlo,Monaco,monospace,Arial,'Courier New'"
 
 }
