@@ -77,7 +77,7 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
       itemdescription: "",
       transdate: ["", Validators.required],
       store: ["", Validators.required],
-      upc: [{ value: "", disabled: true }],
+      upc: [{ value: "", disabled: true }, Validators.required],
       transId: "",
       budget_id: ""
     });
@@ -164,5 +164,19 @@ export class EdittransactionComponent implements OnInit, OnDestroy {
   buttonAction() {}
   isDisabled() {
     return true;
+  }
+  get upc() {
+    debugger;
+    const xx = this.transactionForm.get("upc");
+    return xx;
+  }
+  get itemprice() {
+    return this.transactionForm.get("itemprice");
+  }
+  get transdate() {
+    return this.transactionForm.get("transdate");
+  }
+  get store() {
+    return this.transactionForm.get("store");
   }
 }

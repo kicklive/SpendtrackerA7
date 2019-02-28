@@ -13,7 +13,7 @@
                         <td>
                             <mat-form-field class="example-full-width">
                                 <!-- <input type="text" matInput placeholder="Email Address" [(ngModel)]="credentials.email" name="email" required> -->
-                                <input matInput placeholder="Email Address" formGroupName="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && frm.email.errors }">
+                                <input matInput placeholder="Email Address" formGroupName="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && email.errors }">
                             </mat-form-field>
                         </td>
                     </tr>
@@ -21,7 +21,7 @@
                         <td>
                             <mat-form-field class="example-full-width">
                                 <!-- <input type="password" matInput placeholder="Password" [(ngModel)]="credentials.password" name="password" required> -->
-                                <input type="password" matInput placeholder="Password" formGroupName="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && frm.password.errors }">
+                                <input type="password" matInput placeholder="Password" formGroupName="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && password.errors }">
                             </mat-form-field>
                         </td>
                     </tr>
@@ -36,15 +36,12 @@
 
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button (click)="login()" color="primary">Login</button>
+            <button mat-raised-button (click)="login()" color="primary" [disabled]="!loginform.valid">Login</button>
         </mat-card-actions>
         <div>{{message}}</div>
-<<<<<<< HEAD
-        <div class="errorMsg" *ngIf="frm.email.errors.required">Email address is required</div>
-        <div class="errorMsg" *ngIf="frm.email.errors.email">Email address is not valid.</div>
-        <div class="errorMsg" *ngIf="frm.password.errors.required">Password is required</div>
-=======
->>>>>>> 0aa96400956e719c18567584d3934fe294f1e3bc
+        <div class="errorMsg" *ngIf="email.errors?.required && email.touched">Email address is required</div>
+        <div class="errorMsg" *ngIf="email.errors?.email">Email address is not valid.</div>
+        <div class="errorMsg" *ngIf="password.errors?.required && password.touched">Password is required</div>
     </mat-card>
 
 </div>

@@ -30,14 +30,16 @@ export class LoginComponent implements OnInit {
     private n: NavstateService,
     private fb: FormBuilder
   ) {
-    // this.loginform = this.createForm(fb);
+     this.loginform = this.createForm(fb);
   }
 
   login() {
-<<<<<<< HEAD
-    // if (this.loginform.invalid) {
-    //   return;
-    // }
+    debugger;
+    if (this.loginform.invalid) {
+      return;
+    }
+    this.credentials.email = this.email.value;
+    this.credentials.password=this.password.value;
     debugger;
     this.message = "";
     this.auth.login(this.credentials).subscribe(
@@ -55,36 +57,30 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl("/login");
       }
     );
-=======
-     debugger;
-    this.message = '';
-    this.auth.login(this.credentials).subscribe((res) => {
-      this.n.setNavBarState(false);
-      this.n.setUserName('Hello, ' + this.auth.getUsername());
-      //this.router.navigateByUrl('/ST', { skipLocationChange: true });
-    }, (err) => { debugger;
-      console.log('this is the error==>' + err);
-      this.message = "There was a problem with the registration. Contact administrator. " + err;
-    });
->>>>>>> 0aa96400956e719c18567584d3934fe294f1e3bc
   }
 
   ngOnInit() {
-    this.loginform = this.fb.group({
-      email: ["", Validators.required],
-      password: ["", [Validators.required, Validators.email]]
-    });
+    // this.loginform = this.fb.group({
+    //   email: ["", Validators.required],
+    //   password: ["", [Validators.required, Validators.email]]
+    // });
   }
-  // createForm(fb: FormBuilder) {
-  //   return fb.group(
-  //     {
-  //       email: ["", Validators.required],
-  //       password: ["", [Validators.required, Validators.email]]
-  //     },
-  //     { updateOn: "blur" }
-  //   );
+  createForm(fb: FormBuilder) {
+    return fb.group(
+      {
+        email: ["", [Validators.required,Validators.email]],
+        password: ["", Validators.required]
+      },
+      { updateOn: "blur" }
+    );
+  }
+  // get frm() {
+  //   return this.loginform.controls;
   // }
-  get frm() {
-    return this.loginform.controls;
+  get email() {
+    return this.loginform.get("email");
+  }
+  get password() {
+    return this.loginform.get("password");
   }
 }
