@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { DataresolveService } from "../services/dataresolve.service";
 import { PersistanceService } from "../services/persistance.service";
 import { PersistantValues } from "../models/helper";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar, _MatAutocompleteMixinBase } from "@angular/material";
 import { Observable, Subscription, of, BehaviorSubject, Subject } from "rxjs";
 
 @Component({
@@ -37,10 +37,14 @@ export class BudgetdetailsComponent implements OnInit, OnDestroy {
     "itemdescription",
     "store"
   ];
+
   private persistedBudgetId: string;
   private message: string;
   private tranId: string;
   private unsubscribe$ = new Subject();
+  private CCtypes: string[] = [];
+  
+
   // public messages<string>: any;
   constructor(
     private service: SharedService,
@@ -62,6 +66,7 @@ export class BudgetdetailsComponent implements OnInit, OnDestroy {
 
   GetDetails() {
     // debugger;
+    this.CCtypes=["Amex","Visa","Cash"];
     this.serviceSubscription = this.route.data.subscribe(
       ret => {
         debugger;
@@ -76,19 +81,17 @@ export class BudgetdetailsComponent implements OnInit, OnDestroy {
               "There was and issue saving the transaction. Contact administrator.";
           }
         );
+        debugger;
+        ret.data.BudgetType=this.CCtypes[ret.data.BudgetType];
         this.budgetDetails = ret.data;
         if (ret.data.Transactions.length > 0) {
           this.hasTransactions = true;
         }
         if (this.message !== "") {
           debugger;
-          this.snackBar.open(
-            this.message,
-            "Transaction saved successfully.",
-            {
-              duration: 2500
-            }
-          );
+          this.snackBar.open(this.message, "Transaction saved successfully.", {
+            duration: 2500
+          });
         }
       },
       transErr => {
