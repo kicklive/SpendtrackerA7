@@ -47,6 +47,7 @@ import { UIRouterModule } from "@uirouter/angular";
 import { NewtransactionComponent } from "./newtransaction/newtransaction.component";
 import { EdittransactionComponent } from './edittransaction/edittransaction.component';
 import { ValidateNumberDirective } from "./directives/validatenumber";
+import { ValidatecurrencyDirective } from './directives/validatecurrency.directive';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { ValidateNumberDirective } from "./directives/validatenumber";
     ItemPriceSum,
     NewtransactionComponent,
     EdittransactionComponent,
-    ValidateNumberDirective
+    ValidateNumberDirective,
+    ValidatecurrencyDirective,
   ],
   imports: [
     BrowserModule,

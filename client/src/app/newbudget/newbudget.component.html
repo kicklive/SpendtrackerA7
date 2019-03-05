@@ -1,43 +1,74 @@
 <div class="container">
-    <mat-card class="example-card">
-<mat-card-content>
-    <table class="example-full-width">
-      <tr>
-        <td>
-          <!-- <mat-form-field class="example-full-width">
-            <input matInput [matDatepicker]="BudgetStartDate" placeholder="Budget Start Date" [(ngModel)]="nb.BudgetStartDate"
-              name="BudgetStartDate">
-          </mat-form-field> -->
-          <mat-form-field class="example-full-width">
-							<input type="text" matInput placeholder="BudgetStartDate" [(ngModel)]="nb.BudgetStartDate" name="BudgetStartDate" required>
-						</mat-form-field>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <mat-form-field class="example-full-width">
-            <input matInput [matDatepicker]="BudgetEndDate" placeholder="Budget End Date" [(ngModel)]="nb.BudgetEndDate"
-              name="BudgetEndDate">
-          </mat-form-field>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <mat-form-field class="example-full-width">
-            <input matInput type="text" placeholder="Budget Amount" [(ngModel)]="nb.BudgetAmount" name="BudgetAmount">
-          </mat-form-field>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <mat-form-field class="example-full-width">
-            <mat-select placeholder="Select Type" [(ngModel)]="nb.BudgetType" name="BudgetType">
-              <mat-option *ngFor="let b of nb.budgetTypes" [value]="b.value">{{nb.text}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </td>
-      </tr>
-    </table>
-  </mat-card-content>
-    </mat-card>
-</div>
+    <h3>New Budget</h3>
+    <form class="example-form" [formGroup]="newBudgetForm" (ngSubmit)="saveBudget()">
+      <mat-card class="example-card">
+        <mat-card-content>
+  
+          <table class="example-full-width">
+            <tr>
+              <td>
+                <!-- <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="BudgetStartDate" placeholder="Budget Start Date" [(ngModel)]="nb.BudgetStartDate"
+                  name="BudgetStartDate">
+              </mat-form-field> -->
+                <mat-form-field class="example-full-width">
+                  <input matInput [matDatepicker]="picker1" matInput placeholder="BudgetStartDate" formGroupName="BudgetStartDate"
+                    formControlName="BudgetStartDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                  <input matInput [matDatepicker]="picker2" placeholder="Budget End Date" formGroupName="BudgetEndDate"
+                    formControlName="BudgetEndDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                  <input matInput type="text" placeholder="Budget Amount" formGroupName="BudgetAmount" formControlName="BudgetAmount" (keyup)="convertCurrency$.next($event.target.value)">
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Select Type" formGroupName="BudgetType" formControlName="BudgetType">
+                    <mat-option *ngFor="let b of budgetTypes" [value]="b.value">{{b.text}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+  
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button (click)="saveBudget()" color="primary" [disabled]="!newBudgetForm.valid">Login</button>
+        </mat-card-actions>
+        <div class="errorMsg" *ngIf="BudgetStartDate.errors?.required && BudgetStartDate.touched">Budget Start Date is
+          required.</div>
+        <div class="errorMsg" *ngIf="BudgetEndDate.errors?.required && BudgetEndDate.touched">Budget End Date is
+          required.</div>
+        <div class="errorMsg" *ngIf="BudgetEndDate.errors?.invaliddate && BudgetEndDate.dirty">Please enter a valid End
+          Date.</div>
+        <div class="errorMsg" *ngIf="BudgetStartDate.errors?.invaliddate && BudgetStartDate.dirty">Please enter a valid
+          Start Date.</div>
+        <div class="errorMsg" *ngIf="BudgetAmount.errors?.required && BudgetAmount.touched">Please enter a valid Start
+          Date.</div>
+        <div class="errorMsg" *ngIf="BudgetAmount.errors?.upcnum && BudgetAmount.dirty">Please enter a valid Budget
+          Amount.</div>
+        <div class="errorMsg" *ngIf="BudgetType.errors?.required && BudgetType.touched">Please select a Budget Type.</div>
+      </mat-card>
+    </form>
+  </div>
+  

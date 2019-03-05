@@ -42,7 +42,7 @@ export class ValidateDateDirective implements Validator {
     const now = new Date();
     // Validate year and month
     if (year < now.getFullYear() || year > 3000 || month === 0 || month > 12) {
-      return invalidObj;
+      return { invaliddate: invalidObj };
     }
     // Adjust for leap years
     if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0)) {
@@ -50,14 +50,14 @@ export class ValidateDateDirective implements Validator {
     }
     // Validate day
     if (!(day > 0 && day <= monthLengthArr[month - 1])) {
-      return invalidObj;
+      return { invaliddate: invalidObj };
     }
     // If date is properly formatted, check the date vs today to ensure future
     // This is done this way to account for new Date() shifting invalid
     // date strings. This way we know the string is a correct date first.
     const date = new Date(dateStr);
     if (date <= now) {
-      return invalidObj;
+      return { invaliddate: invalidObj };
     }
     return null;
 

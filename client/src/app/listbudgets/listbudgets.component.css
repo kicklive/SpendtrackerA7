@@ -10,7 +10,7 @@
     margin-top: 2%;
     width: 100%;
     display: flex;
-    background-color: #efefef;
+  
 }
 
 .example-container {
@@ -53,4 +53,22 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 tr.example-detail-row {
     height: 0;
+}
+
+.containter {
+display: flex;
+width: 90%;
+margin: auto;
+}
+
+.header {
+width: 95%;
+margin: 0 auto;
+}
+
+.example-container {
+height: 20px;
+overflow: auto;
+margin: auto;
+width: 50%;
 }

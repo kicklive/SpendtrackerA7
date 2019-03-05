@@ -43,7 +43,7 @@ export class BudgetdetailsComponent implements OnInit, OnDestroy {
   private tranId: string;
   private unsubscribe$ = new Subject();
   private CCtypes: string[] = [];
-  
+  private show = true;
 
   // public messages<string>: any;
   constructor(
@@ -66,7 +66,7 @@ export class BudgetdetailsComponent implements OnInit, OnDestroy {
 
   GetDetails() {
     // debugger;
-    this.CCtypes=["Amex","Visa","Cash"];
+    this.CCtypes = ["Amex", "Visa", "Cash"];
     this.serviceSubscription = this.route.data.subscribe(
       ret => {
         debugger;
@@ -82,8 +82,11 @@ export class BudgetdetailsComponent implements OnInit, OnDestroy {
           }
         );
         debugger;
-        ret.data.BudgetType=this.CCtypes[ret.data.BudgetType];
+        ret.data.BudgetType = this.CCtypes[ret.data.BudgetType];
         this.budgetDetails = ret.data;
+        if (ret.data.BudgetStatus === "Closed") {
+          this.show = false;
+        }
         if (ret.data.Transactions.length > 0) {
           this.hasTransactions = true;
         }
@@ -127,5 +130,8 @@ export class BudgetdetailsComponent implements OnInit, OnDestroy {
     this.pv.BudgetId = this.persistedBudgetId;
     this.ps.changeMsg(this.pv);
     this.router.navigateByUrl(url);
+  }
+  goBack() {
+    this.router.navigateByUrl("/listbudgets");
   }
 }
