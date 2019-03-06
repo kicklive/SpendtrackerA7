@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     private n: NavstateService,
     private fb: FormBuilder
   ) {
-     this.loginform = this.createForm(fb);
+    this.loginform = this.createForm(fb);
   }
 
   login() {
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.credentials.email = this.email.value;
-    this.credentials.password=this.password.value;
+    this.credentials.password = this.password.value;
     debugger;
     this.message = "";
     this.auth.login(this.credentials).subscribe(
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
   createForm(fb: FormBuilder) {
     return fb.group(
       {
-        email: ["", [Validators.required,Validators.email]],
+        email: ["", [Validators.required, Validators.email]],
         password: ["", Validators.required]
       },
       { updateOn: "blur" }

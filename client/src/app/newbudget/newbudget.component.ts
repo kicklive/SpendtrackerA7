@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Budgetdata } from "../models/budgetdata";
+import { Budgetdata,BudgetdataInput} from "../models/budgetdata";
 import { BudgetDataService } from "../services/budget-data.service";
 import { Router } from "@angular/router";
 import { buildDriverProvider } from "protractor/built/driverProviders";
@@ -14,6 +14,8 @@ import { ValidateDateDirective } from "../directives/validatedate";
 import { CurrencyPipe } from "@angular/common";
 import { Observable, Subscription, of, BehaviorSubject, Subject } from "rxjs";
 import { first } from "rxjs/operators";
+import { MatSnackBar } from "@angular/material";
+import { PersistantValues } from "../models/helper";
 
 export interface BudgetType {
   text: string;
@@ -33,25 +35,41 @@ export class NewbudgetComponent implements OnInit {
     BudgetStatus: "",
     BudgetType: ""
   };
+
+  bd: BudgetdataInput = {
+    BudgetStartDate: "",
+    BudgetEndDate: "",
+    BudgetAmount: "",
+    BudgetType: ""
+  };
   budgetTypes: BudgetType[] = [
     { text: "Amex", value: "1" },
     { text: "Visa", value: "2" },
     { text: "MC", value: "3" },
     { text: "Cash", value: "4" }
   ];
+
+  public pv: PersistantValues = {
+    BudgetId: "",
+    message: "",
+    transId: ""
+  };
   newBudgetForm: FormGroup;
   convertCurrency$ = new Subject<string>();
   constructor(
     private ds: BudgetDataService,
     private route: Router,
-    private fb: FormBuilder //
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
   ) {
     this.newBudgetForm = this.createForm(fb);
-
+    let firstChar: any;
     this.convertCurrency$.subscribe(ret => {
+      debugger;
       if (ret.length > 0) {
-        const firstChar = ret.substring(0, 1);
-        if (firstChar !== "$" && Number(firstChar) !== NaN) {
+        firstChar = ret.substring(0, 1);
+        if (firstChar !== "$" && !isNaN(firstChar)) {
+          debugger;
           const currencyNum = new CurrencyPipe("en-US").transform(
             ret,
             "USD",
@@ -95,6 +113,23 @@ export class NewbudgetComponent implements OnInit {
         [Validators.required, ValidatecurrencyDirective.validateCurrency]
       ],
       BudgetType: ["", Validators.required]
+    });
+  }
+  saveBudget() {
+    debugger;
+    if (this.newBudgetForm.invalid) {
+      this.snackBar.open("Failure", "Please complete the reqiuired fields.", {
+        duration: 2500
+      });
+      return;
+    }
+    const ret: BudgetdataInput = Object.assign({}, this.newBudgetForm.value);
+    this.ds.SaveBudgetData(ret).subscribe(res => {
+      if (res.ret === "success") {
+        debugger;
+        this.pv.message = res.ret;
+        this.route.navigateByUrl("/listbudgets");
+      }
     });
   }
   get BudgetStartDate() {

@@ -5,11 +5,11 @@ var Transactions = require('../models/transactions.js');
 var Product = require('../models/product.js');
 //var nodedate = require("node-datetime");
 
-module.exports = function(app, config) {
-    app.get("/data/budgetlist", function(req, res) {
+module.exports = function (app, config) {
+    app.get("/data/budgetlist", function (req, res) {
         console.log('heree');
         ////debugger;
-        Budget.find(function(err, ret) {
+        Budget.find(function (err, ret) {
             if (err)
                 res.send(err);
             ////debugger;
@@ -18,11 +18,11 @@ module.exports = function(app, config) {
     });
 
 
-    app.get("/data/getdetails/", function(req, res, next) {
+    app.get("/data/getdetails/", function (req, res, next) {
         console.log("getdetails==>" + req.query.id)
         Budget.findOne({
             _id: req.query.id
-        }).populate('Transactions').exec(function(err, ret) {
+        }).populate('Transactions').exec(function (err, ret) {
             if (err) {
                 console.log("saved==>" + err.message)
                 return next();
@@ -30,11 +30,11 @@ module.exports = function(app, config) {
             res.send(ret);
         });
     });
-    app.get("/data/gettrandetails/", function(req, res) {
+    app.get("/data/gettrandetails/", function (req, res) {
         console.log(req.query.id)
         Transactions.findOne({
             _id: req.query.id
-        }, function(err, data) {
+        }, function (err, data) {
             if (err) {
                 res.send(err);
             }
@@ -43,10 +43,10 @@ module.exports = function(app, config) {
     });
 
 
-    app.post("/data/SaveBudget", function(req, res) {
+    app.post("/data/SaveBudget", function (req, res) {
         ////debugger;
-        var startDate = new Date(req.body.startdate);
-        var endDate = new Date(req.body.enddate);
+        var startDate = new Date(req.body.BudgetStartDate);
+        var endDate = new Date(req.body.BudgetEndDate);
         var status;
         var today = new Date();
         if (startDate > today)
@@ -54,30 +54,40 @@ module.exports = function(app, config) {
         else
             status = 'Open';
 
-        console.log('startDate==>' + req.body.startdate);
-        console.log('startDatex==>' + startDate);
+        console.log('startDate==>' + req.body.BudgetStartDate);
+        console.log('startDateyyyx==>' + startDate);
+        console.log('aaa==>');
+        console.log('bbb==>' + req.body.BudgetType);
 
         Budget.create({
                 BudgetStartDate: startDate,
                 BudgetEndDate: endDate,
-                BudgetAmount: req.body.budgetamt,
+                BudgetAmount: req.body.BudgetAmount,
                 BudgetStatus: status,
-                BudgetType: req.body.budgetType.selectedOption.id
+                BudgetType: +req.body.BudgetType
             },
-            function(err, budget) {
+            function (err, budget) {
                 if (err) {
+                    console.log("err===>" + err);
                     res.send(err);
                 }
-                Budget.find(function(err, budgets) {
-                    if (err) {
-                        res.send(err);
-                    }
-                    res.json(budgets);
+                console.log("here===>" + budget);
+                res.json({
+                    //'ret': 'success'
                 });
+                // Budget.find(function(err, budgets) {
+                //     if (err) {
+                //         console.log("err2===>"+err);
+                //         res.send(err);
+                //     }
+                //     //res.json(budgets);
+                //     console.log("here===>"+budget);
+                //     res.json({ 'ret': 'success' });
+                // });
             });
     });
 
-    app.post("/data/SaveTransaction", function(req, res, next) {
+    app.post("/data/SaveTransaction", function (req, res, next) {
         console.log('dfsddas');
         Transactions.create({
                 itemdescription: req.body.itemdescription,
@@ -85,21 +95,21 @@ module.exports = function(app, config) {
                 transdate: req.body.transdate,
                 store: req.body.store,
                 upc: req.body.upc
-                    //BudgetId: req.body.budgetId
+                //BudgetId: req.body.budgetId
             },
-            function(err, NewTrans) {
+            function (err, NewTrans) {
                 if (err) {
-                    res.send('ERROR 1===>'+ err);
+                    res.send('ERROR 1===>' + err);
                 }
-               // console.log(Budget);
+                // console.log(Budget);
                 Budget.findOne({
                         _id: req.body.budget_id
                     },
-                    function(err, ret) {
+                    function (err, ret) {
                         console.log('HEEEERREE========>' + req.body.itemdescription);
                         console.log('HEEEERREE========>' + NewTrans.upc);
                         ret.Transactions.push(NewTrans);
-                        ret.save(function(err, ret) {
+                        ret.save(function (err, ret) {
                             if (err) {
                                 return next(err);
                                 console.log('err here')
@@ -109,13 +119,15 @@ module.exports = function(app, config) {
                                 UPC: req.body.upc,
                                 Price: req.body.itemprice
                             });
-                            prod.save(function(prodSaveErr, ret) {
+                            prod.save(function (prodSaveErr, ret) {
                                 if (prodSaveErr) {
                                     console.log("prod error==>" + prodSaveErr)
                                     return next(prodSaveErr);
                                 }
-                                console.log('HEEEERREE SAVED========>success' );
-                                res.json({ 'ret': 'success' });
+                                console.log('HEEEERREE SAVED========>success');
+                                res.json({
+                                    'ret': 'success'
+                                });
                             });
 
 
@@ -133,11 +145,11 @@ module.exports = function(app, config) {
             });
     });
 
-    app.post("/data/addproduct", function(req, res, next) {
+    app.post("/data/addproduct", function (req, res, next) {
         var id;
         Product.findOne({
             UPC: req.body.UPC
-        }, function(err, ret) {
+        }, function (err, ret) {
             if (err)
                 return next();
             else {
@@ -149,12 +161,14 @@ module.exports = function(app, config) {
                     UPC: req.body.UPC,
                     Price: req.body.Price
                 });
-                prod.save(function(err, ret) {
+                prod.save(function (err, ret) {
                     if (err) {
                         console.log("saved==>" + err)
                         return next(err);
                     }
-                    res.json({ 'ret': 'success' });
+                    res.json({
+                        'ret': 'success'
+                    });
                 });
             }
 
@@ -204,7 +218,7 @@ module.exports = function(app, config) {
 
     // }
 
-    app.put("/data/updatetransaction", function(req, res) {
+    app.put("/data/updatetransaction", function (req, res) {
         console.log("updated id=" + req.body.transId)
         console.log("update field id=" + req.body.store)
         Transactions.findByIdAndUpdate(req.body.transId, {
@@ -215,18 +229,20 @@ module.exports = function(app, config) {
                 store: req.body.store,
                 upc: req.body.upc
             }
-        }, function(err, ret) {
+        }, function (err, ret) {
             if (err) {
                 console.log('err here')
                 return next(err);
             } else {
-                res.json({ 'ret': 'success' });
+                res.json({
+                    'ret': 'success'
+                });
             }
         });
 
     });
 
-    app.put("/data/updatestatus/:id", function(req, res) {
+    app.put("/data/updatestatus/:id", function (req, res) {
         console.log("heeeeeereeX-->" + req.params.id);
         Budget.findByIdAndUpdate(req.params.id, {
                 $set: {
@@ -235,7 +251,7 @@ module.exports = function(app, config) {
             }, {
                 new: true
             },
-            function(err, ret) {
+            function (err, ret) {
                 if (err) {
                     res.send(err);
                     console.log('err here')
@@ -245,22 +261,31 @@ module.exports = function(app, config) {
 
     });
 
-    app.put("/data/updatestatusall/", function(req, res) {
+    app.put("/data/updatestatusall/", function (req, res) {
         var bulk = Budget.collection.initializeOrderedBulkOp();
         console.log("bulk==>" + bulk);
         var todaysDate = new Date();
 
-        bulk.find({ 'BudgetEndDate': { $lt: todaysDate } }).update({
+        bulk.find({
+            'BudgetEndDate': {
+                $lt: todaysDate
+            }
+        }).update({
             $set: {
                 BudgetStatus: 'Closed'
             }
         });
-        bulk.find({ 'BudgetStartDate': { $lte: todaysDate }, 'BudgetStatus': 'Future' }).update({
+        bulk.find({
+            'BudgetStartDate': {
+                $lte: todaysDate
+            },
+            'BudgetStatus': 'Future'
+        }).update({
             $set: {
                 BudgetStatus: 'Open'
             }
         });
-        bulk.execute(function(err, ret) {
+        bulk.execute(function (err, ret) {
             if (err) {
                 console.log("bulk err==>" + err);
                 //res.send(err);
@@ -271,11 +296,11 @@ module.exports = function(app, config) {
         });
     });
 
-    app.get("/data/deletetransaction", function(req, res, next) {
+    app.get("/data/deletetransaction", function (req, res, next) {
         console.log("In deletetrans")
         Transactions.findByIdAndRemove({
             _id: req.query.id
-        }, function(err, ret) {
+        }, function (err, ret) {
             if (err) {
                 console.log(err);
                 return next(err);
@@ -286,11 +311,11 @@ module.exports = function(app, config) {
     })
 
 
-    app.get("/data/itemsearch", function(req, res, next) {
+    app.get("/data/itemsearch", function (req, res, next) {
         console.log(req.query.id)
         Product.findOne({
             UPC: req.query.id
-        }, function(err, data) {
+        }, function (err, data) {
             if (err) {
                 console.log('error===>' + err.message)
                 err.httpStatusCode = 500; //change to another number
@@ -299,9 +324,9 @@ module.exports = function(app, config) {
             res.json(data);
         });
     });
-    app.get("/data/searchallitems", function(req, res) {
+    app.get("/data/searchallitems", function (req, res) {
         console.log(req.query.id)
-        Product.find({}, function(err, data) {
+        Product.find({}, function (err, data) {
             if (err) {
                 res.send(err);
             }
@@ -310,8 +335,12 @@ module.exports = function(app, config) {
         });
     });
 
-    app.get('/data/AllHistory', function(req, res) {
-        Transactions.find({}).sort({ transdate: -1, upc: 1, store: 1 }).exec(function(err, data) {
+    app.get('/data/AllHistory', function (req, res) {
+        Transactions.find({}).sort({
+            transdate: -1,
+            upc: 1,
+            store: 1
+        }).exec(function (err, data) {
             if (err) {
                 res.send(err);
             }
@@ -319,25 +348,33 @@ module.exports = function(app, config) {
         })
     });
 
-    app.get('/data/HistoryByDateRange', function(req, res) {
+    app.get('/data/HistoryByDateRange', function (req, res) {
         console.log('sd==>' + req.query.startdate)
-            //  console.log('new sd==>' + new Date(req.query.startdate))
+        //  console.log('new sd==>' + new Date(req.query.startdate))
         Transactions.find({
             transdate: {
                 $gte: new Date(req.query.startdate).toISOString(),
                 $lte: new Date(req.query.enddate).toISOString()
             }
-        }).sort({ transdate: -1, upc: 1, store: 1 }).exec(function(err, data) {
+        }).sort({
+            transdate: -1,
+            upc: 1,
+            store: 1
+        }).exec(function (err, data) {
             if (err) {
                 res.send(err);
             }
             res.json(data);
         });
     });
-    app.get('/data/HistoryByUPC', function(req, res) {
+    app.get('/data/HistoryByUPC', function (req, res) {
         Transactions.find({
             upc: req.query.upc
-        }).sort({ transdate: -1, upc: 1, store: 1 }).exec(function(err, data) {
+        }).sort({
+            transdate: -1,
+            upc: 1,
+            store: 1
+        }).exec(function (err, data) {
             if (err) {
                 res.send(err);
             }
@@ -345,11 +382,11 @@ module.exports = function(app, config) {
         });
     });
 
-    app.get('/data/itemsearchbyid', function(req, res, next) {
+    app.get('/data/itemsearchbyid', function (req, res, next) {
         console.log("productID==>" + req.query.id)
         Product.find({
             _id: req.query.id
-        }).exec(function(err, data) {
+        }).exec(function (err, data) {
             if (err) {
                 return next(err);
             }
@@ -357,11 +394,11 @@ module.exports = function(app, config) {
         });
     });
 
-    app.get("/data/deleteproduct", function(req, res, next) {
+    app.get("/data/deleteproduct", function (req, res, next) {
         console.log("In deleteproduct")
         Product.findByIdAndRemove({
             _id: req.query.id
-        }, function(err, ret) {
+        }, function (err, ret) {
             if (err) {
                 console.log(err);
                 return next(err);
@@ -371,7 +408,7 @@ module.exports = function(app, config) {
         });
     })
 
-    app.put("/data/updateproduct", function(req, res, next) {
+    app.put("/data/updateproduct", function (req, res, next) {
         console.log("In updateproduct");
         Product.findByIdAndUpdate(req.body.id, {
             $set: {
@@ -380,7 +417,7 @@ module.exports = function(app, config) {
             }
         }, {
             new: true
-        }, function(err, ret) {
+        }, function (err, ret) {
             if (err) {
                 console.log(err);
                 return next(err);
@@ -390,7 +427,7 @@ module.exports = function(app, config) {
     })
 
 
-    app.put("/data/updatestatus/:id", function(req, res) {
+    app.put("/data/updatestatus/:id", function (req, res) {
         console.log("heeeeeereeX-->" + req.params.id);
         Budget.findByIdAndUpdate(req.params.id, {
                 $set: {
@@ -399,7 +436,7 @@ module.exports = function(app, config) {
             }, {
                 new: true
             },
-            function(err, ret) {
+            function (err, ret) {
                 if (err) {
                     res.send(err);
                     console.log('err here')
@@ -410,7 +447,7 @@ module.exports = function(app, config) {
     });
 
 
-    app.get('/data/Trends', function(req, res) {
+    app.get('/data/Trends', function (req, res) {
         var maxCount = 0;
         var totalBudgeted = 0;
         var totalSpent = 0;
@@ -426,55 +463,226 @@ module.exports = function(app, config) {
             },
             {
                 $facet: {
-                    "Budgeted": [
-                        { $group: { _id: null, total: { $sum: { $sum: '$BudgetAmount' } } } },
-                        { $project: { '_id': 0, totalbudget: '$total' } }
+                    "Budgeted": [{
+                            $group: {
+                                _id: null,
+                                total: {
+                                    $sum: {
+                                        $sum: '$BudgetAmount'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                totalbudget: '$total'
+                            }
+                        }
                     ],
-                    "Spent": [
-                        { $unwind: '$trans' },
-                        { $project: { '_id': 0, t: '$trans' } },
-                        { $group: { _id: '$t.store', total: { $sum: { $sum: '$t.itemprice' } } } },
-                        { $project: { '_id': 0, total: '$total' } },
-                        { $group: { _id: null, totalspent: { $sum: { $sum: '$total' } } } },
-                        { $project: { '_id': 0, totalspent: '$totalspent' } },
+                    "Spent": [{
+                            $unwind: '$trans'
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                t: '$trans'
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: '$t.store',
+                                total: {
+                                    $sum: {
+                                        $sum: '$t.itemprice'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                total: '$total'
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: null,
+                                totalspent: {
+                                    $sum: {
+                                        $sum: '$total'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                totalspent: '$totalspent'
+                            }
+                        },
                     ],
-                    "TopMonth": [
-                        { $unwind: '$trans' },
-                        { $project: { '_id': 0, t: '$trans' } },
-                        { $group: { _id: { $month: '$t.transdate' }, total: { $sum: { $sum: '$t.itemprice' } } } },
-                        { $project: { '_id': 0, 'month': '$_id', 'total': { $max: '$total' } } },
-                        { $sort: { 'total': -1 } }
+                    "TopMonth": [{
+                            $unwind: '$trans'
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                t: '$trans'
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: {
+                                    $month: '$t.transdate'
+                                },
+                                total: {
+                                    $sum: {
+                                        $sum: '$t.itemprice'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                'month': '$_id',
+                                'total': {
+                                    $max: '$total'
+                                }
+                            }
+                        },
+                        {
+                            $sort: {
+                                'total': -1
+                            }
+                        }
                     ],
-                    "LowMonth": [
-                        { $unwind: '$trans' },
-                        { $project: { '_id': 0, t: '$trans' } },
-                        { $group: { _id: { $month: '$t.transdate' }, total: { $sum: { $sum: '$t.itemprice' } } } },
-                        { $project: { '_id': 0, 'month': '$_id', 'total': { $max: '$total' } } },
-                        { $sort: { 'total': 1 } }
+                    "LowMonth": [{
+                            $unwind: '$trans'
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                t: '$trans'
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: {
+                                    $month: '$t.transdate'
+                                },
+                                total: {
+                                    $sum: {
+                                        $sum: '$t.itemprice'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                'month': '$_id',
+                                'total': {
+                                    $max: '$total'
+                                }
+                            }
+                        },
+                        {
+                            $sort: {
+                                'total': 1
+                            }
+                        }
                     ],
-                    "OverSpent": [
-                        { $project: { '_id': 0, 'budgetamount': '$BudgetAmount', 'budgetstartdate': '$BudgetStartDate', 'budgetenddate': '$BudgetEndDate', 'totalspent': { $sum: '$trans.itemprice' } } },
-                        { $project: { '_id': 0, 'budgetamount': '$budgetamount', 'budgetstartdate': '$budgetstartdate', 'budgetenddate': '$budgetenddate', 'ts': '$totalspent' } },
-                        { $project: { '_id': 0, 'budgetamount': '$budgetamount', 'budgetstartdate': '$budgetstartdate', 'budgetenddate': '$budgetenddate', 'totalspent': '$ts', 'cmp': { $cmp: ['$ts', '$budgetamount'] } } },
-                        { $match: { cmp: { $gt: 0 } } }
+                    "OverSpent": [{
+                            $project: {
+                                '_id': 0,
+                                'budgetamount': '$BudgetAmount',
+                                'budgetstartdate': '$BudgetStartDate',
+                                'budgetenddate': '$BudgetEndDate',
+                                'totalspent': {
+                                    $sum: '$trans.itemprice'
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                'budgetamount': '$budgetamount',
+                                'budgetstartdate': '$budgetstartdate',
+                                'budgetenddate': '$budgetenddate',
+                                'ts': '$totalspent'
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                'budgetamount': '$budgetamount',
+                                'budgetstartdate': '$budgetstartdate',
+                                'budgetenddate': '$budgetenddate',
+                                'totalspent': '$ts',
+                                'cmp': {
+                                    $cmp: ['$ts', '$budgetamount']
+                                }
+                            }
+                        },
+                        {
+                            $match: {
+                                cmp: {
+                                    $gt: 0
+                                }
+                            }
+                        }
                     ],
-                    "MostActivity": [
-                        { $project: { '_id': 0, 'totalspent': '$trans.store' } },
-                        { $unwind: '$totalspent' },
-                        { $group: { _id: '$totalspent', count: { $sum: 1 } } },
+                    "MostActivity": [{
+                            $project: {
+                                '_id': 0,
+                                'totalspent': '$trans.store'
+                            }
+                        },
+                        {
+                            $unwind: '$totalspent'
+                        },
+                        {
+                            $group: {
+                                _id: '$totalspent',
+                                count: {
+                                    $sum: 1
+                                }
+                            }
+                        },
                         {
                             $project: {
                                 '_id': 0,
                                 'store': '$_id',
-                                'count': { $max: '$count' },
+                                'count': {
+                                    $max: '$count'
+                                },
                             }
                         },
-                        { $sort: { 'count': -1 } }
+                        {
+                            $sort: {
+                                'count': -1
+                            }
+                        }
                     ],
-                    "StoresVisited": [
-                        { $project: { '_id': 0, 'totalspent': '$trans.store' } },
-                        { $unwind: '$totalspent' },
-                        { $group: { _id: '$totalspent', count: { $sum: 1 } } },
+                    "StoresVisited": [{
+                            $project: {
+                                '_id': 0,
+                                'totalspent': '$trans.store'
+                            }
+                        },
+                        {
+                            $unwind: '$totalspent'
+                        },
+                        {
+                            $group: {
+                                _id: '$totalspent',
+                                count: {
+                                    $sum: 1
+                                }
+                            }
+                        },
                         {
                             $project: {
                                 '_id': 0,
@@ -482,31 +690,110 @@ module.exports = function(app, config) {
                             }
                         },
                     ],
-                    "TopSpendingStore": [
-                        { $project: { '_id': 0, 't': '$trans' } },
-                        { $unwind: '$t' },
-                        { $group: { _id: '$t.store', total: { $sum: '$t.itemprice' } } },
-                        { $sort: { 'total': -1 } },
-                        { $project: { '_id': 0, 'store': '$_id', 'totalspent': '$total' } },
-                        { $limit: 1 }
+                    "TopSpendingStore": [{
+                            $project: {
+                                '_id': 0,
+                                't': '$trans'
+                            }
+                        },
+                        {
+                            $unwind: '$t'
+                        },
+                        {
+                            $group: {
+                                _id: '$t.store',
+                                total: {
+                                    $sum: '$t.itemprice'
+                                }
+                            }
+                        },
+                        {
+                            $sort: {
+                                'total': -1
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                'store': '$_id',
+                                'totalspent': '$total'
+                            }
+                        },
+                        {
+                            $limit: 1
+                        }
                     ],
-                    "SpendingByPaymentType": [
-                        { $project: { '_id': '$_id', 'BudgetType': '$BudgetType', 't': '$trans' } },
-                        { $unwind: '$t' },
-                        { $group: { _id: '$BudgetType', total: { $sum: '$t.itemprice' } } },
-                        { $project: { '_id': 0, 'BudgetType': '$_id', 'total': '$total' } },
-                        { $sort: { 'total': -1 } },
+                    "SpendingByPaymentType": [{
+                            $project: {
+                                '_id': '$_id',
+                                'BudgetType': '$BudgetType',
+                                't': '$trans'
+                            }
+                        },
+                        {
+                            $unwind: '$t'
+                        },
+                        {
+                            $group: {
+                                _id: '$BudgetType',
+                                total: {
+                                    $sum: '$t.itemprice'
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                'BudgetType': '$_id',
+                                'total': '$total'
+                            }
+                        },
+                        {
+                            $sort: {
+                                'total': -1
+                            }
+                        },
                     ],
-                    "AvgSpentPerStore": [
-                        { $project: { '_id': 0, 't': '$trans' } },
-                        { $unwind: '$t' },
-                        { $group: { _id: '$t.store', total: { $sum: '$t.itemprice' }, visitsperstore: { $sum: 1 } } },
-                        { $sort: { 'total': -1 } },
-                        { $project: { '_id': 0, 'store': '$_id', 'totalspent': '$total', 'avgspentpervist': { $divide: ['$total', '$visitsperstore'] }, 'numvisits': '$visitsperstore' } },
+                    "AvgSpentPerStore": [{
+                            $project: {
+                                '_id': 0,
+                                't': '$trans'
+                            }
+                        },
+                        {
+                            $unwind: '$t'
+                        },
+                        {
+                            $group: {
+                                _id: '$t.store',
+                                total: {
+                                    $sum: '$t.itemprice'
+                                },
+                                visitsperstore: {
+                                    $sum: 1
+                                }
+                            }
+                        },
+                        {
+                            $sort: {
+                                'total': -1
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                'store': '$_id',
+                                'totalspent': '$total',
+                                'avgspentpervist': {
+                                    $divide: ['$total', '$visitsperstore']
+                                },
+                                'numvisits': '$visitsperstore'
+                            }
+                        },
                     ]
                 }
             }
-        ]).exec(function(err, ret) {
+        ]).exec(function (err, ret) {
             if (err) {
                 res.send(err);
             }
@@ -514,7 +801,7 @@ module.exports = function(app, config) {
         });
     });
 
-    app.get('/data/TrendsByMonth', function(req, res) {
+    app.get('/data/TrendsByMonth', function (req, res) {
         var maxCount = 0;
         var totalBudgeted = 0;
         var totalSpent = 0;
@@ -539,10 +826,22 @@ module.exports = function(app, config) {
                                 amount: '$BudgetAmount',
                                 status: '$BudgetStatus',
                                 'type': '$BudgetType',
-                                daysinbudget: { $divide: [{ $subtract: ['$BudgetEndDate', '$BudgetStartDate'] }, { $multiply: [24, 60, 60, 1000] }] },
-                                startmonth: { $month: '$BudgetStartDate' },
-                                endmonth: { $month: '$BudgetEndDate' },
-                                yr: { $year: '$BudgetStartDate' },
+                                daysinbudget: {
+                                    $divide: [{
+                                        $subtract: ['$BudgetEndDate', '$BudgetStartDate']
+                                    }, {
+                                        $multiply: [24, 60, 60, 1000]
+                                    }]
+                                },
+                                startmonth: {
+                                    $month: '$BudgetStartDate'
+                                },
+                                endmonth: {
+                                    $month: '$BudgetEndDate'
+                                },
+                                yr: {
+                                    $year: '$BudgetStartDate'
+                                },
                                 trans: '$trans'
                             },
                         },
@@ -555,9 +854,15 @@ module.exports = function(app, config) {
                                 status: '$status',
                                 type: '$type',
                                 daysinbudget: '$daysinbudget',
-                                startmonth: { $toString: '$startmonth' },
-                                endmonth: { $toString: '$endmonth' },
-                                yr: { $toString: '$yr' },
+                                startmonth: {
+                                    $toString: '$startmonth'
+                                },
+                                endmonth: {
+                                    $toString: '$endmonth'
+                                },
+                                yr: {
+                                    $toString: '$yr'
+                                },
                                 trans: '$trans'
                             }
                         },
@@ -588,8 +893,16 @@ module.exports = function(app, config) {
                                 startmonth: '$startmonth',
                                 endmonth: '$endmonth',
                                 yr: '$yr',
-                                eomenddate: { $toDate: { $concat: ['$endmonth', '/1/', '$yr'] } },
-                                eomstartdate: { $toDate: { $concat: ['$startmonth', '/1/', '$yr'] } },
+                                eomenddate: {
+                                    $toDate: {
+                                        $concat: ['$endmonth', '/1/', '$yr']
+                                    }
+                                },
+                                eomstartdate: {
+                                    $toDate: {
+                                        $concat: ['$startmonth', '/1/', '$yr']
+                                    }
+                                },
                                 trans: '$trans'
                             }
                         },
@@ -607,7 +920,15 @@ module.exports = function(app, config) {
                                 yr: '$yr',
                                 eomenddate: '$eomenddate',
                                 eomstartdate: '$eomstartdate',
-                                eomdate: { $toString: { $divide: [{ $subtract: ['$eomenddate', '$eomstartdate'] }, { $multiply: [24, 60, 60, 1000] }] } },
+                                eomdate: {
+                                    $toString: {
+                                        $divide: [{
+                                            $subtract: ['$eomenddate', '$eomstartdate']
+                                        }, {
+                                            $multiply: [24, 60, 60, 1000]
+                                        }]
+                                    }
+                                },
                                 trans: '$trans'
                             }
                         },
@@ -649,7 +970,11 @@ module.exports = function(app, config) {
                                         if: {
                                             $ne: ['$eomday', '0']
                                         },
-                                        then: { $toDate: { $concat: ['$startmonth', '/', '$eomday', '/', '$yr', ' 04:00:00'] } },
+                                        then: {
+                                            $toDate: {
+                                                $concat: ['$startmonth', '/', '$eomday', '/', '$yr', ' 04:00:00']
+                                            }
+                                        },
                                         else: '$end'
                                     }
                                 }
@@ -665,7 +990,13 @@ module.exports = function(app, config) {
                                 amount: '$amount',
                                 status: '$status',
                                 type: '$type',
-                                daysinbudget: { $divide: [{ $subtract: ['$end', '$start'] }, { $multiply: [24, 60, 60, 1000] }] },
+                                daysinbudget: {
+                                    $divide: [{
+                                        $subtract: ['$end', '$start']
+                                    }, {
+                                        $multiply: [24, 60, 60, 1000]
+                                    }]
+                                },
                                 originaldaysinbudget: '$daysinbudget',
                                 endmonth: '$endmonth',
                                 startmonth: '$startmonth'
@@ -680,8 +1011,18 @@ module.exports = function(app, config) {
                                 type: '$type',
                                 daysinbudget: '$daysinbudget',
                                 originaldaysinbudget: '$originaldaysinbudget',
-                                amount: { $multiply: [{ $divide: ['$amount', '$originaldaysinbudget'] }, '$daysinbudget'] },
-                                remainingamt: { $subtract: ['$amount', { $multiply: [{ $divide: ['$amount', '$originaldaysinbudget'] }, '$daysinbudget'] }] },
+                                amount: {
+                                    $multiply: [{
+                                        $divide: ['$amount', '$originaldaysinbudget']
+                                    }, '$daysinbudget']
+                                },
+                                remainingamt: {
+                                    $subtract: ['$amount', {
+                                        $multiply: [{
+                                            $divide: ['$amount', '$originaldaysinbudget']
+                                        }, '$daysinbudget']
+                                    }]
+                                },
                                 endmonth: '$endmonth',
                                 startmonth: '$startmonth'
                             }
@@ -721,69 +1062,298 @@ module.exports = function(app, config) {
 
                             }
                         },
-                        { $group: { _id: null, totalremaining: { $sum: '$remainingamt' }, total: { $sum: '$amount' } } },
+                        {
+                            $group: {
+                                _id: null,
+                                totalremaining: {
+                                    $sum: '$remainingamt'
+                                },
+                                total: {
+                                    $sum: '$amount'
+                                }
+                            }
+                        },
                         {
                             $project: {
                                 '_id': 0,
-                                totalbudget: { $add: ['$totalremaining', '$total'] }
+                                totalbudget: {
+                                    $add: ['$totalremaining', '$total']
+                                }
                             }
                         },
                     ],
-                    "Spent": [{ $unwind: '$trans' },
-                        { $project: { '_id': 0, t: '$trans' } },
-                        { $project: { '_id': 0, t: '$t', month: { $month: '$t.transdate' } } },
-                        { $match: { month: { $eq: parseInt(m, 10) } } },
-                        { $group: { _id: '$t.store', total: { $sum: { $sum: '$t.itemprice' } } } },
-                        { $project: { '_id': 0, total: '$total' } },
-                        { $group: { _id: null, totalspent: { $sum: { $sum: '$total' } } } },
-                        { $project: { '_id': 0, totalspent: '$totalspent' } }
+                    "Spent": [{
+                            $unwind: '$trans'
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                t: '$trans'
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                t: '$t',
+                                month: {
+                                    $month: '$t.transdate'
+                                }
+                            }
+                        },
+                        {
+                            $match: {
+                                month: {
+                                    $eq: parseInt(m, 10)
+                                }
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: '$t.store',
+                                total: {
+                                    $sum: {
+                                        $sum: '$t.itemprice'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                total: '$total'
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: null,
+                                totalspent: {
+                                    $sum: {
+                                        $sum: '$total'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                totalspent: '$totalspent'
+                            }
+                        }
                     ],
-                    "StoresVisited": [
-                        { $unwind: '$trans' },
-                        { $project: { store: '$trans.store', transmonth: { $month: '$trans.transdate' } } },
-                        { $match: { transmonth: { $eq: parseInt(m, 10) } } },
-                        { $group: { _id: '$store' } },
-                        { $project: { _id: 0, store: '$_id' } }
+                    "StoresVisited": [{
+                            $unwind: '$trans'
+                        },
+                        {
+                            $project: {
+                                store: '$trans.store',
+                                transmonth: {
+                                    $month: '$trans.transdate'
+                                }
+                            }
+                        },
+                        {
+                            $match: {
+                                transmonth: {
+                                    $eq: parseInt(m, 10)
+                                }
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: '$store'
+                            }
+                        },
+                        {
+                            $project: {
+                                _id: 0,
+                                store: '$_id'
+                            }
+                        }
                     ],
-                    "TopSpendingStore": [
-                        { $project: { '_id': 0, 't': '$trans' } },
-                        { $unwind: '$t' },
-                        { $project: { store: '$t.store', price: '$t.itemprice', transmonth: { $month: '$t.transdate' } } },
-                        { $match: { transmonth: { $eq: parseInt(m, 10) } } },
-                        { $group: { _id: '$store', total: { $sum: '$price' } } },
-                        { $sort: { 'total': -1 } },
-                        { $project: { '_id': 0, 'store': '$_id', 'totalspent': '$total' } },
-                        { $limit: 1 }
+                    "TopSpendingStore": [{
+                            $project: {
+                                '_id': 0,
+                                't': '$trans'
+                            }
+                        },
+                        {
+                            $unwind: '$t'
+                        },
+                        {
+                            $project: {
+                                store: '$t.store',
+                                price: '$t.itemprice',
+                                transmonth: {
+                                    $month: '$t.transdate'
+                                }
+                            }
+                        },
+                        {
+                            $match: {
+                                transmonth: {
+                                    $eq: parseInt(m, 10)
+                                }
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: '$store',
+                                total: {
+                                    $sum: '$price'
+                                }
+                            }
+                        },
+                        {
+                            $sort: {
+                                'total': -1
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                'store': '$_id',
+                                'totalspent': '$total'
+                            }
+                        },
+                        {
+                            $limit: 1
+                        }
                     ],
-                    "SpendingByPaymentType": [
-                        { $unwind: '$trans' },
-                        { $project: { _id: '$_id', BudgetType: '$BudgetType', price: '$trans.itemprice', transmonth: { $month: '$trans.transdate' } } },
-                        { $match: { transmonth: { $eq: parseInt(m, 10) } } },
-                        { $group: { _id: '$BudgetType', total: { $sum: '$price' } } },
-                        { $project: { '_id': 0, 'BudgetType': '$_id', 'total': '$total' } },
-                        { $sort: { 'total': -1 } }
+                    "SpendingByPaymentType": [{
+                            $unwind: '$trans'
+                        },
+                        {
+                            $project: {
+                                _id: '$_id',
+                                BudgetType: '$BudgetType',
+                                price: '$trans.itemprice',
+                                transmonth: {
+                                    $month: '$trans.transdate'
+                                }
+                            }
+                        },
+                        {
+                            $match: {
+                                transmonth: {
+                                    $eq: parseInt(m, 10)
+                                }
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: '$BudgetType',
+                                total: {
+                                    $sum: '$price'
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                'BudgetType': '$_id',
+                                'total': '$total'
+                            }
+                        },
+                        {
+                            $sort: {
+                                'total': -1
+                            }
+                        }
                     ],
-                    "MostActivity": [
-                        { $unwind: '$trans' },
-                        { $project: { '_id': 0, totalspent: '$trans.store', transmonth: { $month: '$trans.transdate' } } },
-                        { $match: { transmonth: { $eq: parseInt(m, 10) } } },
-                        { $group: { _id: '$totalspent', count: { $sum: 1 } } },
-                        { $project: { _id: 0, store: '$_id', count: { $max: '$count' }, } },
-                        { $sort: { count: -1 } }
+                    "MostActivity": [{
+                            $unwind: '$trans'
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                totalspent: '$trans.store',
+                                transmonth: {
+                                    $month: '$trans.transdate'
+                                }
+                            }
+                        },
+                        {
+                            $match: {
+                                transmonth: {
+                                    $eq: parseInt(m, 10)
+                                }
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: '$totalspent',
+                                count: {
+                                    $sum: 1
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                _id: 0,
+                                store: '$_id',
+                                count: {
+                                    $max: '$count'
+                                },
+                            }
+                        },
+                        {
+                            $sort: {
+                                count: -1
+                            }
+                        }
                     ],
-                    "AvgSpentPerStore": [
-                        { $unwind: '$trans' },
-                        { $project: { store: '$trans.store', price: '$trans.itemprice', transmonth: { $month: '$trans.transdate' } } },
-                        { $match: { transmonth: { $eq: parseInt(m, 10) } } },
-                        { $group: { _id: '$store', total: { $sum: '$price' }, visitsperstore: { $sum: 1 } } },
-                        { $sort: { 'total': -1 } },
-                        { $project: { '_id': 0, 'store': '$_id', 'totalspent': '$total', 'avgspentpervist': { $divide: ['$total', '$visitsperstore'] }, 'numvisits': '$visitsperstore' } },
+                    "AvgSpentPerStore": [{
+                            $unwind: '$trans'
+                        },
+                        {
+                            $project: {
+                                store: '$trans.store',
+                                price: '$trans.itemprice',
+                                transmonth: {
+                                    $month: '$trans.transdate'
+                                }
+                            }
+                        },
+                        {
+                            $match: {
+                                transmonth: {
+                                    $eq: parseInt(m, 10)
+                                }
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: '$store',
+                                total: {
+                                    $sum: '$price'
+                                },
+                                visitsperstore: {
+                                    $sum: 1
+                                }
+                            }
+                        },
+                        {
+                            $sort: {
+                                'total': -1
+                            }
+                        },
+                        {
+                            $project: {
+                                '_id': 0,
+                                'store': '$_id',
+                                'totalspent': '$total',
+                                'avgspentpervist': {
+                                    $divide: ['$total', '$visitsperstore']
+                                },
+                                'numvisits': '$visitsperstore'
+                            }
+                        },
                     ]
 
 
                 }
             }
-        ]).exec(function(err, ret) {
+        ]).exec(function (err, ret) {
             if (err) {
                 res.send(err);
             }
@@ -791,12 +1361,12 @@ module.exports = function(app, config) {
         });
     })
 
-    app.get("/partials/*", function(req, res) {
+    app.get("/partials/*", function (req, res) {
         console.log('here');
         res.render("../../public/app/templates/" + req.params[0]);
     });
 
-    app.get('*', function(req, res) {
+    app.get('*', function (req, res) {
         //testing mongo, add mongoMessage
         res.render('index');
     });

@@ -20,6 +20,15 @@ export class BudgetDataService {
     return this.http.get("/data/getdetails/", { params: { id: budgetId } });
   }
 
+  public SaveBudgetData(formData): Observable<any> {
+    return this.http.post("/data/SaveBudget", formData).pipe(
+      map((data: any) => {
+        debugger;
+        return data;
+      })
+    );
+  }
+
   public getNumberOFDays(budget) {
     //   debugger
     const todaysDate = new Date();
@@ -44,12 +53,16 @@ export class BudgetDataService {
         remainingDates = Math.round(
           Math.abs(
             (new Date(fromDate).getTime() - new Date(toDate).getTime()) /
-              (24 * 60 * 60 * 1000)));
+              (24 * 60 * 60 * 1000)
+          )
+        );
 
         if (
           Math.round(
             (new Date(fromDate).getTime() - new Date(toDate).getTime()) /
-              (24 * 60 * 60 * 1000)) > 0) {
+              (24 * 60 * 60 * 1000)
+          ) > 0
+        ) {
           remainingDates = 0;
         }
       }

@@ -11,6 +11,7 @@ import { ActivatedRoute } from "@angular/router";
 import { nextContext } from "@angular/core/src/render3";
 import { PersistanceService } from "../services/persistance.service";
 import { PersistantValues } from "../models/helper";
+import { MatSnackBar, _MatAutocompleteMixinBase } from "@angular/material";
 
 interface PageRoute {
   name: string;
@@ -26,7 +27,7 @@ export class ListbudgetsComponent implements OnInit {
   pv: PersistantValues = {
     BudgetId: "",
     message: "",
-    transId : ""
+    transId: ""
   };
   title = "client";
   greeting = "";
@@ -34,6 +35,7 @@ export class ListbudgetsComponent implements OnInit {
   userName: string;
   showGrid?: boolean;
   data: BudgetDataService[] = [];
+  msg: string;
 
   displayedColumns = [
     "BudgetStartDate",
@@ -54,7 +56,8 @@ export class ListbudgetsComponent implements OnInit {
     private service: SharedService,
     private drs: DataresolveService,
     private ac: ActivatedRoute,
-    private ps: PersistanceService
+    private ps: PersistanceService,
+    private snackBar: MatSnackBar
   ) {
     this.n.setNavBarState(false);
     this.n.setUserName("Hello, " + this.auth.getUsername());
@@ -79,6 +82,15 @@ export class ListbudgetsComponent implements OnInit {
         this.showGrid = true;
       }
     });
+    this.ps.currentMsg.subscribe(r => {
+      this.msg = r.message;
+    });
+    if (this.msg === "success") {
+      debugger;
+      this.snackBar.open(this.msg, "Budget saved successfully.", {
+        duration: 2500
+      });
+    }
   }
 
   newBudget() {

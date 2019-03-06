@@ -18,4 +18,10 @@ export interface BudgetDetails {
     Transactions: Transactions[];
 }
 
+export interface BudgetdataInput {
+    BudgetStartDate: string;
+    BudgetEndDate: string;
+    BudgetAmount: string;
+    BudgetType: string;
+}
 

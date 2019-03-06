@@ -25,19 +25,27 @@ export class ValidatecurrencyDirective implements Validator {
   static validateCurrency(control: FormControl): ValidationErrors | null {
     debugger;
     const val: string = control.value;
+    let isANumber: any;
     const dollarSign = val.substring(0, 1);
     if (dollarSign === "$") {
       const numVal = val.substring(1, val.length);
-
-      const isANumber = Number(numVal);
-      if (isANumber === NaN) {
-        return { upcnum: "-1" };
-      } else {
-        return null;
-      }
+      isANumber = Number(numVal);
     } else {
-      return { upcnum: "-1" };
+      isANumber = val;
     }
+    if (isNaN(isANumber)) {
+      return { upcnum: "-1" };
+    } else {
+      return null;
+    }
+    // const isANumber = Number(control.value);
+    // if (isANumber === NaN) {
+    //const isANumber = Number(control.value);
+    // if (Number.isNaN(isANumber)) {
+    //   return { upcnum: "-1" };
+    // } else {
+    //   return null;
+    // }
   }
 
   public validate(control: FormControl): { [key: string]: any } {
