@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Budgetdata,BudgetdataInput} from "../models/budgetdata";
+import { Budgetdata, BudgetdataInput } from "../models/budgetdata";
 import { BudgetDataService } from "../services/budget-data.service";
 import { Router } from "@angular/router";
 import { buildDriverProvider } from "protractor/built/driverProviders";
@@ -60,7 +60,7 @@ export class NewbudgetComponent implements OnInit {
     private ds: BudgetDataService,
     private route: Router,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar
   ) {
     this.newBudgetForm = this.createForm(fb);
     let firstChar: any;
@@ -96,7 +96,9 @@ export class NewbudgetComponent implements OnInit {
     // });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.pv.message = "";
+  }
 
   createForm(fb: FormBuilder) {
     return fb.group({
@@ -123,6 +125,14 @@ export class NewbudgetComponent implements OnInit {
       });
       return;
     }
+    let ba: string;
+    const budgetAmt = this.newBudgetForm.get("BudgetAmount");
+    ba = budgetAmt.value;
+    const dollarSign = ba.substring(0, 1);
+    if (dollarSign === "$") {
+      const amt = ba.substring(1, ba.length);
+      this.newBudgetForm.patchValue({ BudgetAmount: amt });
+    }
     const ret: BudgetdataInput = Object.assign({}, this.newBudgetForm.value);
     this.ds.SaveBudgetData(ret).subscribe(res => {
       if (res.ret === "success") {
@@ -132,6 +142,10 @@ export class NewbudgetComponent implements OnInit {
       }
     });
   }
+  goBack() {
+    this.route.navigateByUrl("/listbudgets");
+  }
+
   get BudgetStartDate() {
     return this.newBudgetForm.get("BudgetStartDate");
   }

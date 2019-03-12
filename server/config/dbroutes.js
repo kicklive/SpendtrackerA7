@@ -56,7 +56,8 @@ module.exports = function (app, config) {
 
         console.log('startDate==>' + req.body.BudgetStartDate);
         console.log('startDateyyyx==>' + startDate);
-        console.log('aaa==>');
+        console.log('aaa==>'+endDate);
+
         console.log('bbb==>' + req.body.BudgetType);
 
         Budget.create({
@@ -72,9 +73,7 @@ module.exports = function (app, config) {
                     res.send(err);
                 }
                 console.log("here===>" + budget);
-                res.json({
-                    //'ret': 'success'
-                });
+                res.json({ 'ret': 'success' });
                 // Budget.find(function(err, budgets) {
                 //     if (err) {
                 //         console.log("err2===>"+err);

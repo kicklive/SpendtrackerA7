@@ -60,7 +60,7 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
         this.srch.SearchForItem(ret).subscribe(res => {
           debugger;
           this.transactionForm.patchValue({
-            itemdescription: res
+            itemdescription: res.ItemDescription
           });
         });
       }
@@ -160,7 +160,6 @@ export class NewtransactionComponent implements OnInit, OnDestroy {
     this.transactionForm.reset();
   }
   get upc() {
-    debugger;
     const xx = this.transactionForm.get("upc");
     return xx;
   }

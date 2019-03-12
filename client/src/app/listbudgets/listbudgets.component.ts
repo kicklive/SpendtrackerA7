@@ -65,13 +65,13 @@ export class ListbudgetsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.routes = [
-      { name: "Budget List", route: "/budgetlist" },
-      { name: "Search Items", route: "/search" },
-      { name: "History", route: "/history" },
-      { name: "Trends", route: "/trends" },
-      { name: "About", route: "/about" }
-    ];
+    // this.routes = [
+    //   { name: "Budget List", route: "/budgetlist" },
+    //   { name: "Search Items", route: "/search" },
+    //   { name: "History", route: "/history" },
+    //   { name: "Trends", route: "/trends" },
+    //   { name: "About", route: "/about" }
+    // ];
 
     this.ac.data.subscribe(ret => {
       debugger;
@@ -83,6 +83,7 @@ export class ListbudgetsComponent implements OnInit {
       }
     });
     this.ps.currentMsg.subscribe(r => {
+      debugger;
       this.msg = r.message;
     });
     if (this.msg === "success") {
