@@ -25,6 +25,11 @@ export class SearchComponent implements OnInit {
   };
   private productFound?: boolean = false;
   private showMsg?: boolean = false;
+  displayedColumns = [
+    "itemprice",
+    "itemdescription",
+    "store"
+  ];
 
   constructor(private fb: FormBuilder, private srch: ItemsearchService) {
     this.searchProduct = this.createForm(fb);
