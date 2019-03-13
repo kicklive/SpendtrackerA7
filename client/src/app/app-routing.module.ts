@@ -27,6 +27,7 @@ import { BudgetlistresolveService } from "./services/budgetlistresolve.service";
 import { TransactionresolveService } from "./services/transactionresolve.service";
 import { NewtransactionComponent } from "./newtransaction/newtransaction.component";
 import { EdittransactionComponent } from "./edittransaction/edittransaction.component";
+import { ProductresolveService } from "./services/productresolve.service";
 
 // const rootModule: RootModule = {
 //   states: [
@@ -82,6 +83,7 @@ const routes: Routes = [
   {
     path: "search",
     component: SearchComponent,
+    resolve: { data: ProductresolveService },
     canActivate: [AuthGuardService]
   },
   { path: "about", component: AboutComponent, canActivate: [AuthGuardService] },

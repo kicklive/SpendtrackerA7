@@ -48,7 +48,6 @@ import { NewtransactionComponent } from "./newtransaction/newtransaction.compone
 import { EdittransactionComponent } from './edittransaction/edittransaction.component';
 import { ValidateNumberDirective } from "./directives/validatenumber";
 import { ValidatecurrencyDirective } from './directives/validatecurrency.directive';
-import { ProductComponent } from './product/product.component';
 
 @NgModule({
   declarations: [
@@ -73,8 +72,7 @@ import { ProductComponent } from './product/product.component';
     NewtransactionComponent,
     EdittransactionComponent,
     ValidateNumberDirective,
-    ValidatecurrencyDirective,
-    ProductComponent,
+    ValidatecurrencyDirective
   ],
   imports: [
     BrowserModule,

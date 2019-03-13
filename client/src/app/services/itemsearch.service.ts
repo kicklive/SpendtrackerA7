@@ -12,6 +12,9 @@ export class ItemsearchService {
   public SearchForItem(upc): Observable<any> {
     return this.http.get("/data/itemsearch", { params: { id: upc } });
   }
+  public GetAllProducts(): Observable<any> {
+    return this.http.get("/data/searchallitems");
+  }
 }
 
 
