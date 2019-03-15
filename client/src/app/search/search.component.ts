@@ -1,4 +1,6 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, NgZone, ViewChild, OnDestroy } from "@angular/core";
+import { CdkTextareaAutosize } from "@angular/cdk/text-field";
+import { take } from "rxjs/operators";
 import { ItemsearchService } from "../services/itemsearch.service";
 import {
   FormControl,
@@ -27,20 +29,24 @@ export class SearchComponent implements OnInit, OnDestroy {
   searchProduct: FormGroup;
   upcSearch$ = new Subject<string>();
   private product: Products = {
+    _id: "",
     ItemDescription: "",
     UPC: "",
-    ItemPrice: ""
+    Price: ""
   };
   private productFound?: boolean = false;
   private showMsg?: boolean = false;
-  displayedColumns = ["itemprice", "itemdescription", "store"];
+  displayedColumns = ["UPC", "itemdescription", "itemprice"];
   private serviceSubscription: Subscription;
+  public showProducts = false;
+  public showProdForm = false;
 
   constructor(
     private fb: FormBuilder,
     private srch: ItemsearchService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) {
     this.searchProduct = this.createForm(fb);
     this.upcSearch$.subscribe(ret => {
@@ -52,7 +58,7 @@ export class SearchComponent implements OnInit, OnDestroy {
           debugger;
           if (res !== null) {
             this.product.ItemDescription = res.ItemDescription;
-            this.product.ItemPrice = res.Price;
+            this.product.Price = res.Price;
             this.product.UPC = res.UPC;
             this.productFound = true;
             this.showMsg = false;
@@ -60,21 +66,36 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.productFound = false;
             this.showMsg = true;
           }
+          this.showProducts = false;
+          this.showProdForm = false;
         });
       }
     });
   }
+  @ViewChild("autosize") autosize: CdkTextareaAutosize;
 
+  triggerResize() {
+    // Wait for changes to be applied, then trigger textarea resize.
+    this.ngZone.onStable
+      .pipe(take(1))
+      .subscribe(() => this.autosize.resizeToFitContent(true));
+  }
   ngOnInit() {}
 
   createForm(fb: FormBuilder) {
     return fb.group({
-      upc: ["", Validators.required]
+      upc: "",
+      itemdescription: ["", Validators.required],
+      price: ["", Validators.required],
+      itemupc: ["", Validators.required],
     });
   }
   showAllProducts() {
     this.serviceSubscription = this.route.data.subscribe(ret => {
+      debugger;
       this.product = ret.data;
+      this.showProducts = true;
+      this.productFound = false;
     });
   }
   unSubscribe() {
@@ -83,5 +104,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     return this.unSubscribe();
+  }
+  editProduct(productId: number) {
+    this.showProdForm = true;
+    this.productFound = false;
+    this.showProducts = false;
+    this.showMsg = false;
   }
 }

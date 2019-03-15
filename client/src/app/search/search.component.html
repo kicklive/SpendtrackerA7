@@ -13,54 +13,97 @@
       </div>
     </div>
 
-  </div>
 
-  <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch ">
-    <div fxFlex=90% fxLayoutAlign="end stretch">
-      <button mat-raised-button (mousedown)="addProduc()">Add Product</button>&nbsp;
-      <button mat-raised-button (mousedown)="showAll()">Show All</button>
+
+    <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch ">
+      <div fxFlex=90% fxLayoutAlign="end stretch">
+        <button mat-raised-button (mousedown)="addProduc()">Add Product</button>&nbsp;
+        <button mat-raised-button (mousedown)="showAllProducts()">Show All</button>
+      </div>
     </div>
-  </div>
-  <div class="transactioncontainter">
-    <hr style="height:3px;border:none;color:#333;background-color:#333;">
-    <div style="height:20px"></div>
-  </div>
-  <div class="transactioncontainter" *ngIf="productFound">
-    <div fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
-      <div style="font-weight: bold">Item UPC:</div>
-      <div fxFlex="3 3 calc(10em +10px)" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">{{product?.UPC}}</div>
+    <div>
+      <hr style="height:3px;border:none;color:#333;background-color:#333;">
+      <div style="height:20px"></div>
     </div>
-    <div fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
-      <div style="font-weight: bold">Item Description:</div>
-      <div fxFlex="3 3 calc(10em +10px)" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">{{product?.ItemDescription}}</div>
+    <div *ngIf="productFound">
+      <div fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
+        <div style="font-weight: bold">Item UPC:</div>
+        <div fxFlex="3 3 calc(10em +10px)" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">{{product?.UPC}}</div>
+      </div>
+      <div fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
+        <div style="font-weight: bold">Item Description:</div>
+        <div fxFlex="3 3 calc(10em +10px)" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">{{product?.ItemDescription}}</div>
+      </div>
+      <div fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
+        <div style="font-weight: bold">Item Price:</div>
+        <div fxFlex="3 3 calc(10em +10px)" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">{{product?.ItemPrice|currency:'USD':'symbol':'1.2-2'}}</div>
+      </div>
     </div>
-    <div fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
-      <div style="font-weight: bold">Item Price:</div>
-      <div fxFlex="3 3 calc(10em +10px)" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">{{product?.ItemPrice|currency:'USD':'symbol':'1.2-2'}}</div>
-    </div>
-  </div>
-  <div class="transactioncontainter" *ngIf="showMsg" style="font-weight:bold">No product found</div>
-  <div class="transactioncontainter">
+    <div *ngIf="showMsg" style="font-weight:bold">No product found</div>
+    <div>
       <div class="grid-container-data" *ngIf="showProducts">
-          <table mat-table [dataSource]="products" class="example-container mat-elevation-z8">
-            <ng-container matColumnDef="UPC">
-              <th mat-header-cell *matHeaderCellDef>Price</th>
-              <td mat-cell *matCellDef="let item"><span style="cursor: pointer;color:blue" (click)="showProdDetails('/editproduct',item._id)">
-                  {{item.upc}}</span><span *ngIf="!show">{{item.upc}}</span></td>
-            </ng-container>
-            <ng-container matColumnDef="itemprice">
-              <th mat-header-cell *matHeaderCellDef>Price</th>
-              <td mat-cell *matCellDef="let item">{{item.itemprice}}</td>
-            </ng-container>
-            <ng-container matColumnDef="itemdescription">
-              <th mat-header-cell *matHeaderCellDef>Item Description</th>
-              <td mat-cell *matCellDef="let item">{{item.itemdescription}}</td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true">
-            </tr>
-            <tr mat-row *matRowDef="let row;columns:displayedColumns" class="example-element-row"></tr>
-          </table>
-        </div>
+        <table mat-table [dataSource]="product" class="example-container mat-elevation-z8">
+          <ng-container matColumnDef="UPC">
+            <th mat-header-cell *matHeaderCellDef>UPC</th>
+            <td mat-cell *matCellDef="let item"><span style="cursor: pointer;color:blue" (click)="editProduct(item._id)">
+                {{item.UPC}}</span></td>
+          </ng-container>
+          <ng-container matColumnDef="itemprice">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let item">{{item.Price|currency:'USD':'symbol':'1.2-2'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="itemdescription">
+            <th mat-header-cell *matHeaderCellDef>Item Description</th>
+            <td mat-cell *matCellDef="let item">{{item.ItemDescription}}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true">
+          </tr>
+          <tr mat-row *matRowDef="let row;columns:displayedColumns" class="example-element-row"></tr>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="showProdForm">
+      <div fxLayout fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="start stretch" fxLayoutGap="0.5%">
 
+
+
+        <div fxFlex=40% fxFlexAlign="left" fxLayoutAlign="end stretch"><b>Item UPC:</b></div>
+        <div fxFlex=60% fxFlexAlign="left">
+          <mat-form-field appearance="outline">
+            <mat-label>UPC</mat-label>
+            <input matInput appearance="outline" formControlName="itemupc" (keyup)="upcSearch$.next($event.target.value)"
+              formGroupName="itemupc" maxlength="12">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="start stretch" fxLayoutGap="0.5%">
+        <div fxFlex=40% fxFlexAlign="left" fxLayoutAlign="end stretch"><b>Item Description:</b></div>
+        <div fxFlex=60% fxFlexAlign="left">
+          <mat-form-field appearance="outline">
+            <mat-label>Item Description</mat-label>
+
+            <textarea matInput formControlName="itemdescription" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+              formGroupName="itemdescription" cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" cols="10"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="start stretch" fxLayoutGap="0.5%">
+        <div fxFlex=40% fxFlexAlign="left" fxLayoutAlign="end stretch"><b>Item {{ variable | uppercase }}:</b></div>
+        <div fxFlex=60% fxFlexAlign="left">
+          <mat-form-field appearance="outline">
+            <mat-label>Price</mat-label>
+            <input matInput appearance="outline" formControlName="price" formGroupName="price">
+          </mat-form-field>
+        </div>
+      </div>
+      <div style="height:20px">&nbsp;</div>
+      <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch ">
+        <div fxFlex=90% fxLayoutAlign="end stretch">
+          <button mat-raised-button (submit)="saveProduct()" color="primary" [disabled]="!searchProduct.valid">Save</button>&nbsp;
+          <button mat-raised-button (click)="deleteProd('product?._id')" [disabled]="!searchProduct.valid">Delete</button>&nbsp;
+          <button mat-raised-button (mousedown)="goBack()">Back</button>
+        </div>
+      </div>
+    </div>
   </div>
 </form>

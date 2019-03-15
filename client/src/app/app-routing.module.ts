@@ -28,6 +28,7 @@ import { TransactionresolveService } from "./services/transactionresolve.service
 import { NewtransactionComponent } from "./newtransaction/newtransaction.component";
 import { EdittransactionComponent } from "./edittransaction/edittransaction.component";
 import { ProductresolveService } from "./services/productresolve.service";
+import { EditproductComponent } from "./editproduct/editproduct.component";
 
 // const rootModule: RootModule = {
 //   states: [
@@ -108,6 +109,12 @@ const routes: Routes = [
     path: "edittransaction",
     component: EdittransactionComponent,
     resolve: { data: TransactionresolveService },
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "editproduct",
+    component: EditproductComponent,
+    resolve: { data: ProductresolveService },
     canActivate: [AuthGuardService]
   }
 ];

@@ -1,5 +1,6 @@
 export interface Products {
+  _id: string;
   UPC: string;
   ItemDescription: string;
-  ItemPrice: string;
+  Price: string;
 }
