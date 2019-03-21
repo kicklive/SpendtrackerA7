@@ -323,6 +323,19 @@ module.exports = function (app, config) {
             res.json(data);
         });
     });
+    app.get("/data/itemsearchbyid", function (req, res, next) {
+        console.log(req.query.id)
+        Product.findOne({
+            _id: req.query.id
+        }, function (err, data) {
+            if (err) {
+                console.log('error===>' + err.message)
+                err.httpStatusCode = 500; //change to another number
+                return next(err);
+            }
+            res.json(data);
+        });
+    });
     app.get("/data/searchallitems", function (req, res) {
         console.log(req.query.id)
         Product.find({}, function (err, data) {

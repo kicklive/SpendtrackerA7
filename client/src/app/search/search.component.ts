@@ -16,10 +16,15 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { DataresolveService } from "../services/dataresolve.service";
 import { PersistanceService } from "../services/persistance.service";
 import { PersistantValues } from "../models/helper";
-import { MatSnackBar, _MatAutocompleteMixinBase } from "@angular/material";
+import {
+  MatSnackBar,
+  _MatAutocompleteMixinBase,
+  MatDialog,
+  MatDialogRef
+} from "@angular/material";
 import { Observable, Subscription, of, BehaviorSubject, Subject } from "rxjs";
 import { ProductdataService } from "../services/productdata.service";
-
+import { ProductdialogComponent } from "../productdialog/productdialog.component";
 @Component({
   selector: "app-search",
   templateUrl: "./search.component.html",
@@ -40,13 +45,16 @@ export class SearchComponent implements OnInit, OnDestroy {
   private serviceSubscription: Subscription;
   public showProducts = false;
   public showProdForm = false;
+  public isEdit = false;
+  private mdRef: MatDialogRef<ProductdialogComponent>;
 
   constructor(
     private fb: FormBuilder,
     private srch: ItemsearchService,
     private route: ActivatedRoute,
     private router: Router,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private md: MatDialog
   ) {
     this.searchProduct = this.createForm(fb);
     this.upcSearch$.subscribe(ret => {
@@ -73,6 +81,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     });
   }
   @ViewChild("autosize") autosize: CdkTextareaAutosize;
+  @ViewChild("searchProduct") formValues;
 
   triggerResize() {
     // Wait for changes to be applied, then trigger textarea resize.
@@ -87,7 +96,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       upc: "",
       itemdescription: ["", Validators.required],
       price: ["", Validators.required],
-      itemupc: ["", Validators.required],
+      itemupc: ["", Validators.required]
     });
   }
   showAllProducts() {
@@ -106,9 +115,36 @@ export class SearchComponent implements OnInit, OnDestroy {
     return this.unSubscribe();
   }
   editProduct(productId: number) {
+    this.searchProduct.controls["itemupc"].disable();
     this.showProdForm = true;
     this.productFound = false;
     this.showProducts = false;
     this.showMsg = false;
+    this.srch.SearchForItemById(productId).subscribe(res => {
+      debugger;
+      // this.searchProduct.get("price").setValue(res.Price);
+      // this.searchProduct.get("itemupc").setValue(res.UPC);
+      // this.searchProduct.get("itemdescription").setValue(res.ItemDescription);
+
+      this.mdRef = this.md.open(ProductdialogComponent, {
+        hasBackdrop: true,
+        width: "800px",
+        height: "400px",
+        data: {
+          price: res.Price,
+          itemupc: res.UPC,
+          itemdescription: res.ItemDescription
+        }
+      });
+    });
   }
+  goBack() {
+    this.showProdForm = false;
+    this.productFound = false;
+    this.showProducts = true;
+    this.formValues.resetForm();
+    this.showMsg = false;
+  }
+  saveProduct() {}
+  deleteProd(prodId: string) {}
 }

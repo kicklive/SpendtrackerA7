@@ -24,11 +24,12 @@ export class ValidatecurrencyDirective implements Validator {
 
   static validateCurrency(control: FormControl): ValidationErrors | null {
     debugger;
-    const val: string = control.value;
+    let val: string;
+    val = control.value;
     let isANumber: any;
-    const dollarSign = val.substring(0, 1);
+    const dollarSign = val.toString().substring(0, 1);
     if (dollarSign === "$") {
-      const numVal = val.substring(1, val.length);
+      const numVal = val.toString().substring(1, val.length);
       isANumber = Number(numVal);
     } else {
       isANumber = val;

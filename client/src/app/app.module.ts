@@ -15,7 +15,8 @@ import {
   MatSnackBarModule,
   MatGridListModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatDialogModule
 } from "@angular/material";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppRoutingModule } from "./app-routing.module";
@@ -45,10 +46,12 @@ import { ItemPriceSum } from "./pricesum.pipe";
 // import { FlexLayoutModule } from "@angular/flex-layout";
 import { UIRouterModule } from "@uirouter/angular";
 import { NewtransactionComponent } from "./newtransaction/newtransaction.component";
-import { EdittransactionComponent } from './edittransaction/edittransaction.component';
+import { EdittransactionComponent } from "./edittransaction/edittransaction.component";
 import { ValidateNumberDirective } from "./directives/validatenumber";
-import { ValidatecurrencyDirective } from './directives/validatecurrency.directive';
-import { EditproductComponent } from './editproduct/editproduct.component';
+import { ValidatecurrencyDirective } from "./directives/validatecurrency.directive";
+import { EditproductComponent } from "./editproduct/editproduct.component";
+import { ConfirmationdialogComponent } from "./confirmationdialog/confirmationdialog.component";
+import { ProductdialogComponent } from "./productdialog/productdialog.component";
 
 @NgModule({
   declarations: [
@@ -74,7 +77,9 @@ import { EditproductComponent } from './editproduct/editproduct.component';
     EdittransactionComponent,
     ValidateNumberDirective,
     ValidatecurrencyDirective,
-    EditproductComponent
+    EditproductComponent,
+    ConfirmationdialogComponent,
+    ProductdialogComponent
   ],
   imports: [
     BrowserModule,
@@ -99,12 +104,14 @@ import { EditproductComponent } from './editproduct/editproduct.component';
     MatNativeDateModule,
     FlexLayoutModule,
     ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [
     AuthenticationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmationdialogComponent, ProductdialogComponent]
 })
 export class AppModule {}
