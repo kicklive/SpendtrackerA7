@@ -4,10 +4,11 @@
     <h3>{{pageTitle}}</h3>
   </div>
   <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
-    <div fxlayout="row" fxlayout.sm="column" fxlayout.xs="column" fxLayoutGap="0.5%"
-      fxLayoutAlign="start-stretch" fxLayoutWrap style="flex-flow: row wrap">
+    <div fxlayout="row" fxlayout.sm="column" fxlayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="start-stretch"
+      fxLayoutWrap style="flex-flow: row wrap">
       <mat-form-field appearance="outline" fxflex="30%" fxflex.sm="100%" fxflex.xs="100%">
-        <input matInput [matDatepicker]="picker" placeholder="Transaction Date" formControlName="transdate" formGroupName="transdate"> 
+        <input matInput [matDatepicker]="picker" placeholder="Transaction Date" formControlName="transdate"
+          formGroupName="transdate">
         <mat-datepicker-toggle matSuffix [for]="picker">
           <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
         </mat-datepicker-toggle>
@@ -19,18 +20,19 @@
       </mat-form-field>
       <mat-form-field appearance="outline" fxflex="0 1 19%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
         <mat-label>UPC</mat-label>
-        <input matInput formControlName="upc" (keyup)="upcSearch$.next($event.target.value)" formGroupName="upc" maxlength="12">
+        <input matInput formControlName="upc" (keyup)="upcSearch$.next($event.target.value)" formGroupName="upc"
+          maxlength="12">
       </mat-form-field>
-      
-     
+
+
       <mat-form-field appearance="outline" style="width:50%" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
         <mat-label>Store</mat-label>
         <input matInput formControlName="store" formGroupName="store">
       </mat-form-field>
       <mat-form-field appearance="outline" style="width:89%" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%">
         <mat-label>Item Description</mat-label>
-        <textarea matInput formControlName="itemdescription" cdkTextareaAutosize #autosize="cdkTextareaAutosize" formGroupName="itemdescription"
-          cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" cols="10" ></textarea>
+        <textarea matInput formControlName="itemdescription" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+          formGroupName="itemdescription" cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" cols="10"></textarea>
       </mat-form-field>
     </div>
 
@@ -44,16 +46,20 @@
     </div>
     <div style="height: 25px">&nbsp;</div>
     <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start center">
-        <div class="errorMsg" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="upc.errors?.minlength && upc.touched">UPC must be 12 characters.</div>
+      <div class="errorMsg" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="upc.errors?.minlength && upc.touched">UPC
+        must be 12 characters.</div>
     </div>
-    <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">    
-        <div class="errorMsg" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="upc.errors?.required && upc.touched">UPC is required.</div>
+    <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
+      <div class="errorMsg" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="upc.errors?.required && upc.touched">UPC
+        is required.</div>
     </div>
     <div class="errorMsg" fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
-        <div fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="upc.errors?.upcnum && upc.dirty">Please enter a valid UPC</div>
+      <div fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="upc.errors?.upcnum && upc.dirty">Please
+        enter a valid UPC</div>
     </div>
     <div class="errorMsg" fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
-        <div fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="itemprice.errors?.upcnum && itemprice.dirty">Please enter a item price</div>
+      <div fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="itemprice.errors?.upcnum && itemprice.dirty">Please
+        enter a item price</div>
     </div>
   </form>
 </div>

@@ -29,7 +29,10 @@ export class ValidatecurrencyDirective implements Validator {
     let isANumber: any;
     const dollarSign = val.toString().substring(0, 1);
     if (dollarSign === "$") {
-      const numVal = val.toString().substring(1, val.length);
+      const numVal = val
+        .toString()
+        .substring(1, val.length)
+        .replace(",", "");
       isANumber = Number(numVal);
     } else {
       isANumber = val;

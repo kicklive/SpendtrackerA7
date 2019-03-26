@@ -55,7 +55,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     private router: Router,
     private ngZone: NgZone,
     private md: MatDialog
-  ) {
+  ) { debugger;
     this.searchProduct = this.createForm(fb);
     this.upcSearch$.subscribe(ret => {
       this.showMsg = false;
@@ -92,12 +92,15 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   createForm(fb: FormBuilder) {
-    return fb.group({
-      upc: "",
-      itemdescription: ["", Validators.required],
-      price: ["", Validators.required],
-      itemupc: ["", Validators.required]
-    });
+    return fb.group(
+      {
+        upc: "",
+        itemdescription: ["", Validators.required],
+        price: ["", Validators.required],
+        itemupc: ["", Validators.required]
+      },
+      { updateOn: "blur" }
+    );
   }
   showAllProducts() {
     this.serviceSubscription = this.route.data.subscribe(ret => {
@@ -115,36 +118,44 @@ export class SearchComponent implements OnInit, OnDestroy {
     return this.unSubscribe();
   }
   editProduct(productId: number) {
-    this.searchProduct.controls["itemupc"].disable();
-    this.showProdForm = true;
-    this.productFound = false;
-    this.showProducts = false;
-    this.showMsg = false;
     this.srch.SearchForItemById(productId).subscribe(res => {
       debugger;
       // this.searchProduct.get("price").setValue(res.Price);
       // this.searchProduct.get("itemupc").setValue(res.UPC);
       // this.searchProduct.get("itemdescription").setValue(res.ItemDescription);
-
-      this.mdRef = this.md.open(ProductdialogComponent, {
-        hasBackdrop: true,
-        width: "800px",
-        height: "400px",
-        data: {
-          price: res.Price,
-          itemupc: res.UPC,
-          itemdescription: res.ItemDescription
-        }
-      });
+      this.openDialog(res, "Edit");
     });
   }
   goBack() {
     this.showProdForm = false;
     this.productFound = false;
     this.showProducts = true;
-    this.formValues.resetForm();
+    // this.formValues.resetForm();
     this.showMsg = false;
   }
   saveProduct() {}
   deleteProd(prodId: string) {}
+  addProduct() {
+    this.openDialog(null, "Add");
+  }
+
+  openDialog(res: any, title: string) {
+    this.searchProduct.controls["itemupc"].disable();
+    this.showProdForm = true;
+    this.productFound = false;
+    this.showProducts = false;
+    this.showMsg = false;
+    this.mdRef = this.md.open(ProductdialogComponent, {
+      hasBackdrop: true,
+      width: "50%",
+      height: "55%",
+      data: {
+        price: res !== null ? res.Price : "",
+        itemupc: res !== null ? res.UPC : "",
+        itemdescription: res !== null ? res.ItemDescription : "",
+        title: title + " Product"
+      },
+      autoFocus: false
+    });
+  }
 }

@@ -1,3 +1,5 @@
+import { CurrencyPipe } from "@angular/common";
+
 // mm/dd/yyyy, m/d/yyyy
 // https://regex101.com/r/7iSsmm/2
 const DATE_REGEX = new RegExp(/^(\d{2}|\d)\/(\d{2}|\d)\/\d{4}$/);
@@ -27,4 +29,14 @@ function stringsToDate(dateStr: string, timeStr: string) {
   date.setMinutes(min);
   return date;
 }
-export { DATE_REGEX, TIME_REGEX, stringsToDate };
+
+function currencyFormat(data: any, style: number) {
+  return new CurrencyPipe("en-US").transform(
+    data,
+    "USD",
+    "symbol",
+    style === 1 ? "1.0-0" : "1.2-2"
+  );
+}
+
+export { DATE_REGEX, TIME_REGEX, stringsToDate, currencyFormat };
