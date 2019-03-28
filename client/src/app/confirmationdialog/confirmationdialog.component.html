@@ -1,3 +1,18 @@
-<p>
-  confirmationdialog works!
-</p>
+<div>
+  <div fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="end stretch">
+    <!-- <div style="vertical-align:middle"><b>Item UPC:</b></div> -->
+    <div fxFlex="100%" fxflex.sm="100%" fxflex.xs="100%">
+      {{confirmMsg}}
+    </div>
+  </div>
+
+</div>
+  <div class="buttons" fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch ">
+    <div fxFlex=100% fxLayoutAlign="end stretch">
+      <mat-dialog-actions>
+        <button mat-raised-button color="primary" (click)="confirmAction()">Ok</button>&nbsp;
+        <button mat-raised-button (mousedown)="cancelAction()">Cancel</button>&nbsp;
+      </mat-dialog-actions>
+    </div>
+  </div>
+

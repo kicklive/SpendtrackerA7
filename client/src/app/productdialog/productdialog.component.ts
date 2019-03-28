@@ -1,11 +1,13 @@
 import { Component, OnInit, Inject, ViewChild } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from "@angular/material";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ValidateNumberDirective } from "../directives/validatenumber";
 import { ValidatecurrencyDirective } from "../directives/validatecurrency.directive";
 import { CurrencyPipe } from "@angular/common";
 import { Subject } from "rxjs";
 import { currencyFormat } from "../utils/formsutil.factory";
+import { ConfirmationdialogComponent } from "../confirmationdialog/confirmationdialog.component";
+import { filter } from "rxjs/operators";
 
 @Component({
   selector: "app-productdialog",
@@ -17,10 +19,13 @@ export class ProductdialogComponent implements OnInit {
   private disabled = false;
   public dialogTitle: string;
   private convertCurrency$ = new Subject<string>();
+  private ConfirmDialogRef: MatDialogRef<ConfirmationdialogComponent>;
+  private result: any;
 
   constructor(
-    private md: MatDialogRef<ProductdialogComponent>,
+    private mdRef: MatDialogRef<ProductdialogComponent>,
     private fb: FormBuilder,
+    private md: MatDialog,
     @Inject(MAT_DIALOG_DATA) private data
   ) {
     // debugger;
@@ -44,7 +49,7 @@ export class ProductdialogComponent implements OnInit {
         //   "1.2-2"
         // );
         // this.productForm.patchValue({ price: currencyNum });
-        this.productForm.patchValue({ price: currencyFormat(ret,0) });
+        this.productForm.patchValue({ price: currencyFormat(ret, 0) });
       }
     }
     this.convertCurrency$.subscribe(r => {
@@ -52,7 +57,7 @@ export class ProductdialogComponent implements OnInit {
         firstChar = r.toString().substring(0, 1);
         if (firstChar !== "$" && !isNaN(firstChar)) {
           debugger;
-          this.productForm.patchValue({ price: currencyFormat(r,1) });
+          this.productForm.patchValue({ price: currencyFormat(r, 1) });
         }
       }
     });
@@ -106,11 +111,40 @@ export class ProductdialogComponent implements OnInit {
   // }
 
   submit(form) {
-    this.md.close(`${form}`);
+    debugger;
+    this.mdRef.close(`${form}`);
   }
   deleteProd(prodId: string) {
-    this.md.close(`${prodId}`);
+    //this.mdRef.close(`${prodId}`);
+    this.openConfirmDialog("Are you sure you want to delete this product?");
   }
+
+  openConfirmDialog(confirmMsg:string) {
+    this.ConfirmDialogRef = this.md.open(ConfirmationdialogComponent, {
+      hasBackdrop: false,
+      width: "50%",
+      height: "15%",
+      data: { msg: confirmMsg },
+      autoFocus: false
+    });
+    this.ConfirmDialogRef.afterClosed()
+      .pipe(filter(ret => ret))
+      .subscribe(ret => {
+        debugger;
+        this.result = ret;
+        switch (ret) {
+          case 1:
+            this.deleteProduct();
+            break;
+          case 2:
+            this.addProduct();
+            break;
+        }
+      });
+  }
+
+  deleteProduct() {}
+  addProduct() {}
 
   get itemupc() {
     const xx = this.productForm.get("itemupc");

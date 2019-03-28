@@ -37,7 +37,7 @@
     <div fxFlex=100% fxLayoutAlign="end stretch">
       <mat-dialog-actions>
         <button mat-raised-button color="primary" type="submit" [disabled]="!productForm.valid">Save</button>&nbsp;
-        <button mat-raised-button (click)="deleteProd('product?._id')" [disabled]="!productForm.valid">Delete</button>&nbsp;
+        <button mat-raised-button (click)="deleteProd('product?._id')" [disabled]="!productForm.valid" type="button">Delete</button>&nbsp;
         <button mat-raised-button mat-dialog-close>Back</button>
       </mat-dialog-actions>
     </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ViewChild, OnDestroy } from "@angular/core";
 import { CdkTextareaAutosize } from "@angular/cdk/text-field";
-import { take } from "rxjs/operators";
+import { take, filter } from "rxjs/operators";
 import { ItemsearchService } from "../services/itemsearch.service";
 import {
   FormControl,
@@ -33,12 +33,14 @@ import { ProductdialogComponent } from "../productdialog/productdialog.component
 export class SearchComponent implements OnInit, OnDestroy {
   searchProduct: FormGroup;
   upcSearch$ = new Subject<string>();
+
   private product: Products = {
     _id: "",
     ItemDescription: "",
     UPC: "",
     Price: ""
   };
+  private result: string;
   private productFound?: boolean = false;
   private showMsg?: boolean = false;
   displayedColumns = ["UPC", "itemdescription", "itemprice"];
@@ -55,7 +57,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     private router: Router,
     private ngZone: NgZone,
     private md: MatDialog
-  ) { debugger;
+  ) {
+    debugger;
     this.searchProduct = this.createForm(fb);
     this.upcSearch$.subscribe(ret => {
       this.showMsg = false;
@@ -141,14 +144,14 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   openDialog(res: any, title: string) {
     this.searchProduct.controls["itemupc"].disable();
-    this.showProdForm = true;
-    this.productFound = false;
-    this.showProducts = false;
-    this.showMsg = false;
+    // this.showProdForm = true;
+    // this.productFound = false;
+    // this.showProducts = false;
+    // this.showMsg = false;
     this.mdRef = this.md.open(ProductdialogComponent, {
       hasBackdrop: true,
       width: "50%",
-      height: "55%",
+      height: "58%",
       data: {
         price: res !== null ? res.Price : "",
         itemupc: res !== null ? res.UPC : "",
@@ -157,5 +160,12 @@ export class SearchComponent implements OnInit, OnDestroy {
       },
       autoFocus: false
     });
+    this.mdRef
+      .afterClosed()
+      .pipe(filter(ret => ret))
+      .subscribe(ret => {
+        debugger;
+        this.result = ret;
+      });
   }
 }
