@@ -56,7 +56,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private ngZone: NgZone,
-    private md: MatDialog
+    private md: MatDialog,
+    private snackBar: MatSnackBar
   ) {
     debugger;
     this.searchProduct = this.createForm(fb);
@@ -106,19 +107,26 @@ export class SearchComponent implements OnInit, OnDestroy {
     );
   }
   showAllProducts() {
-    this.serviceSubscription = this.route.data.subscribe(ret => {
+
+    this.srch.GetAllProducts().subscribe(ret=>{
       debugger;
-      this.product = ret.data;
+      this.product = ret;
       this.showProducts = true;
       this.productFound = false;
     });
+    // this.serviceSubscription = this.route.data.subscribe(ret => {
+    //   debugger;
+    //   this.product = ret.data;
+    //   this.showProducts = true;
+    //   this.productFound = false;
+    // });
   }
   unSubscribe() {
     debugger;
     this.serviceSubscription.unsubscribe();
   }
   ngOnDestroy() {
-    return this.unSubscribe();
+   // return this.unSubscribe();
   }
   editProduct(productId: number) {
     this.srch.SearchForItemById(productId).subscribe(res => {
@@ -156,7 +164,8 @@ export class SearchComponent implements OnInit, OnDestroy {
         price: res !== null ? res.Price : "",
         itemupc: res !== null ? res.UPC : "",
         itemdescription: res !== null ? res.ItemDescription : "",
-        title: title + " Product"
+        title: title + " Product",
+        productId: res !== null ? res._id : ""
       },
       autoFocus: false
     });
@@ -166,6 +175,16 @@ export class SearchComponent implements OnInit, OnDestroy {
       .subscribe(ret => {
         debugger;
         this.result = ret;
+        if (this.result) {
+          this.snackBar.open(
+            "Success",
+            "The product has benn successfully deleted.",
+            {
+              duration: 2500
+            }
+          );
+          this.showAllProducts();
+        }
       });
   }
 }

@@ -8,6 +8,8 @@ import { Subject } from "rxjs";
 import { currencyFormat } from "../utils/formsutil.factory";
 import { ConfirmationdialogComponent } from "../confirmationdialog/confirmationdialog.component";
 import { filter } from "rxjs/operators";
+import { ProductdataService } from "../services/productdata.service";
+import { ItemsearchService } from "../services/itemsearch.service";
 
 @Component({
   selector: "app-productdialog",
@@ -17,38 +19,69 @@ import { filter } from "rxjs/operators";
 export class ProductdialogComponent implements OnInit {
   private productForm: FormGroup;
   private disabled = false;
-  public dialogTitle: string;
+  public dialogTitle = "";
   private convertCurrency$ = new Subject<string>();
+  private upcSearch$ = new Subject<string>();
   private ConfirmDialogRef: MatDialogRef<ConfirmationdialogComponent>;
   private result: any;
+  public prodId = "";
+  private productExists=false;
 
   constructor(
     private mdRef: MatDialogRef<ProductdialogComponent>,
     private fb: FormBuilder,
     private md: MatDialog,
+    private pd: ProductdataService,
+    private srch: ItemsearchService,
     @Inject(MAT_DIALOG_DATA) private data
   ) {
-    // debugger;
+    debugger;
     let firstChar: any;
-    let ret: string;
-    ret = this.data ? this.data.price : "";
-    this.dialogTitle = this.data ? this.data.title : "";
-    this.productForm = this.createForm(fb);
-    this.disabled = this.data ? true : false;
+    let ret = "";
+    let itemPrice: string;
+    if (this.data.productId !== "") {
+      ret = this.data.price;
+      this.dialogTitle = this.data.title;
+      this.disabled = true;
+      this.prodId = this.data.productId;
 
+      // ret = this.data ? this.data.price : "";
+      // this.dialogTitle = this.data ? this.data.title : "";
+      // this.productForm = this.createForm(fb);
+      // this.disabled = this.data ? true : false;
+      // this.prodId = this.data ? this.data.productId : "";
+    } else {
+      this.disabled = false;
+      this.upcSearch$.subscribe(result => {
+        if (result.length === 12) {
+          debugger;
+          this.srch.SearchForItem(result).subscribe(res => {
+            debugger;
+            if (res !== null) {
+              this.productExists=true;
+              this.productForm
+                .get("itemdescription")
+                .setValue(res.ItemDescription);
+              itemPrice = res.price;
+              if (itemPrice.length > 0) {
+                firstChar = ret.toString().substring(0, 1);
+                if (firstChar !== "$" && !isNaN(firstChar)) {
+                  this.productForm
+                    .get("price")
+                    .setValue(currencyFormat(ret, 0));
+                }
+              }
+            }
+          });
+        }
+      });
+    }
+    this.productForm = this.createForm(fb);
     debugger;
     if (ret.toString().length > 0) {
       firstChar = ret.toString().substring(0, 1);
       if (firstChar !== "$" && !isNaN(firstChar)) {
-        debugger;
-
-        // const currencyNum = new CurrencyPipe("en-US").transform(
-        //   ret,
-        //   "USD",
-        //   "symbol",
-        //   "1.2-2"
-        // );
-        // this.productForm.patchValue({ price: currencyNum });
+        //  debugger;
         this.productForm.patchValue({ price: currencyFormat(ret, 0) });
       }
     }
@@ -88,38 +121,15 @@ export class ProductdialogComponent implements OnInit {
     );
   }
 
-  // createForm(fb: FormBuilder) {
-  //   debugger;
-  //   return fb.group({
-  //     itemupc: [
-  //       this.data ? this.data.itemupc : "",
-  //       [
-  // Validators.required,
-  // Validators.minLength(12),
-  // ValidateNumberDirective.validateNum
-  //       ]
-  //     ],
-  //     price: [
-  //       this.data ? this.data.price : "",
-  //       [Validators.required, ValidatecurrencyDirective.validateCurrency]
-  //     ],
-  //     itemdescription: [
-  //       this.data ? this.data.itemdescription : "",
-  //       Validators.required
-  //     ]
-  //   });
-  // }
-
   submit(form) {
     debugger;
     this.mdRef.close(`${form}`);
   }
-  deleteProd(prodId: string) {
-    //this.mdRef.close(`${prodId}`);
-    this.openConfirmDialog("Are you sure you want to delete this product?");
+  deleteProd(p: string) {
+    this.openConfirmDialog("Are you sure you want to delete this product?", p);
   }
 
-  openConfirmDialog(confirmMsg:string) {
+  openConfirmDialog(confirmMsg: string, prodId: string) {
     this.ConfirmDialogRef = this.md.open(ConfirmationdialogComponent, {
       hasBackdrop: false,
       width: "50%",
@@ -133,18 +143,51 @@ export class ProductdialogComponent implements OnInit {
         debugger;
         this.result = ret;
         switch (ret) {
-          case 1:
-            this.deleteProduct();
+          case "1":
+            this.deleteProduct(prodId);
             break;
-          case 2:
+          case "2":
             this.addProduct();
             break;
         }
       });
   }
 
-  deleteProduct() {}
-  addProduct() {}
+  deleteProduct(id: string) {
+    let isDeleted = false;
+    debugger;
+    this.pd.DeleteProdById(id).subscribe(ret => {
+      if (ret.result === "success") {
+        isDeleted = true;
+      }
+      this.mdRef.close(`${isDeleted}`);
+    });
+  }
+  addProduct() {
+    // if(productExists){
+      
+    // }
+  }
+
+  // convertToCurrency(ret: string): string {
+  //   let firstChar: any;
+  //   if (ret.toString().length > 0) {
+  //     firstChar = ret.toString().substring(0, 1);
+  //     if (firstChar !== "$" && !isNaN(firstChar)) {
+  //       debugger;
+  //       this.productForm.patchValue({ price: currencyFormat(ret, 0) });
+  //     }
+  //   }
+  //   this.convertCurrency$.subscribe(r => {
+  //     if (r.toString().length > 0) {
+  //       firstChar = r.toString().substring(0, 1);
+  //       if (firstChar !== "$" && !isNaN(firstChar)) {
+  //         debugger;
+  //         this.productForm.patchValue({ price: currencyFormat(r, 1) });
+  //       }
+  //     }
+  //   });
+  // }
 
   get itemupc() {
     const xx = this.productForm.get("itemupc");

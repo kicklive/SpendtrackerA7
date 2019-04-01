@@ -415,7 +415,9 @@ module.exports = function (app, config) {
                 console.log(err);
                 return next(err);
             }
-            res.send("success");
+            res.json({
+                'result': 'success'
+            });
 
         });
     })

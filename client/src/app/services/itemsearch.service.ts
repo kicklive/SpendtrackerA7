@@ -16,6 +16,7 @@ export class ItemsearchService {
     return this.http.get("/data/itemsearchbyid", { params: { id: id } });
   }
   public GetAllProducts(): Observable<any> {
+    debugger;
     return this.http.get("/data/searchallitems");
   }
 }

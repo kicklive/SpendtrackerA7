@@ -11,8 +11,10 @@ export class ProductresolveService {
   constructor(private router: Router, private ps: ItemsearchService) {}
 
   resolve(): Observable<any> {
+    debugger;
     return this.ps.GetAllProducts().pipe(
       map(ret => {
+        debugger;
         if (ret) {
           return ret;
         } else {

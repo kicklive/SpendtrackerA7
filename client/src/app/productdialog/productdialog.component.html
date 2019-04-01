@@ -8,7 +8,7 @@
       <div fxFlex="3 3 calc(15em +20px)" fxflex.sm="3 3 calc(15em +20px)" fxflex.xs="0 1 100%">
         <mat-form-field appearance="outline">
           <mat-label>UPC</mat-label>
-          <input matInput appearance="outline" formControlName="itemupc" formGroupName="itemupc" maxlength="12">
+          <input matInput appearance="outline" formControlName="itemupc" formGroupName="itemupc" maxlength="12" (keyup)="upcSearch$.next($event.target.value)">
         </mat-form-field>
       </div>
     </div>
@@ -37,7 +37,7 @@
     <div fxFlex=100% fxLayoutAlign="end stretch">
       <mat-dialog-actions>
         <button mat-raised-button color="primary" type="submit" [disabled]="!productForm.valid">Save</button>&nbsp;
-        <button mat-raised-button (click)="deleteProd('product?._id')" [disabled]="!productForm.valid" type="button">Delete</button>&nbsp;
+        <button mat-raised-button (click)="deleteProd(prodId)" [disabled]="!productForm.valid" type="button">Delete</button>&nbsp;
         <button mat-raised-button mat-dialog-close>Back</button>
       </mat-dialog-actions>
     </div>
@@ -57,6 +57,15 @@
   </div>
   <div class="errorMsg" fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
     <div fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="price.errors?.upcnum && price.dirty">Please
-      enter a item price</div>
+      enter a valid item price</div>
+  </div>
+  <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
+    <div class="errorMsg" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="itemdescription.errors?.required && itemdescription.touched">Product
+      description
+      is required.</div>
+  </div>
+  <div fxLayout=row fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5% " fxLayoutWrap fxLayoutAlign="start stretch">
+    <div class="errorMsg" fxflex="0 1 100%" fxflex.sm="0 1 100%" fxflex.xs="0 1 100%" *ngIf="price.errors?.required && price.touched">Item
+      price is required.</div>
   </div>
 </form>

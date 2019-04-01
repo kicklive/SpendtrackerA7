@@ -84,8 +84,10 @@ const routes: Routes = [
   {
     path: "search",
     component: SearchComponent,
-    resolve: { data: ProductresolveService },
+    //runGuardsAndResolvers: "always",
+   // resolve: { data: ProductresolveService },
     canActivate: [AuthGuardService]
+    
   },
   { path: "about", component: AboutComponent, canActivate: [AuthGuardService] },
   { path: "ST", component: STComponent, canActivate: [AuthGuardService] },

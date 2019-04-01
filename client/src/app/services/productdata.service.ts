@@ -12,4 +12,16 @@ export class ProductdataService {
   public GetAllProducts(): Observable<any> {
     return this.http.get("/data/searchallitems");
   }
+
+  public DeleteProdById(id:string):Observable<any>{
+      return this.http
+      .get("/data/deleteproduct/", { params: { id: id } })
+      .pipe(
+        map((data: any) => {
+          debugger;
+          return data;
+        })
+      );
+  }
+
 }
